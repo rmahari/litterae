@@ -49,23 +49,77 @@
             </div>
             <div id=new-annotation>
                 <h3>Add new annotation</h3>
-                <p>Line <span id=selected-line-num></span>: <span id=selected-text></span></p>
-                <textarea id=annotation rows="5"></textarea>
+                <p>Line <span class=selected-line-num></span>: <span class=selected-text idx=-1></span></p>
+                <textarea id=new-annotation-text rows="5"></textarea>
                 <br>
-                <input type="radio" name="visibility">Personal
-                <input type="radio" name="visibility">Teacher
-                <input type="radio" name="visibility">Group
+                <label for=00>Personal</label>
+                <input type=radio name=visibility id=00>
+                <label for=01>Instructor</label>
+                <input type=radio name=visibility id=01>
+                <label for=02>Group</label>
+                <input type=radio name=visibility id=02>
                 <br>
-                <input type="radio" name="category">Vocabulary
-                <input type="radio" name="category">Grammar
-                <input type="radio" name="category">Context
-                <input type="radio" name="category">Miscellaneous
+                <label for=10>Vocabulary</label>
+                <input type=radio name=category id=10>
+                <label for=11>Grammar</label>
+                <input type=radio name=category id=11>
+                <label for=12>Miscellaneous</label>
+                <input type=radio name=category id=12>
+                <label for=13>Miscellaneous</label>
+                <input type=radio name=category id=13>
+                
 
                 <br>
                 <div id=add-buttons>
                     <button id=cancel-add>Cancel</button>
                     <button id=save-add disabled=true>Save</button>
                 </div>
+            </div>
+            <div id=all-annotations>
+                <h3>Line <span class=selected-line-num></span>: <span class=selected-text></span>
+                </h3>
+                <ul id=categories>
+                    <li class=category>Vocabulary
+                        <div>
+                            <div class=annotation>
+                                <div class=annotation-info></div>
+                                <div class=annotation-text>
+                                Hello world
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class=category>Grammar
+                        <div>
+                            <div class=annotation>
+                                <div class=annotation-info></div>
+                                <div class=annotation-text>
+                                Hello world
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class=category>Context
+                        <div>
+                            <div class=annotation>
+                                <div class=annotation-info></div>
+                                <div class=annotation-text>
+                                Hello world
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class=category>Miscellaneous
+                        <div>
+                            <div class=annotation>
+                                <div class=annotation-info></div>
+                                <div class=annotation-text>
+                                Hello world
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
             </div>
         </div>
     </div>

@@ -70,8 +70,31 @@
     text-align: justify;
 }
 
+#text>span.annotated {
+    text-decoration: underline;
+}
+
 #welcome {
     padding: 15px;
+}
+
+#categories {
+    list-style: none;
+    padding-left: 15px;
+}
+
+#categories>li {
+    font-weight: bold;
+    background-color: #ddd;
+}
+
+#categories>li>div {
+    font-weight: normal;
+    background-color: white;
+}
+
+#all-annotations {
+    display: none;
 }
 
 #new-annotation {
@@ -85,7 +108,7 @@
     float: right;
 }
 
-#annotation {
+#new-annotation-text {
     width: 95%;
     padding: 2.5%;
 }
