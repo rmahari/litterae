@@ -47,6 +47,26 @@
                 </ul>
                 <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
             </div>
+            <div id=new-annotation>
+                <h3>Add new annotation</h3>
+                <p>Line <span id=selected-line-num></span>: <span id=selected-text></span></p>
+                <textarea id=annotation rows="5"></textarea>
+                <br>
+                <input type="radio" name="visibility">Personal
+                <input type="radio" name="visibility">Teacher
+                <input type="radio" name="visibility">Group
+                <br>
+                <input type="radio" name="category">Vocabulary
+                <input type="radio" name="category">Grammar
+                <input type="radio" name="category">Context
+                <input type="radio" name="category">Miscellaneous
+
+                <br>
+                <div id=add-buttons>
+                    <button id=cancel-add>Cancel</button>
+                    <button id=save-add disabled=true>Save</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -73,3 +73,19 @@
 #welcome {
     padding: 15px;
 }
+
+#new-annotation {
+    display: none;
+    padding: 25px;
+    padding-top: 0px;
+    border: solid 1px #000;
+}
+
+#add-buttons {
+    float: right;
+}
+
+#annotation {
+    width: 95%;
+    padding: 2.5%;
+}
