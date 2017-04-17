@@ -32,8 +32,8 @@ LitteraeApp.prototype.bindEvents = function() {
   			selectedField.innerHTML  = selectedWord;
     });
 
-    this.new_annotation.addEventListener('keyup', function(e) {
-    		var radios = document.querySelectorAll('input[type="radio"]:checked');
+    var save_validation = function(e) {
+    	var radios = document.querySelectorAll('input[type="radio"]:checked');
 				var value = radios.length;
 
 				var annotation = document.getElementById('annotation');
@@ -43,20 +43,10 @@ LitteraeApp.prototype.bindEvents = function() {
 				else {
 					document.getElementById('save-add').disabled = true;
 				}
-    });
+    	};
 
-    this.new_annotation.addEventListener('click', function(e) {
-    		var radios = document.querySelectorAll('input[type="radio"]:checked');
-				var value = radios.length;
-
-				var annotation = document.getElementById('annotation');
-				if (value === 2 && annotation.value.length > 0){
-					document.getElementById('save-add').disabled = false;
-				}
-				else {
-					document.getElementById('save-add').disabled = true;
-				}
-    });
+    this.new_annotation.addEventListener('keyup', save_validation);
+    this.new_annotation.addEventListener('click', save_validation);
 
     this.cancel_add.addEventListener('click', function(e) {
     	  var new_annotation = document.getElementById('new-annotation');
