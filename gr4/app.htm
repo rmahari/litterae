@@ -29,8 +29,8 @@
             </ul>
         </div>
 
-        <div id=col-left>
-            <div id=text>
+        <div id='col-left'>
+            <div id='text'>
                 Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur.
                 Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit.
                 Horum omnium fortissimi sunt Belgae, propterea quod a cultu atque humanitate provinciae longissime absunt, minimeque ad eos mercatores saepe commeant atque ea quae ad effeminandos animos pertinent important,
@@ -40,13 +40,13 @@
                 Aquitania a Garumna flumine ad Pyrenaeos montes et eam partem Oceani quae est ad Hispaniam pertinet; spectat inter occasum solis et septentriones.
             </div>
         </div>
-        <div id=col-mid>
-            <div id=note-tb>
-                <div id=btn-marker></div>
+        <div id='col-mid'>
+            <div id='note-tb'>
+                <div id='btn-marker'></div>
             </div>
         </div>
-        <div id=col-right>
-            <div id=welcome>
+        <div id='col-right'>
+            <div id='welcome'>
                 <h3>Welcome to Litterae!</h3>
                 <p>Let's get started:</p>
                 <ul>
@@ -55,38 +55,44 @@
                 </ul>
                 <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
             </div>
-            <div id=new-annotation>
+            <div id='new-annotation'>
                 <h3>Add new annotation</h3>
                 <p>Line <span class=selected-line-num></span>: <span class=selected-text idx=-1></span></p>
-                <textarea id=new-annotation-text rows="5"></textarea>
+                <textarea id='new-annotation-text' rows="5"></textarea>
                 <br>
-                <label for=00>Personal</label>
-                <input type=radio name=visibility id=00>
-                <label for=01>Instructor</label>
-                <input type=radio name=visibility id=01>
-                <label for=02>Group</label>
-                <input type=radio name=visibility id=02>
+                <input type=radio name=visibility id='RB00'>
+                <label for=00>Private</label>
+                <input type=radio name=visibility id='RB01'>
+                <label for=01>Public</label>
                 <br>
-                <label for=10>Vocabulary</label>
-                <input type=radio name=category id=10>
-                <label for=11>Grammar</label>
-                <input type=radio name=category id=11>
-                <label for=12>Miscellaneous</label>
-                <input type=radio name=category id=12>
-                <label for=13>Miscellaneous</label>
-                <input type=radio name=category id=13>
-                
-
-                <br>
-                <div id=add-buttons>
-                    <button id=cancel-add>Cancel</button>
-                    <button id=save-add disabled=true>Save</button>
+                <div id="annotation-category">
+                <b>Annotation Type</b>
+                <br/>
+                    <div id="categories-left">
+                        <input type=radio name=category id='RB10'>
+                        <label for=10>Vocabulary</label>
+                        <br>
+                        <input type=radio name=category id='RB11'>
+                        <label for=11>Grammar</label>
+                    </div>
+                    <div id="categories-right">
+                        <input type=radio name=category id='RB12'>
+                        <label for=12>Media</label>
+                        <br/>
+                        <input type=radio name=category id='RB13'>
+                        <label for=13>Other</label>
+                    </div>
+                </div>
+                <br/>
+                <div id='add-buttons'>
+                    <button id='cancel-add'>Cancel</button>
+                    <button id='save-add' disabled=true>Save</button>
                 </div>
             </div>
-            <div id=all-annotations>
+            <div id='all-annotations'>
                 <h3>Line <span class=selected-line-num></span>: <span class=selected-text></span>
                 </h3>
-                <ul id=categories>
+                <ul id='categories'>
                     <li class=category>
                         <i class="fa fa-angle-right dropdown-icon rotated"></i>
                         <span>Vocabulary</span>

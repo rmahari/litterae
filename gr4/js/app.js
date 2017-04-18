@@ -27,6 +27,7 @@ LitteraeApp.prototype.bindEvents = function() {
 	var self = this;
 	this.btn_marker.addEventListener('click', function(e) {
 			self.btn_marker.classList.toggle('active');
+			self.btn_marker.style.opacity = "50%";
 	});
 
     this.text.addEventListener('mouseup', function(e) {
