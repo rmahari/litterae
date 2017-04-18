@@ -127,6 +127,31 @@
     padding: 2.5%;
 }
 
+/*.filter-header {
+    font-weight: bold;
+}
+
+
+#filters {
+    margin-top: 5px;
+    text-align: right;
+    border-collapse: collapse;
+}
+
+tr:first-child {
+    border-bottom: solid 1px #000;
+}
+
+td:first-child {
+    border-right: solid 1px #000;
+}
+
+td {
+    padding-left: 3px;
+    padding-right: 3px;
+}*/
+
+
 span.highlight {
     background-color: #FFFF33;
 }

@@ -21,10 +21,47 @@
     <div id=app>
         <div id=header>
             <div id=logo>LITTERAE</div>
+            <!--<table id=filters>
+                <tr>
+                    <td>
+                        <span class=filter-header>Instructor:</span>
+                    </td>
+                    <td>
+                        <label for=c00>Private</label>
+                        <input type=checkbox name=show id=c00>
+                    </td>
+                    <td>
+                        <label for=c01>Public</label>
+                        <input type=checkbox name=show id=c01>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class=filter-header>Student:</span>
+                    </td>
+                    <td>
+                        <label for=c02>Shared</label>
+                        <input type=checkbox name=show id=c02>
+                    </td>
+                    <td>
+                        <label for=c03>Personal</label>
+                        <input type=checkbox name=show id=c03>
+                    </td>
+                </tr>
+            </table> -->
+
             <ul id=user>
-                <li><a href="#">👤 Ben Bitdiddle</a>
-                <li><a href="#">log out</a>
-                <li><a href="#">settings</a>
+                <li><label for=c00>Private</label>
+                <input type=checkbox name=show id=c00></li>
+                <li><label for=c01>Public</label>
+                <input type=checkbox name=show id=c01></li>
+                <li><label for=c02>Shared</label>
+                <input type=checkbox name=show id=c02></li>
+                <li><label for=c03>Personal</label>
+                <input type=checkbox name=show id=c03></li>
+                <li><a href="#">👤 Ben Bitdiddle</a></li>
+                <li><a href="#">log out</a></li>
+                <li><a href="#">settings</a></li>
             </ul>
         </div>
 
@@ -59,21 +96,19 @@
                 <p>Line <span class=selected-line-num></span>: <span class=selected-text idx=-1></span></p>
                 <textarea id=new-annotation-text rows="5"></textarea>
                 <br>
-                <label for=00>Personal</label>
-                <input type=radio name=visibility id=00>
-                <label for=01>Instructor</label>
-                <input type=radio name=visibility id=01>
-                <label for=02>Group</label>
-                <input type=radio name=visibility id=02>
+                <label for=r00>Private</label>
+                <input type=radio name=visibility id=r00>
+                <label for=r01>Post to Class</label>
+                <input type=radio name=visibility id=r01>
                 <br>
-                <label for=10>Vocabulary</label>
-                <input type=radio name=category id=10>
-                <label for=11>Grammar</label>
-                <input type=radio name=category id=11>
-                <label for=12>Miscellaneous</label>
-                <input type=radio name=category id=12>
-                <label for=13>Miscellaneous</label>
-                <input type=radio name=category id=13>
+                <label for=r10>Vocabulary</label>
+                <input type=radio name=category id=r10>
+                <label for=r11>Grammar</label>
+                <input type=radio name=category id=r11>
+                <label for=r12>Media</label>
+                <input type=radio name=category id=r12>
+                <label for=r13>Other</label>
+                <input type=radio name=category id=r13>
                 
 
                 <br>

@@ -6,8 +6,8 @@ function LitteraeApp(el) {
 		this.cancel_add = document.getElementById('cancel-add');
 		this.save_add = document.getElementById('save-add');
 		this.category_dropdowns = document.getElementsByClassName('category');
-		this.text = document.getElementById('text');
-
+		this.filters = document.querySelectorAll('input[name="show"]');
+		this.focus = false;
 
 		/*		var words = this.text.innerHTML.split(' ');
 		this.text.innerHTML = '';
@@ -54,6 +54,7 @@ LitteraeApp.prototype.bindEvents = function() {
 
 	this.text.addEventListener('dblclick', function(e) {
 			if(e.target.tagName === 'SPAN') {
+				self.focus = true;
 				var new_annotation = document.getElementById('new-annotation');
 				new_annotation.style.display = 'block';
 				var welcome = document.getElementById('welcome');
@@ -69,6 +70,24 @@ LitteraeApp.prototype.bindEvents = function() {
 
 	this.text.addEventListener('click', function(e) {
 			if(e.target.tagName === 'SPAN') {
+				self.focus = true;
+				var all_annotations = document.getElementById('all-annotations');
+				all_annotations.style.display = 'block';
+				var welcome = document.getElementById('welcome');
+				welcome.style.display = 'none';
+				var selectedWord = e.target.innerHTML.trim();
+				var selectedIdx = e.target.id.substr(1);
+
+				var lineHeight = parseFloat(window.getComputedStyle(self.text, null).getPropertyValue('line-height'));
+				var lineNumber = parseInt(e.target.offsetTop/lineHeight) + 1;
+				show_annotations(self.annotation_list, e.target.id.substr(1));
+				populateWithSelection(lineNumber, selectedWord, selectedIdx);
+			}		
+	});
+
+	this.text.addEventListener('mouseover', function(e) {
+			console.log(self.focus);
+			if(e.target.tagName === 'SPAN' && self.focus === false) {
 				var all_annotations = document.getElementById('all-annotations');
 				all_annotations.style.display = 'block';
 				var welcome = document.getElementById('welcome');
@@ -108,6 +127,7 @@ LitteraeApp.prototype.bindEvents = function() {
 	};
 
 	this.cancel_add.addEventListener('click', function(e) {
+		self.focus = false;
 		var new_annotation = document.getElementById('new-annotation');
 		new_annotation.style.display = 'none';
 		var welcome = document.getElementById('welcome');
@@ -117,20 +137,20 @@ LitteraeApp.prototype.bindEvents = function() {
 	});
 
 	this.save_add.addEventListener('click', function(e) {
+		self.focus = false;
 		var idx = document.getElementsByClassName('selected-text')[0].getAttribute('idx');
-		console.log(idx);
 		var annotation_text = document.getElementById('new-annotation-text').value;
-		var category = document.querySelectorAll('input[name="category"]:checked')[0].id;
-		var visibility = document.querySelectorAll('input[name="visibility"]:checked')[0].id;
+		var category = document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2);
+		var visibility = document.querySelectorAll('input[name="visibility"]:checked')[0].id.substr(2);
 		self.annotation_list.push([idx, annotation_text, category, visibility]);
-		var span = document.querySelector('span[idx="'+idx+'"]');
+		var span = document.getElementById('w' + idx);
+		document.getElementById('c0'+visibility).checked = true;
 		span.classList.add('annotated');
+		span.classList.remove('highlight');
 		clear_add_input();
 		var new_annotation = document.getElementById('new-annotation');
 		new_annotation.style.display = 'none';
-		console.log(document.getElementById('w'+idx));
 		document.getElementById('w'+idx).click();
-		console.log(self.annotation_list);
 	});
 
 	for (var i = 0; i < this.category_dropdowns.length; i ++) {
@@ -171,11 +191,31 @@ LitteraeApp.prototype.bindEvents = function() {
 				text.innerHTML = annotation_text;
 				add_this.append(info);
 				add_this.append(text);
-				categories[category[1]].querySelectorAll('div')[0].append(add_this);
+				categories[category].querySelectorAll('div')[0].append(add_this);
 			}
 		}
 		if (no_annotations) this.welcome.style.display = 'block';
+	};
+
+	var filter = function(e, annotation_list) {
+		console.log(e);
+		console.log(annotation_list);
+		var change = e.target.id.substr(2);
+		for (var i = 0; i < annotation_list.length; i++) {
+			var annotation = annotation_list[i];
+			if (annotation[3] == change) {
+				document.getElementById('w'+annotation[0]).classList.toggle('annotated');
+			}
+		}
 	}
+
+	for(var i = 0; i < this.filters.length; i++) {
+		this.filters[i].addEventListener('change', function(e) {
+			filter(e, self.annotation_list);
+		});
+	}
+
+
 }
 
 /*
