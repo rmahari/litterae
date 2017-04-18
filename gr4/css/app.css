@@ -54,13 +54,26 @@
     border-bottom: solid 1px #DDDDDD;
 }
 #note-tb div:hover {
-    background-color: #DDDDDD;
+    /*background-color: #DDDDDD;*/
 }
 #btn-marker {
     background-image: url("../img/marker.png");
+    /*background-color: rgba(255, 245, 153, 1);*/
+    background-color: rgba(255, 255, 51, 0.5);
+    box-shadow: 0px 1px 2px;
+    
+    /*border-radius: 10%;*/
 }
-#btn-marker.active, #btn-marker.active:hover {
+
+#btn-marker:hover {
+    box-shadow: 0px 2px 2px;
+    opacity: 0.75;
+}
+
+#btn-marker.active {
     background-color: #FFFF33;
+    box-shadow: 0px 0px 0px;
+    /*background-color: rgb(255, 240, 102);*/
 }
 
 #text {
@@ -99,6 +112,7 @@
 #categories>li {
     font-weight: bold;
     background-color: #ddd;
+    padding-left: 10px;
 }
 
 #categories>li>div {
@@ -122,36 +136,62 @@
     float: right;
 }
 
+#RB01 {
+    margin-left: 20px;
+    background-color: red;
+    color: purple;
+}
+
+#annotation-category {
+    margin-top: 10px;
+}
+
+#categories-left, #categories-right {
+    float: left;
+}
+
+#categories-right {
+    margin-left: 10px;
+}
+
 #new-annotation-text {
     width: 95%;
     padding: 2.5%;
 }
 
-/*.filter-header {
-    font-weight: bold;
-}
-
-
 #filters {
-    margin-top: 5px;
-    text-align: right;
-    border-collapse: collapse;
+    line-height: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    float: left;
+}
+#filters li {
+    display: inline-block;
+    height: 50px;
+    line-height: 20px;
+    border-left: 1px solid #DDDDDD;
+    padding-left: 20px;
+}
+#filters li:last-child {
+    border-right: 1px solid #DDDDDD;
+}
+#filters li span {
+    margin-right: 20px;
 }
 
-tr:first-child {
-    border-bottom: solid 1px #000;
-}
-
-td:first-child {
-    border-right: solid 1px #000;
-}
-
-td {
-    padding-left: 3px;
-    padding-right: 3px;
-}*/
 
 
 span.highlight {
     background-color: #FFFF33;
+}
+
+.dropdown-icon {
+    transition: transform .3s ease-out;
+    transform: rotate(0deg);
+}
+
+.dropdown-icon.rotated {
+    transition: transform .3s ease-out;
+    transform: rotate(90deg);
 }

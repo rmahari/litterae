@@ -27,6 +27,7 @@ LitteraeApp.prototype.bindEvents = function() {
 	var self = this;
 	this.btn_marker.addEventListener('click', function(e) {
 			self.btn_marker.classList.toggle('active');
+			self.btn_marker.style.opacity = "50%";
 	});
 
     this.text.addEventListener('mouseup', function(e) {
@@ -86,7 +87,6 @@ LitteraeApp.prototype.bindEvents = function() {
 	});
 
 	this.text.addEventListener('mouseover', function(e) {
-			console.log(self.focus);
 			if(e.target.tagName === 'SPAN' && self.focus === false) {
 				var all_annotations = document.getElementById('all-annotations');
 				all_annotations.style.display = 'block';
@@ -137,7 +137,6 @@ LitteraeApp.prototype.bindEvents = function() {
 	});
 
 	this.save_add.addEventListener('click', function(e) {
-		self.focus = false;
 		var idx = document.getElementsByClassName('selected-text')[0].getAttribute('idx');
 		var annotation_text = document.getElementById('new-annotation-text').value;
 		var category = document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2);
@@ -151,6 +150,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		var new_annotation = document.getElementById('new-annotation');
 		new_annotation.style.display = 'none';
 		document.getElementById('w'+idx).click();
+		self.focus = false;
 	});
 
 	for (var i = 0; i < this.category_dropdowns.length; i ++) {
@@ -158,8 +158,10 @@ LitteraeApp.prototype.bindEvents = function() {
 			if (e.target.tagName != 'DIV') {
 				var annotations = this.querySelectorAll('div')[0];
 				if (annotations.style.display === 'none') {
+					this.getElementsByClassName('dropdown-icon')[0].classList.add("rotated");
 					annotations.style.display = 'block';
 				} else {
+					this.getElementsByClassName('dropdown-icon')[0].classList.remove("rotated");
 					annotations.style.display = 'none';
 				}
 			}
@@ -177,29 +179,29 @@ LitteraeApp.prototype.bindEvents = function() {
 			if (parseInt(annotation_list[i][0]) === parseInt(idx)) {
 				no_annotations = false;
 				var category = annotation_list[i][2];
-				var annotation_text = annotation_list[i][1];
-				var categories = document.getElementsByClassName('category');
-				var add_this = document.createElement('div')
-				add_this.classList.add('annotation');
-				var info = document.createElement('div');
-				info.classList.add('annotation-info');
-				var edit = document.createElement('button');
-				edit.innerHTML = 'Edit';
-				info.append(edit);
-				var text = document.createElement('div');
-				text.classList.add('annotation-text');
-				text.innerHTML = annotation_text;
-				add_this.append(info);
-				add_this.append(text);
-				categories[category].querySelectorAll('div')[0].append(add_this);
+				if (document.getElementById('c0'+annotation_list[i][3]).checked) {
+					var annotation_text = annotation_list[i][1];
+					var categories = document.getElementsByClassName('category');
+					var add_this = document.createElement('div')
+					add_this.classList.add('annotation');
+					var info = document.createElement('div');
+					info.classList.add('annotation-info');
+					var edit = document.createElement('button');
+					edit.innerHTML = 'Edit';
+					info.append(edit);
+					var text = document.createElement('div');
+					text.classList.add('annotation-text');
+					text.innerHTML = annotation_text;
+					add_this.append(info);
+					add_this.append(text);
+					categories[category].querySelectorAll('div')[0].append(add_this);
+				}
 			}
 		}
 		if (no_annotations) this.welcome.style.display = 'block';
 	};
 
 	var filter = function(e, annotation_list) {
-		console.log(e);
-		console.log(annotation_list);
 		var change = e.target.id.substr(2);
 		for (var i = 0; i < annotation_list.length; i++) {
 			var annotation = annotation_list[i];
