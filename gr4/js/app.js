@@ -176,7 +176,7 @@ LitteraeApp.prototype.bindEvents = function() {
 				text.innerHTML = annotation_text;
 				add_this.append(info);
 				add_this.append(text);
-				categories[category[1]].querySelectorAll('div')[0].append(add_this);
+				categories[category[3]].querySelectorAll('div')[0].append(add_this);
 			}
 		}
 		if (no_annotations) this.welcome.style.display = 'block';
