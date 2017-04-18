@@ -138,8 +138,12 @@ LitteraeApp.prototype.bindEvents = function() {
 			if (e.target.tagName != 'DIV') {
 				var annotations = this.querySelectorAll('div')[0];
 				if (annotations.style.display === 'none') {
+					// console.log(annotations);
+					this.getElementsByClassName('dropdown-icon')[0].classList.add("rotated");
 					annotations.style.display = 'block';
 				} else {
+					// console.log(annotations);
+					this.getElementsByClassName('dropdown-icon')[0].classList.remove("rotated");
 					annotations.style.display = 'none';
 				}
 			}

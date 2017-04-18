@@ -99,6 +99,7 @@
 #categories>li {
     font-weight: bold;
     background-color: #ddd;
+    padding-left: 10px;
 }
 
 #categories>li>div {
@@ -129,4 +130,14 @@
 
 span.highlight {
     background-color: #FFFF33;
+}
+
+.dropdown-icon {
+    transition: transform .3s ease-out;
+    transform: rotate(0deg);
+}
+
+.dropdown-icon.rotated {
+    transition: transform .3s ease-out;
+    transform: rotate(90deg);
 }
