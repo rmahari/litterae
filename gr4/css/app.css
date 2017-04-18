@@ -112,3 +112,7 @@
     width: 95%;
     padding: 2.5%;
 }
+
+span.highlight {
+    background-color: #FFFF33;
+}
