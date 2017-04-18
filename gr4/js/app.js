@@ -46,7 +46,7 @@ LitteraeApp.prototype.bindEvents = function() {
 					var selectedWord = e.target.innerHTML.trim();
 					var selectedIdx = e.target.getAttribute('idx');
 					var lineHeight = parseFloat(window.getComputedStyle(self.source_text, null).getPropertyValue('line-height'));
-					var lineNumber = parseInt(e.offsetY/lineHeight) + 1;
+					var lineNumber = parseInt(e.target.offsetTop/lineHeight) + 1;
 
 					populateWithSelection(lineNumber, selectedWord, selectedIdx);
 				}		
@@ -54,6 +54,7 @@ LitteraeApp.prototype.bindEvents = function() {
 
 		this.source_text.addEventListener('click', function(e) {
 				if(e.target.tagName === 'SPAN') {
+					self.new_annotation.style.display = 'none';
 					var all_annotations = document.getElementById('all-annotations');
 					all_annotations.style.display = 'block';
 					var welcome = document.getElementById('welcome');
@@ -62,7 +63,7 @@ LitteraeApp.prototype.bindEvents = function() {
 					var selectedWord = e.target.innerHTML.trim();
 
 					var lineHeight = parseFloat(window.getComputedStyle(self.source_text, null).getPropertyValue('line-height'));
-					var lineNumber = parseInt(e.offsetY/lineHeight) + 1;
+					var lineNumber = parseInt(e.target.offsetTop/lineHeight) + 1;
 
 					show_annotations(self.annotation_list, e.target.getAttribute('idx'));
 					populateWithSelection(lineNumber, selectedWord);
@@ -120,11 +121,13 @@ LitteraeApp.prototype.bindEvents = function() {
 
 		for (var i = 0; i < this.category_dropdowns.length; i ++) {
 			this.category_dropdowns[i].addEventListener('click', function(e) {
-				var annotations = this.children[0];
-				if (annotations.style.display === 'none') {
-					annotations.style.display = 'block';
-				} else {
-					annotations.style.display = 'none';
+				if (e.target.tagName != 'DIV') {
+					var annotations = this.querySelectorAll('div')[0];
+					if (annotations.style.display === 'none') {
+						annotations.style.display = 'block';
+					} else {
+						annotations.style.display = 'none';
+					}
 				}
 			});
 		};
@@ -134,7 +137,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		document.getElementById('all-annotations').style.display = 'block';
 		var categories = document.getElementsByClassName('category');
 		for (var i = 0; i < categories.length; i++) {
-			categories[i].children[0].innerHTML = '';
+			categories[i].querySelectorAll('div')[0].innerHTML = '';
 		}
 		for (var i = 0; i < annotation_list.length; i++) {
 			if (parseInt(annotation_list[i][0]) === parseInt(idx)) {
@@ -146,12 +149,15 @@ LitteraeApp.prototype.bindEvents = function() {
 				add_this.classList.add('annotation');
 				var info = document.createElement('div');
 				info.classList.add('annotation-info');
+				var edit = document.createElement('button');
+				edit.innerHTML = 'Edit';
+				info.append(edit);
 				var text = document.createElement('div');
 				text.classList.add('annotation-text');
 				text.innerHTML = annotation_text;
 				add_this.append(info);
 				add_this.append(text);
-				categories[category[1]].children[0].append(add_this);
+				categories[category[1]].querySelectorAll('div')[0].append(add_this);
 			}
 		}
 		if (no_annotations) this.welcome.style.display = 'block';

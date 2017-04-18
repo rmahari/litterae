@@ -83,6 +83,19 @@
     padding-left: 15px;
 }
 
+.annotation {
+    padding: 5px;
+}
+
+.annotation-info {
+    width: 15%;
+    float: left;
+}
+
+.annotation-text {
+    margin-left: 16%;
+}
+
 #categories>li {
     font-weight: bold;
     background-color: #ddd;
@@ -95,6 +108,7 @@
 
 #all-annotations {
     display: none;
+    padding: 15px;
 }
 
 #new-annotation {
