@@ -140,10 +140,12 @@ LitteraeApp.prototype.bindEvents = function() {
 				var annotations = this.querySelectorAll('div')[0];
 				if (annotations.style.display === 'none') {
 					// console.log(annotations);
+					// this.getElementsByClassName('annotation-container')[0].classList.add("expanded");
 					this.getElementsByClassName('dropdown-icon')[0].classList.add("rotated");
 					annotations.style.display = 'block';
 				} else {
 					// console.log(annotations);
+					// this.getElementsByClassName('annotation-container')[0].classList.remove("expanded");
 					this.getElementsByClassName('dropdown-icon')[0].classList.remove("rotated");
 					annotations.style.display = 'none';
 				}
@@ -170,7 +172,10 @@ LitteraeApp.prototype.bindEvents = function() {
 				info.classList.add('annotation-info');
 				var edit = document.createElement('button');
 				edit.innerHTML = 'Edit';
-				info.append(edit);
+				edit.classList.add("edit-button");
+				info.innerHTML = 'Added by Ben BitDiddle';
+				// info.append(edit);
+				info.prepend(edit);
 				var text = document.createElement('div');
 				text.classList.add('annotation-text');
 				text.innerHTML = annotation_text;

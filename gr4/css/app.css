@@ -101,7 +101,9 @@
 }
 
 .annotation-info {
-    width: 15%;
+    color: grey;
+    font-size: 8pt;
+    width: 30%;
     float: left;
 }
 
@@ -171,4 +173,9 @@ span.highlight {
 .dropdown-icon.rotated {
     transition: transform .3s ease-out;
     transform: rotate(90deg);
+}
+
+.edit-button {
+    margin-right: 10px;
+    margin-left: 10px;
 }
