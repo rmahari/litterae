@@ -113,7 +113,6 @@
 
 #categories>li {
     font-weight: bold;
-    background-color: #ddd;
     padding-left: 10px;
 }
 
@@ -201,4 +200,47 @@ span.highlight {
 .edit-button {
     margin-right: 10px;
     margin-left: 10px;
+}
+
+.c00-annotation {
+    padding-left: 3px;
+    border-left: thick solid #82DAF9;
+}
+
+.c01-annotation {
+    padding-left: 3px;
+    border-left: thick solid #70C1B3;
+}
+
+.c02-annotation {
+    padding-left: 3px;
+    border-left: thick solid #d194ff;
+}
+
+.c03-annotation {
+    padding-left: 3px;
+    border-left: thick solid #ff9595;
+}
+
+label[for="c00"] {
+    padding-left: 5px;
+    border-left: thick solid #82DAF9;
+}
+
+label[for="c01"] {
+    padding-left: 5px;
+    border-left: thick solid #70C1B3;
+}
+
+label[for="c02"] {
+    padding-left: 5px;
+    border-left: thick solid #d194ff;
+}
+
+label[for="c03"] {
+    padding-left: 5px;
+    border-left: thick solid #ff9595;
+}
+
+.category {
 }

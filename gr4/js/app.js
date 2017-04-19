@@ -185,6 +185,7 @@ LitteraeApp.prototype.bindEvents = function() {
 					var categories = document.getElementsByClassName('category');
 					var add_this = document.createElement('div')
 					add_this.classList.add('annotation');
+					add_this.classList.add('c0'+annotation_list[i][3]+"-annotation");
 					var info = document.createElement('div');
 					info.classList.add('annotation-info');
 					var edit = document.createElement('button');
