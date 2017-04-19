@@ -187,6 +187,10 @@ span.highlight {
     background-color: #FFFF33;
 }
 
+span.highlight1 {
+    background-color: #FFFF33;
+}
+
 .dropdown-icon {
     transition: transform .3s ease-out;
     transform: rotate(0deg);

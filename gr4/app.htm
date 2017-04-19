@@ -58,18 +58,9 @@
             </div>
         </div>
         <div id='col-right'>
-            <div id='welcome'>
-                <h3>Welcome to Litterae!</h3>
-                <p>Let's get started:</p>
-                <ul>
-                    <li>To <b>do a thing</b>, you should probably <b>do this other thing.</b>
-                    <li>If you want to <b>win the points</b>, try getting <b>over 9000</b>
-                </ul>
-                <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
-            </div>
             <div id='new-annotation'>
                 <h3>Add new annotation</h3>
-                <p>Line <span class=selected-line-num></span>: <span class=selected-text idx=-1></span></p>
+                <p>Line <span class=selected-line-num></span>: <span class=selected-text-annotation></span></p>
                 <textarea id='new-annotation-text' rows="5"></textarea>
                 <br>
                 <label for=r00>Private</label>
@@ -90,6 +81,15 @@
                     <button id=cancel-add>Cancel</button>
                     <button id=save-add disabled=true>Save</button>
                 </div>
+            </div>
+            <div id='welcome'>
+                <h3>Welcome to Litterae!</h3>
+                <p>Let's get started:</p>
+                <ul>
+                    <li>To <b>do a thing</b>, you should probably <b>do this other thing.</b>
+                    <li>If you want to <b>win the points</b>, try getting <b>over 9000</b>
+                </ul>
+                <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
             </div>
             <div id='all-annotations'>
                 <h3>Line <span class=selected-line-num></span>: <span class=selected-text></span>
