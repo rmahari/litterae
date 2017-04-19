@@ -125,6 +125,7 @@ LitteraeApp.prototype.bindEvents = function() {
 			if (e.target.tagName != 'DIV') {
 				var annotations = this.querySelectorAll('div')[0];
 				if (annotations.style.display === 'none') {
+					this.style.backgroundColor
 					this.getElementsByClassName('dropdown-icon')[0].classList.add("rotated");
 					annotations.style.display = 'block';
 				} else {
@@ -133,7 +134,7 @@ LitteraeApp.prototype.bindEvents = function() {
 				}
 			}
 		});
-	};
+	}
 
 	var filter = function(e, annotation_list) {
 		var change = e.target.id.substr(2);
@@ -215,6 +216,51 @@ LitteraeApp.prototype.inspect = function(wid) {
 		}
 	}
 	if (no_annotations) Utils.show(document.getElementById('welcome'));
+
+	var no_annotations = true;
+	Utils.show(document.getElementById('all-annotations'));
+
+	var categories = document.getElementsByClassName('category');
+	category_annotations = [];
+	for (var i = 0; i < categories.length; i++) {
+		categories[i].querySelectorAll('div')[0].innerHTML = '';
+		category_annotations[i] = this.annotation_list.filter(function(annotation) {
+			return annotation[2] == i && annotation[0] == wid;
+		});
+		if (category_annotations[i].length > 0) {
+			categories[i].getElementsByClassName("annotation-count")[0].innerHTML = " - " + category_annotations[i].length;
+		} else {
+			categories[i].getElementsByClassName("annotation-count")[0].innerHTML = "";
+		}
+	}
+	for (var i = 0; i < this.annotation_list.length; i++) {
+		if (parseInt(this.annotation_list[i][0]) === parseInt(wid)) {
+			no_annotations = false;
+			var category = this.annotation_list[i][2];
+			if (document.getElementById('c0'+this.annotation_list[i][3]).checked) {
+				var annotation_text = this.annotation_list[i][1];
+				var categories = document.getElementsByClassName('category');
+				var add_this = document.createElement('div')
+				add_this.classList.add('annotation');
+				add_this.classList.add('c0'+this.annotation_list[i][3]+"-annotation");
+				var info = document.createElement('div');
+				info.classList.add('annotation-info');
+				var edit = document.createElement('button');
+				edit.innerHTML = 'Edit';
+				edit.classList.add("edit-button");
+				info.innerHTML = 'Added by Ben';
+				info.prepend(edit);
+				var text = document.createElement('div');
+				text.classList.add('annotation-text');
+				text.innerHTML = annotation_text;
+				add_this.append(info);
+				add_this.append(text);
+				categories[category].querySelectorAll('div')[0].append(add_this);
+
+			}
+		}
+	}
+	Utils.hide(document.getElementById('welcome'));
 
 	this.populateWithSelection(wid);
 }
