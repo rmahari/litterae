@@ -1,6 +1,7 @@
 function LitteraeApp(el) {
 		this.el = el;
 		this.btn_marker = document.getElementById('btn-marker');
+		this.marker_on = false;
 		this.text = document.getElementById('text');
 		// New annotation elements
 		this.new_annotation = document.getElementById('new-annotation');
@@ -21,13 +22,23 @@ function LitteraeApp(el) {
 		this.annotation_list = [];
 
 		this.bindEvents();
+
+		
 }
 
 LitteraeApp.prototype.bindEvents = function() {
 	var self = this;
 	this.btn_marker.addEventListener('click', function(e) {
+		if (this.marker_on) {
 			self.btn_marker.classList.toggle('active');
 			self.btn_marker.style.opacity = "50%";
+			this.marker_on = false;
+		} else {
+			self.btn_marker.classList.toggle('active');
+			self.btn_marker.style.opacity = "100%";
+			this.marker_on = true;
+		}
+			
 	});
 
     this.text.addEventListener('mouseup', function(e) {
