@@ -103,7 +103,7 @@
 .annotation-info {
     color: grey;
     font-size: 8pt;
-    width: 30%;
+    margin-right: 10pt;
     float: left;
 }
 
@@ -197,6 +197,15 @@ span.highlight {
     transform: rotate(90deg);
 }
 
+.category {
+    font-size: 14pt;
+    cursor: pointer;
+}
+
+.category.expanded-dropdown,.category:hover {
+    background-color: rgb(241, 241, 241);;
+}
+
 .edit-button {
     margin-right: 10px;
     margin-left: 10px;
@@ -242,5 +251,6 @@ label[for="c03"] {
     border-left: thick solid #ff9595;
 }
 
-.category {
+.disabled-dropdown{
+    color: #929292;
 }

@@ -158,10 +158,11 @@ LitteraeApp.prototype.bindEvents = function() {
 			if (e.target.tagName != 'DIV') {
 				var annotations = this.querySelectorAll('div')[0];
 				if (annotations.style.display === 'none') {
-					this.style.backgroundColor
+					this.classList.add("expanded-dropdown");
 					this.getElementsByClassName('dropdown-icon')[0].classList.add("rotated");
 					annotations.style.display = 'block';
 				} else {
+					this.classList.remove("expanded-dropdown");
 					this.getElementsByClassName('dropdown-icon')[0].classList.remove("rotated");
 					annotations.style.display = 'none';
 				}
@@ -180,8 +181,10 @@ LitteraeApp.prototype.bindEvents = function() {
 				return annotation[2] == i && annotation[0] == idx;
 			});
 			if (category_annotations[i].length > 0) {
+				categories[i].classList.remove("disabled-dropdown");
 				categories[i].getElementsByClassName("annotation-count")[0].innerHTML = " - " + category_annotations[i].length;
 			} else {
+				categories[i].classList.add("disabled-dropdown");
 				categories[i].getElementsByClassName("annotation-count")[0].innerHTML = "";
 			}
 		}
