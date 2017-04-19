@@ -2,9 +2,15 @@ function LitteraeApp(el) {
 		this.el = el;
 		this.btn_marker = document.getElementById('btn-marker');
 		this.text = document.getElementById('text');
+		// New annotation elements
 		this.new_annotation = document.getElementById('new-annotation');
 		this.cancel_add = document.getElementById('cancel-add');
 		this.save_add = document.getElementById('save-add');
+		// Annotation editing elements
+		this.annotation_to_edit = document.getElementById('annotation-to-edit');
+		this.cancel_edit = document.getElementById('cancel-edit');
+		this.save_edit = document.getElementById('save_edit');
+
 		this.category_dropdowns = document.getElementsByClassName('category');
 		this.filters = document.querySelectorAll('input[name="show"]');
 		this.focus = false;
@@ -104,19 +110,38 @@ LitteraeApp.prototype.bindEvents = function() {
 
 	var save_validation = function(e) {
 		var radios = document.querySelectorAll('input[type="radio"]:checked');
-			var value = radios.length;
+		var value = radios.length;
 
-			var annotation = document.getElementById('new-annotation-text');
-			if (value === 2 && annotation.value.length > 0){
-				document.getElementById('save-add').disabled = false;
-			}
-			else {
-				document.getElementById('save-add').disabled = true;
-			}
-		};
+		var annotation = document.getElementById('new-annotation-text');
+		if (value === 2 && annotation.value.length > 0) {
+			// document.getElementById('save-add').disabled = false;
+			document.getElementById('save-add').classList.remove('disabled');
+		}
+		else {
+			// document.getElementById('save-add').disabled = true;
+			document.getElementById('save-add').classList.add('disabled');
+		}
+	};
 
+	var save_edit_validation = function(e) {
+		var radios = document.querySelectorAll('input[type="radio"]:checked');
+		var value = radios.length;
+
+		var annotation = document.getElementById('new-annotation-text');
+		if (value === 2 && annotation.value.length > 0) {
+			document.getElementById('save-edit').disabled = false;
+		}
+		else {
+			document.getElementById('save-edit').disabled = true;
+		}
+	}
+
+	// Validate entries for new or edited annotations
+	// Enable save/edit buttons when valid
 	this.new_annotation.addEventListener('keyup', save_validation);
 	this.new_annotation.addEventListener('click', save_validation);
+	this.annotation_to_edit.addEventListener('keyup', save_edit_validation);
+	this.annotation_to_edit.addEventListener('click', save_edit_validation);
 
 	var clear_add_input = function() {
 		document.getElementById('new-annotation-text').value = '';
@@ -153,6 +178,41 @@ LitteraeApp.prototype.bindEvents = function() {
 		self.focus = false;
 	});
 
+	this.cancel_edit.addEventListener('click', function(e) {
+		self.focus = false;
+		var annotation_to_edit = document.getElementById('annotation-to-edit');
+		annotation_to_edit.style.display = 'none';
+		var welcome = document.getElementById('welcome');
+		welcome.style.display = 'block';
+
+		document.getElementById('new-annotation-text').value = 'hello';
+
+
+	});
+
+	// TODO: For saving edit
+	// this.save_edit.addEventListener('click', function(e) {
+	// 	var idx = document.getElementsByClassName('selected-text')[0].getAttribute('idx');
+	// 	var edited_annotation_text = document.getElementById('edited-annotation-text');
+	// 	var category = document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2);
+	// 	var visibility = document.querySelectorAll('input[name="visibility"]:checked')[0].id.substr(2);
+
+	// 	self.annotation_list.push([idx, edited_annotation_text, category, visibility]);
+
+	// 	var span = document.getElementById('w' + idx);
+	// 	document.getElementById('c0'+visibility).checked = true;
+	// 	span.classList.add('annotated');
+	// 	span.classList.remove('highlight');
+	// 	clear_add_input();
+	// 	var new_annotation = document.getElementById('new-annotation');
+	// 	new_annotation.style.display = 'none';
+	// 	document.getElementById('w'+idx).click();
+	// 	self.focus = false;
+
+	// });
+
+	
+
 	for (var i = 0; i < this.category_dropdowns.length; i ++) {
 		this.category_dropdowns[i].addEventListener('click', function(e) {
 			if (e.target.tagName != 'DIV') {
@@ -168,39 +228,93 @@ LitteraeApp.prototype.bindEvents = function() {
 		});
 	};
 
+	// Show annotations menu and content
 	var show_annotations = function(annotation_list, idx) {
 		var no_annotations = true;
 		document.getElementById('all-annotations').style.display = 'block';
+		// Set annotation submenus to have no content
 		var categories = document.getElementsByClassName('category');
 		for (var i = 0; i < categories.length; i++) {
 			categories[i].querySelectorAll('div')[0].innerHTML = '';
 		}
+		// Fill annotation submenus with available annotations
 		for (var i = 0; i < annotation_list.length; i++) {
 			if (parseInt(annotation_list[i][0]) === parseInt(idx)) {
 				no_annotations = false;
 				var category = annotation_list[i][2];
 				if (document.getElementById('c0'+annotation_list[i][3]).checked) {
+					// Annotation text
 					var annotation_text = annotation_list[i][1];
-					var categories = document.getElementsByClassName('category');
-					var add_this = document.createElement('div')
-					add_this.classList.add('annotation');
-					var info = document.createElement('div');
-					info.classList.add('annotation-info');
-					var edit = document.createElement('button');
-					edit.innerHTML = 'Edit';
-					info.append(edit);
 					var text = document.createElement('div');
 					text.classList.add('annotation-text');
 					text.innerHTML = annotation_text;
+					// Create individual annotation div
+					var add_this = document.createElement('div')
+					add_this.classList.add('annotation');
+					
+					var info = document.createElement('div');
+					info.classList.add('annotation-info');
+					
+					var edit = document.createElement('button');
+					edit.innerHTML = 'Edit';
+					edit.classList.add('edit-btn');
+					edit.setAttribute("id", "edit-btn-" + parseInt(idx));
+					info.append(edit);
+					
+					// Add content to main annotation div and place div in correct category
 					add_this.append(info);
 					add_this.append(text);
+					add_this.append("Posted by YungBoiJoren");
+					var categories = document.getElementsByClassName('category');
 					categories[category].querySelectorAll('div')[0].append(add_this);
 				}
+				prepareEditBtns();
 			}
 		}
 		if (no_annotations) this.welcome.style.display = 'block';
 	};
 
+
+	var populate_edit = function (word_index) {
+		console.log("populating");
+		console.log("word index:" + word_index);
+		self.annotation_list.forEach(function (e) {
+			console.log(e);
+			if (e[0] == word_index) {
+				text = e[1];
+				category = e[2];
+				privacy = e[3];
+				document.getElementById("edited-annotation-text").value = text;
+				document.getElementById("e00").checked = true;
+				document.getElementById("e10").checked = true;
+			}
+		});		
+	}
+
+	// Create listeners for all present edit buttons
+	var prepareEditBtns = function () {
+		var edit_btns = document.getElementsByClassName('edit-btn');
+		for (var i = 0; i < edit_btns.length; i++) {
+			edit_btns[i].addEventListener('click', function(e) {
+				// Display edit interface
+				document.getElementById("annotation-to-edit").style.display = 'block';
+				// Get word index id from button and populate edit interface
+				populate_edit(e.target.id.substring(9));
+				document.getElementById("edited-annotation-text").focus();
+			});
+		}
+	}
+
+
+
+	// DEBUGGING: prints list of annotations in console
+	document.getElementById('view-annotations').addEventListener('click', function(e) {
+		self.annotation_list.forEach(function (element) {
+			console.log(element);
+		});
+	});
+
+	// Filter
 	var filter = function(e, annotation_list) {
 		var change = e.target.id.substr(2);
 		for (var i = 0; i < annotation_list.length; i++) {

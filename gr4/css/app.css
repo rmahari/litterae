@@ -40,6 +40,16 @@
     z-index: 10;
 }
 
+h4 {
+    margin: 0px;
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+}
+
+.edit-add-title {
+    font-size: 1.5em;
+}
+
 #note-tb {
     width: 50px;
 }
@@ -56,6 +66,9 @@
 #note-tb div:hover {
     /*background-color: #DDDDDD;*/
 }
+
+/* BUTTONS */
+
 #btn-marker {
     background-image: url("../img/marker.png");
     /*background-color: rgba(255, 245, 153, 1);*/
@@ -74,6 +87,28 @@
     background-color: #FFFF33;
     box-shadow: 0px 0px 0px;
     /*background-color: rgb(255, 240, 102);*/
+}
+
+.form-btn-save {
+    background-color: green;
+    font-size: 1.5em;
+    border-radius: 5%;
+    border: none;
+    color: white;
+    margin: 10px;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.form-btn-cancel {
+    background-color: red;
+    font-size: 1.5em;
+    border-radius: 5%;
+    border: none;
+    color: white;
 }
 
 #text {
@@ -125,14 +160,15 @@
     padding: 15px;
 }
 
-#new-annotation {
+#new-annotation, #annotation-to-edit {
     display: none;
     padding: 25px;
     padding-top: 0px;
+    padding-bottom: 50px;
     border: solid 1px #000;
 }
 
-#add-buttons {
+#add-buttons, #edit-buttons {
     float: right;
 }
 
@@ -154,9 +190,11 @@
     margin-left: 10px;
 }
 
-#new-annotation-text {
+#new-annotation-text, #edited-annotation-text {
     width: 95%;
     padding: 2.5%;
+    font-size: 2em;
+    font-family: "Times New Roman";
 }
 
 #filters {
@@ -180,7 +218,18 @@
     margin-right: 20px;
 }
 
+td.radio-col {
+    width: 20px;
+}
 
+td.label-col {
+    width: 100px;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0px;
+}
 
 span.highlight {
     background-color: #FFFF33;
