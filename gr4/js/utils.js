@@ -6,3 +6,10 @@ Utils.toggle = function(obj, property, one, two) {
 Utils.clearChildNodes = function(el) {
 	while (el.firstChild) el.removeChild(el.firstChild);
 }
+
+Utils.show = function(el) {
+    el.style.display = 'block';
+}
+Utils.hide = function(el) {
+    el.style.display = 'none';
+}
