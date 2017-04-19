@@ -161,6 +161,29 @@
     padding: 2.5%;
 }
 
+#filters {
+    line-height: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    float: left;
+}
+#filters li {
+    display: inline-block;
+    height: 50px;
+    line-height: 20px;
+    border-left: 1px solid #DDDDDD;
+    padding-left: 20px;
+}
+#filters li:last-child {
+    border-right: 1px solid #DDDDDD;
+}
+#filters li span {
+    margin-right: 20px;
+}
+
+
+
 span.highlight {
     background-color: #FFFF33;
 }

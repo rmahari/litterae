@@ -22,10 +22,22 @@
     <div id=app>
         <div id=header>
             <div id=logo>LITTERAE</div>
+
+            <ul id=filters>
+                <li>
+                <span><b><i>Instructor:</i></b><br><label for=c00>Private</label>
+                <input type=checkbox name=show id=c00></span>
+                <span><label for=c01>Public</label>
+                <input type=checkbox name=show id=c01></span></li>
+                <li><span><b><i>Student:</i></b><br><label for=c02>Shared</label>
+                <input type=checkbox name=show id=c02></span>
+                <span><label for=c03>Personal</label>
+                <input type=checkbox name=show id=c03></span></li>
+            </ul>
             <ul id=user>
-                <li><a href="#">👤 Ben Bitdiddle</a>
-                <li><a href="#">log out</a>
-                <li><a href="#">settings</a>
+                <li><a href="#">👤 Ben Bitdiddle</a></li>
+                <li><a href="#">log out</a></li>
+                <li><a href="#">settings</a></li>
             </ul>
         </div>
 
@@ -60,33 +72,23 @@
                 <p>Line <span class=selected-line-num></span>: <span class=selected-text idx=-1></span></p>
                 <textarea id='new-annotation-text' rows="5"></textarea>
                 <br>
-                <input type=radio name=visibility id='RB00'>
-                <label for=RB00>Private</label>
-                <input type=radio name=visibility id='RB01'>
-                <label for=RB01>Public</label>
+                <label for=r00>Private</label>
+                <input type=radio name=visibility id=r00>
+                <label for=r01>Post to Class</label>
+                <input type=radio name=visibility id=r01>
                 <br>
-                <div id="annotation-category">
-                <b>Annotation Type</b>
-                <br/>
-                    <div id="categories-left">
-                        <input type=radio name=category id='RB10'>
-                        <label for=RB10>Vocabulary</label>
-                        <br>
-                        <input type=radio name=category id='RB11'>
-                        <label for=RB11>Grammar</label>
-                    </div>
-                    <div id="categories-right">
-                        <input type=radio name=category id='RB12'>
-                        <label for=RB12>Media</label>
-                        <br/>
-                        <input type=radio name=category id='RB13'>
-                        <label for=RB13>Other</label>
-                    </div>
-                </div>
-                <br/>
-                <div id='add-buttons'>
-                    <button id='cancel-add'>Cancel</button>
-                    <button id='save-add' disabled=true>Save</button>
+                <label for=r10>Vocabulary</label>
+                <input type=radio name=category id=r10>
+                <label for=r11>Grammar</label>
+                <input type=radio name=category id=r11>
+                <label for=r12>Media</label>
+                <input type=radio name=category id=r12>
+                <label for=r13>Other</label>
+                <input type=radio name=category id=r13>
+                <br>
+                <div id=add-buttons>
+                    <button id=cancel-add>Cancel</button>
+                    <button id=save-add disabled=true>Save</button>
                 </div>
             </div>
             <div id='all-annotations'>
