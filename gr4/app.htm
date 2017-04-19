@@ -68,42 +68,43 @@
                 </ul>
                 <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
             </div>
-            
-            <div id='new-annotation'>
-                <p class="edit-add-title"><b>Line <span class=selected-line-num></span>: <span class=selected-text-annotation></span></b></p>
-                <textarea id='new-annotation-text' rows='4' placeholder='Add new annotation'></textarea>
-                <table>
-                    <tr>
-                        <td class="radio-col"><input type=radio name=visibility id='r00'></td>
-                        <td class="label-col"><label for='r00'>Private</label></td>
-                        <td class="radio-col"><input type=radio name=visibility id='r01'></td>
-                        <td class="label-col"><label for='r01'>Post to Class</label></td>
-                    </tr>
-                </table>
-                <h4>Annotation Category</h4>
-                <table>
-                    <tr>
-                        <td class="radio-col"><input type=radio name=category id='r10'></td>
-                        <td class="label-col"><label for='r10'>Vocabulary</label></td>
-                            
-                        <td class="radio-col"><input type=radio name=category id='r11'></td>
-                        <td class="label-col"><label for='r11'>Grammar</label></td>
-                    </tr>
-                    <tr>
-                        <td class="radio-col"><input type=radio name=category id='r12'></td>
-                        <td class="label-col"><label for='r12'>Media</label></td>
-                            
-                        <td class="radio-col"><input type=radio name=category id='r13'></td>
-                        <td class="label-col"><label for='r13'>Other</label></td>
-                    </tr>
-                </table>
+            <form>
+                <div id='new-annotation'>
+                    <p class="edit-add-title"><b>Line <span class=selected-line-num></span>: <span class=selected-text-annotation></span></b></p>
+                    <textarea id='new-annotation-text' rows='4' placeholder='Add new annotation' required></textarea>
+                    <table>
+                        <tr>
+                            <td class="radio-col"><input type=radio name=visibility id='r00' required></td>
+                            <td class="label-col"><label for='r00'>Private</label></td>
+                            <td class="radio-col"><input type=radio name=visibility id='r01' required></td>
+                            <td class="label-col"><label for='r01'>Post to Class</label></td>
+                        </tr>
+                    </table>
+                    <h4>Annotation Category</h4>
+                    <table>
+                        <tr>
+                            <td class="radio-col"><input type=radio name=category id='r10' required></td>
+                            <td class="label-col"><label for='r10'>Vocabulary</label></td>
+                                
+                            <td class="radio-col"><input type=radio name=category id='r11' required></td>
+                            <td class="label-col"><label for='r11'>Grammar</label></td>
+                        </tr>
+                        <tr>
+                            <td class="radio-col"><input type=radio name=category id='r12' required></td>
+                            <td class="label-col"><label for='r12'>Media</label></td>
+                                
+                            <td class="radio-col"><input type=radio name=category id='r13' required></td>
+                            <td class="label-col"><label for='r13'>Other</label></td>
+                        </tr>
+                    </table>
 
-                <br>
-                <div id='add-buttons'>
-                    <button class='form-btn-cancel' id='cancel-add'>Cancel</button>
-                    <button class='form-btn-save disabled' id='save-add'>Save</button>
+                    <br>
+                    <div id='add-buttons'>
+                        <button class='form-btn-cancel' id='cancel-add'>Cancel</button>
+                        <button type="submit" class='form-btn-save disabled' id='save-add'>Save</button>
+                    </div>
                 </div>
-            </div>
+            </form>
 
             <div id='annotation-to-edit'>
                 <p class="edit-add-title"><b>Line <span class=selected-line-num></span>: <span class=selected-text idx=-1></span></b></p>
