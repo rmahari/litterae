@@ -204,8 +204,17 @@ LitteraeApp.prototype.bindEvents = function() {
 		var no_annotations = true;
 		document.getElementById('all-annotations').style.display = 'block';
 		var categories = document.getElementsByClassName('category');
+		category_annotations = [];
 		for (var i = 0; i < categories.length; i++) {
 			categories[i].querySelectorAll('div')[0].innerHTML = '';
+			category_annotations[i] = annotation_list.filter(function(annotation) {
+				return annotation[2] == i && annotation[0] == idx;
+			});
+			if (category_annotations[i].length > 0) {
+				categories[i].getElementsByClassName("annotation-count")[0].innerHTML = " - " + category_annotations[i].length;
+			} else {
+				categories[i].getElementsByClassName("annotation-count")[0].innerHTML = "";
+			}
 		}
 		for (var i = 0; i < annotation_list.length; i++) {
 			if (annotation_list[i][0].indexOf(idx) > -1) {
@@ -230,6 +239,7 @@ LitteraeApp.prototype.bindEvents = function() {
 					add_this.append(info);
 					add_this.append(text);
 					categories[category].querySelectorAll('div')[0].append(add_this);
+
 				}
 			}
 		}
