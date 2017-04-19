@@ -45,42 +45,18 @@ LitteraeApp.prototype.bindEvents = function() {
 		self.highlight(ids[0], ids[1]);
     });
 
-	this.text.addEventListener('dblclick', function(e) {
-		if(e.target.tagName === 'SPAN') {
-
-		}		
-	});
-
-	/* 
-	this.text.addEventListener('mouseover', function(e) {
-			if(e.target.tagName === 'SPAN' && self.focus === false) {
-				var all_annotations = document.getElementById('all-annotations');
-				all_annotations.style.display = 'block';
-				var welcome = document.getElementById('welcome');
-				welcome.style.display = 'none';
-				var selectedWord = e.target.innerHTML.trim();
-				var selectedIdx = e.target.id.substr(1);
-
-				var lineHeight = parseFloat(window.getComputedStyle(self.text, null).getPropertyValue('line-height'));
-				var lineNumber = parseInt(e.target.offsetTop/lineHeight) + 1;
-				show_annotations(self.annotation_list, e.target.id.substr(1));
-				populateWithSelection(lineNumber, selectedWord, selectedIdx);
-			}		
-	});
-	*/
-
 	var save_validation = function(e) {
 		var radios = document.querySelectorAll('input[type="radio"]:checked');
-			var value = radios.length;
+		var value = radios.length;
 
-			var annotation = document.getElementById('new-annotation-text');
-			if (value === 2 && annotation.value.length > 0){
-				document.getElementById('save-add').disabled = false;
-			}
-			else {
-				document.getElementById('save-add').disabled = true;
-			}
-		};
+		var annotation = document.getElementById('new-annotation-text');
+		if (value === 2 && annotation.value.length > 0){
+			document.getElementById('save-add').disabled = false;
+		}
+		else {
+			document.getElementById('save-add').disabled = true;
+		}
+	};
 
 	this.new_annotation.addEventListener('keyup', save_validation);
 	this.new_annotation.addEventListener('click', save_validation);
@@ -101,6 +77,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		welcome.style.display = 'block';
 
 		clear_add_input();
+		self.clearHighlights();
 	});
 
 	this.save_add.addEventListener('click', function(e) {
@@ -118,6 +95,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		new_annotation.style.display = 'none';
 		document.getElementById('w'+idx).click();
 		self.focus = false;
+		self.clearHighlights();
 	});
 
 	for (var i = 0; i < this.category_dropdowns.length; i ++) {
