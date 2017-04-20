@@ -1,10 +1,15 @@
-function Highlight(ranges) {
+/*
+* Highlight represents a selected part of a test that an annotation belongs to.
+* it consists of any number of disjoint, continuous ranges of words.
+*/
+
+function Highlight(highlight) {
     this.ranges = [];
     this.anchor = null;
 
-    if (ranges) {
-        for (var i=0; i<ranges.length; i++) {
-            this.addRange(ranges[i][0], ranges[i][1]);
+    if (highlight && highlight.ranges) {
+        for (var i=0; i<highlight.ranges.length; i++) {
+            this.addRange(highlight.ranges[i][0], highlight.ranges[i][1]);
         }
     }
 }
@@ -34,12 +39,66 @@ Highlight.prototype.contains = function(wid) {
 Highlight.prototype.text = function() {
     var chunks = [];
     this.ranges.forEach((r) => {
-        chunks.push( 'l.'+app.getLineNumber(r[0]) + ": " + 
-                      app.words[r[0]] + ' ... ' + 
+        if (r[0]==r[1]) {
+            chunks.push(app.words[r[0]]); //cringe... shouldn't be using the app global
+        } else {
+            chunks.push( 'l.'+app.getLineNumber(r[0]) + ": " + 
+                      app.words[r[0]] + ((r[1]-r[0]==1) ? ' ' :  ' ... ') + 
                       app.words[r[1]] );
-    })
+        }
+    });
     return chunks.join(', ');
 }
+
+
+/**
+ * Annotation
+ */
+function Annotation(highlight) {
+    this.type = 'note'; // note/subscript/supscript/pointer ?
+    this.highlight = new Highlight(highlight);
+    this.author = null;
+    this.text = '';
+    this.visibility = Annotation.VISIBILITY_PRIVATE;
+    this.category = 'other'; //
+}
+Annotation.prototype.setText = function(text) {
+    //TO-DO: input-validation;
+    this.text = text;
+}
+Annotation.prototype.setVisibility = function(visibility) {
+    /*
+    I want to use this, but right now, visibility is an int 0,1,2,3
+
+    if ((visibility != Annotation.VISIBILITY_PRIVATE) &&
+        (visibility != Annotation.VISIBILITY_SHARED)) return false;
+    */
+    this.visibility = parseInt(visibility);
+}
+Annotation.prototype.setCategory = function(category) {
+    //TO-DO: input validation
+    this.category = category;
+}
+
+Annotation.VISIBILITY_PRIVATE = 0;
+Annotation.VISIBILITY_SHARED = 1;
+
+/**
+ * User
+ */
+function User() {
+    this.id = 0;
+    this.name = '';
+    this.isInstructor = false;
+}
+User.prototype.canSee = function(annotation) {
+    if (this.isInstructor) {
+        return true;
+    } else {
+        return annotation.user === this;
+    } 
+}
+
 
 /**
  * UNUSED
@@ -52,16 +111,4 @@ Text.prototype.fromPlain = function(text) {
 }
 Text.prototype.getWord = function(i) {
     return this.words[i];
-}
-
-/**
- * UNUSED
- */
-function Annotation() {
-    this.anchor = undefined;
-    this.type = 'note'; // note/subscript/supscript/pointer ?
-    this.content = '';
-}
-Annotation.prototype.idk = function() {
-
 }

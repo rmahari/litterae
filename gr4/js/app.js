@@ -9,6 +9,10 @@ function LitteraeApp(el) {
 		this.filters = document.querySelectorAll('input[name="show"]');
 		this.focus = false;
 
+		this.user = new User();
+		this.user.name = 'Ben Bitdiddle';
+		this.user.isInstructor = true;
+
 		this.state = 'welcome'; // welcome / highlight / inspect
 
 		this.words = [];
@@ -41,7 +45,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		
 		// make a,b the word id's where the selection starts,ends respectively
 		var ids = [ parseInt(sel.anchorNode.parentElement.id.substr(1)), 
-		            parseInt(sel.focusNode.parentElement.id.substr(1)) ].sort();
+		            parseInt(sel.focusNode.parentElement.id.substr(1)) ].sort(Utils.numericalSort);
 		
 		self.highlight(ids[0], ids[1]);
     });
@@ -82,16 +86,17 @@ LitteraeApp.prototype.bindEvents = function() {
 	});
 
 	this.save_add.addEventListener('click', function(e) {
-		var annotation_text = document.getElementById('new-annotation-text').value;
-		var category = document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2);
-		var visibility = document.querySelectorAll('input[name="visibility"]:checked')[0].id.substr(2);
+		var a = new Annotation(self.highlighted);
+		a.setText( document.getElementById('new-annotation-text').value );
+		a.setCategory( document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2) );
+		a.setVisibility( document.querySelectorAll('input[name="visibility"]:checked')[0].id.substr(2) );
+		a.author = self.user;
+		self.annotation_list.push(a);
+		
+		self.setFilter(a.visibility, true);
 
-		self.annotation_list.push([new Highlight(self.highlighted.ranges), annotation_text, category, visibility]);
-
-		document.getElementById('c0'+visibility).checked = true;
-
-		self.highlighted.forEachWord(function(wid) {
-			self.word_els[wid].classList.add('annotated', 'annotated-'+visibility);
+		self.highlighted.forEachWord(function(wid) { //TO-DO: this generalizes to "rendering" any annotation onto the text
+			self.word_els[wid].classList.add('annotated', 'annotated-'+a.visibility);
 		});
 
 		clear_add_input();
@@ -123,8 +128,8 @@ LitteraeApp.prototype.bindEvents = function() {
 		var change = e.target.id.substr(2);
 		for (var i = 0; i < annotation_list.length; i++) {
 			var annotation = annotation_list[i];
-			if (annotation[3] == change) {
-				annotation[0].forEachWord(function(wid) {
+			if (annotation.visibility == change) {
+				annotation.highlight.forEachWord(function(wid) {
 					self.word_els[wid].classList.toggle('annotated-'+change);
 				});
 			}
@@ -155,7 +160,13 @@ LitteraeApp.prototype.prepareText = function() {
         span.id = "w"+i;
         span.appendChild(document.createTextNode(self.words[i]));
 		span.appendChild(document.createTextNode(' '));
-		span.addEventListener('click', function() {self.inspect(i);})
+		span.addEventListener('click', function() {
+			if (self.state=='highlight') {
+				self.highlight(i,i);
+			} else {
+				self.inspect(i);
+			}
+		});
 		self.word_els[i] = span;
         this.text.appendChild(span);
 	})(i)}
@@ -165,6 +176,7 @@ LitteraeApp.prototype.prepareText = function() {
 * Opens all annotations for one word, with word ID 'wid'.
  */
 LitteraeApp.prototype.inspect = function(wid) {
+	var self = this;
 	console.log('inspect word '+wid);
 
 	this.focus = true;
@@ -180,7 +192,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 	for (var i = 0; i < categories.length; i++) {
 		categories[i].querySelectorAll('div')[0].innerHTML = '';
 		category_annotations[i] = this.annotation_list.filter(function(annotation) {
-			return annotation[2] == i && annotation[0].contains(wid);
+			return annotation.category == i && annotation.highlight.contains(wid);
 		});
 		if (category_annotations[i].length > 0) {
 			categories[i].getElementsByClassName("annotation-count")[0].innerHTML = " - " + category_annotations[i].length;
@@ -189,30 +201,28 @@ LitteraeApp.prototype.inspect = function(wid) {
 		}
 	}
 	for (var i = 0; i < this.annotation_list.length; i++) {
-		if (this.annotation_list[i][0].contains(wid)) {
+		var ann = this.annotation_list[i];
+		if (ann.highlight.contains(wid)) {
 			no_annotations = false;
-			var category = this.annotation_list[i][2];
-			if (document.getElementById('c0'+this.annotation_list[i][3]).checked) {
-				var annotation_text = this.annotation_list[i][1];
-				var categories = document.getElementsByClassName('category');
-				var add_this = document.createElement('div')
+			if (this.isFilterOn(ann.visibility)) {
+				var categories = document.getElementsByClassName('category'); //TO-DO: Should be templated view of Annotation obj
+				var add_this = document.createElement('div');
 				add_this.classList.add('annotation');
-				add_this.classList.add('c0'+this.annotation_list[i][3]+"-annotation");
+				add_this.classList.add('c0' + ann.visibility + "-annotation");
 				var info = document.createElement('div');
 				info.classList.add('annotation-info');
 				var edit = document.createElement('button');
 				edit.innerHTML = 'Edit';
 				edit.classList.add("edit-button");
-				edit.addEventListener('click', function(e){e.stopPropagation();return false;});
-				info.innerHTML = 'Added by Ben';
+				edit.addEventListener('click', function(e){e.stopPropagation();return false;}); //TO-DO: add edit functionality
+				info.innerHTML = 'Added by '+ann.author.name;
 				info.prepend(edit);
 				var text = document.createElement('div');
 				text.classList.add('annotation-text');
-				text.innerHTML = annotation_text;
+				text.innerHTML = ann.text;
 				add_this.append(info);
 				add_this.append(text);
-				categories[category].querySelectorAll('div')[0].append(add_this);
-
+				categories[ann.category].querySelectorAll('div')[0].append(add_this);
 			}
 		}
 	}
@@ -233,6 +243,15 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 	
 	// this.populateWithSelection(highlight);
 	document.getElementById('new-annotation-pos').innerHTML = highlight.text();
+}
+
+LitteraeApp.prototype.setFilter = function(visibility, on) {
+	//TO-DO: Don't keep state on DOM
+	document.getElementById('c0'+visibility).checked = on;
+}
+LitteraeApp.prototype.isFilterOn = function(visibility) {
+	//TO-DO: Don't keep state on DOM
+	return document.getElementById('c0'+visibility).checked
 }
 
 /*

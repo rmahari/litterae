@@ -13,3 +13,7 @@ Utils.show = function(el) {
 Utils.hide = function(el) {
     el.style.display = 'none';
 }
+
+Utils.numericalSort = function(a,b) {
+    return a - b;
+}
