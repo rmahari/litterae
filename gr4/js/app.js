@@ -13,7 +13,8 @@ function LitteraeApp(el) {
 
 		this.words = [];
 		this.word_els = [];
-		
+
+		this.highlighted = new Highlight();	
 
 		this.prepareText();
 
@@ -81,19 +82,23 @@ LitteraeApp.prototype.bindEvents = function() {
 	});
 
 	this.save_add.addEventListener('click', function(e) {
-		var idx = document.getElementsByClassName('selected-text')[0].getAttribute('idx');
 		var annotation_text = document.getElementById('new-annotation-text').value;
 		var category = document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2);
 		var visibility = document.querySelectorAll('input[name="visibility"]:checked')[0].id.substr(2);
-		self.annotation_list.push([idx, annotation_text, category, visibility]);
-		var span = document.getElementById('w' + idx);
+
+		self.annotation_list.push([new Highlight(self.highlighted.ranges), annotation_text, category, visibility]);
+
 		document.getElementById('c0'+visibility).checked = true;
-		span.classList.add('annotated');
-		span.classList.remove('highlight');
+
+		self.highlighted.forEachWord(function(wid) {
+			self.word_els[wid].classList.add('annotated', 'annotated-'+visibility);
+		});
+
 		clear_add_input();
-		var new_annotation = document.getElementById('new-annotation');
-		new_annotation.style.display = 'none';
-		document.getElementById('w'+idx).click();
+		Utils.hide(document.getElementById('new-annotation'));
+		
+		self.inspect(self.highlighted.anchor);
+		
 		self.focus = false;
 		self.clearHighlights();
 	});
@@ -119,7 +124,9 @@ LitteraeApp.prototype.bindEvents = function() {
 		for (var i = 0; i < annotation_list.length; i++) {
 			var annotation = annotation_list[i];
 			if (annotation[3] == change) {
-				document.getElementById('w'+annotation[0]).classList.toggle('annotated');
+				annotation[0].forEachWord(function(wid) {
+					self.word_els[wid].classList.toggle('annotated-'+change);
+				});
 			}
 		}
 	}
@@ -166,36 +173,6 @@ LitteraeApp.prototype.inspect = function(wid) {
 	Utils.hide(document.getElementById('welcome'));
 	
 	var no_annotations = true;
-	var categories = document.getElementsByClassName('category');
-	for (var i = 0; i < categories.length; i++) {
-		categories[i].querySelectorAll('div')[0].innerHTML = '';
-	}
-	for (var i = 0; i < this.annotation_list.length; i++) {
-		if (parseInt(this.annotation_list[i][0]) === wid) {
-			no_annotations = false;
-			var category = this.annotation_list[i][2];
-			if (document.getElementById('c0'+this.annotation_list[i][3]).checked) {
-				var annotation_text = this.annotation_list[i][1];
-				var categories = document.getElementsByClassName('category');
-				var add_this = document.createElement('div')
-				add_this.classList.add('annotation');
-				var info = document.createElement('div');
-				info.classList.add('annotation-info');
-				var edit = document.createElement('button');
-				edit.innerHTML = 'Edit';
-				info.append(edit);
-				var text = document.createElement('div');
-				text.classList.add('annotation-text');
-				text.innerHTML = annotation_text;
-				add_this.append(info);
-				add_this.append(text);
-				categories[category].querySelectorAll('div')[0].append(add_this);
-			}
-		}
-	}
-	if (no_annotations) Utils.show(document.getElementById('welcome'));
-
-	var no_annotations = true;
 	Utils.show(document.getElementById('all-annotations'));
 
 	var categories = document.getElementsByClassName('category');
@@ -212,7 +189,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 		}
 	}
 	for (var i = 0; i < this.annotation_list.length; i++) {
-		if (parseInt(this.annotation_list[i][0]) === parseInt(wid)) {
+		if (this.annotation_list[i][0].contains(wid)) {
 			no_annotations = false;
 			var category = this.annotation_list[i][2];
 			if (document.getElementById('c0'+this.annotation_list[i][3]).checked) {
@@ -240,28 +217,21 @@ LitteraeApp.prototype.inspect = function(wid) {
 	}
 	Utils.hide(document.getElementById('welcome'));
 
-	this.populateWithSelection(wid);
-}
-
-LitteraeApp.prototype.newAnnotation = function(wid) {
-	this.focus = true;
-	Utils.show(document.getElementById('new-annotation'));
-	Utils.hide(document.getElementById('welcome'));
-	
-	this.populateWithSelection(wid);
-}
-
-LitteraeApp.prototype.populateWithSelection = function(wid) {
+	//this.populateWithSelection(wid);
 	var lineNumField = document.getElementsByClassName('selected-line-num');
 	var selectedField = document.getElementsByClassName('selected-text');
 	var lineNumber = this.getLineNumber(wid);
-	for (var i = 0; i < lineNumField.length; i++) {
-		lineNumField[i].innerHTML = lineNumber;
-	}
-	for (var i = 0; i < selectedField.length; i++) {
-		selectedField[i].setAttribute('idx', wid);
-		selectedField[i].innerHTML  = this.words[wid];
-	}  	
+	document.getElementById('all-annotations-pos').innerHTML = 'Line '+lineNumber+': '+this.words[wid];
+}
+
+LitteraeApp.prototype.newAnnotation = function(highlight) {
+	this.focus = true;
+	Utils.show(document.getElementById('new-annotation'));
+	Utils.hide(document.getElementById('welcome'));
+	Utils.hide(document.getElementById('all-annotations'));
+	
+	// this.populateWithSelection(highlight);
+	document.getElementById('new-annotation-pos').innerHTML = highlight.text();
 }
 
 /*
@@ -277,33 +247,34 @@ LitteraeApp.prototype.setState = function(state) {
 * Highlight the range [w1, w2] in the text.
 */
 LitteraeApp.prototype.highlight = function(w1, w2) {
-	//get or create highlight span
-	var h = document.getElementById('highlight') || document.createElement('span');
-	h.id = 'highlight';
+	// create new highlight span
+	var h = document.createElement('span');
 	h.classList.add('highlight');
 
-	//unwrap it
-	while (h.firstChild) h.parentNode.insertBefore(h.firstChild, h);
-
 	// position highlight span
-	this.text.insertBefore(h, document.getElementById('w'+w1));
+	this.text.insertBefore(h, this.word_els[w1]);
 
 	// move all words into highlight span
-	for (var w = w1; w<=w2; w++) h.appendChild(document.getElementById('w'+w));
+	for (var w = w1; w<=w2; w++) h.appendChild(this.word_els[w]);
 
+	// clear browser selection
 	document.getSelection().removeAllRanges();
 
-	this.newAnnotation(w1);
+	this.highlighted.addRange(w1,w2);
+	this.newAnnotation(this.highlighted);
 }
 LitteraeApp.prototype.clearHighlights = function() {
+	this.highlighted.clear();
+
 	//get or create highlight span
-	var h = document.getElementById('highlight');
-	if (!h) return;
-
-	//unwrap it
-	while (h.firstChild) h.parentNode.insertBefore(h.firstChild, h);
-
-	h.remove();
+	var hs = document.getElementsByClassName('highlight');
+	for (var i=hs.length-1; i>=0; i--) {
+		var h = hs[i];  
+		//unwrap it
+		while (h.firstChild) h.parentNode.insertBefore(h.firstChild, h);
+		//remove from the dom
+		h.remove();
+	}
 }
 
 LitteraeApp.prototype.getLineNumber = function(wid) {

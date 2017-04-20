@@ -75,9 +75,10 @@
     text-align: justify;
 }
 
-#text>span.annotated {
-    text-decoration: underline;
-}
+.annotated-0 { border-bottom: thick solid #82DAF9; }
+.annotated-1 { border-bottom: thick solid #70C1B3; }
+.annotated-2 { border-bottom: thick solid #d194ff; }
+.annotated-3 { border-bottom: thick solid #ff9595; }
 
 #welcome {
     padding: 15px;
