@@ -191,6 +191,9 @@ LitteraeApp.prototype.bindEvents = function() {
 
 	this.save_add.addEventListener('click', function(e) {
 		var annotation_text = document.getElementById('new-annotation-text').value;
+		if (annotation_text.length == 0){
+			return;
+		}
 		var category = document.querySelectorAll('input[name="category"]:checked')[0].id.substr(2);
 		var visibility = document.querySelectorAll('input[name="visibility"]:checked')[0].id.substr(2);
 		self.annotation_list.push([self.selected_idx.slice(0), annotation_text, category, visibility]);
@@ -207,6 +210,12 @@ LitteraeApp.prototype.bindEvents = function() {
 		new_annotation.style.display = 'none';
 		document.getElementById('w'+idx).click();
 		self.focus = false;
+
+		var cat_dropdowns = document.getElementsByClassName('category');
+		var annotations = cat_dropdowns[category].querySelectorAll('div')[0];
+		if (annotations.style.display === 'none') {
+			cat_dropdowns[category].click();
+		};
 	});
 
 	this.cancel_edit.addEventListener('click', function(e) {
