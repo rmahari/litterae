@@ -180,7 +180,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 	for (var i = 0; i < categories.length; i++) {
 		categories[i].querySelectorAll('div')[0].innerHTML = '';
 		category_annotations[i] = this.annotation_list.filter(function(annotation) {
-			return annotation[2] == i && annotation[0] == wid;
+			return annotation[2] == i && annotation[0].contains(wid);
 		});
 		if (category_annotations[i].length > 0) {
 			categories[i].getElementsByClassName("annotation-count")[0].innerHTML = " - " + category_annotations[i].length;
@@ -203,6 +203,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 				var edit = document.createElement('button');
 				edit.innerHTML = 'Edit';
 				edit.classList.add("edit-button");
+				edit.addEventListener('click', function(e){e.stopPropagation();return false;});
 				info.innerHTML = 'Added by Ben';
 				info.prepend(edit);
 				var text = document.createElement('div');
