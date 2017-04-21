@@ -7,6 +7,11 @@ Utils.clearChildNodes = function(el) {
 	while (el.firstChild) el.removeChild(el.firstChild);
 }
 
+Utils.setText = function(el, text) {
+    Utils.clearChildNodes(el);
+    el.appendChild(document.createTextNode(text));
+}
+
 Utils.show = function(el) {
     el.style.display = 'block';
 }

@@ -11,6 +11,9 @@
     left: 0;
     right: 0;
 }
+#templates {
+    display: none;
+}
 /* main layout */
 #col-left {
     position: absolute;
@@ -100,7 +103,7 @@
     float: left;
 }
 
-.annotation-text {
+.annotation .text {
     margin-left: 16%;
 }
 

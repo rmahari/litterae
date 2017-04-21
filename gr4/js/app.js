@@ -206,23 +206,9 @@ LitteraeApp.prototype.inspect = function(wid) {
 			no_annotations = false;
 			if (this.isFilterOn(ann.visibility)) {
 				var categories = document.getElementsByClassName('category'); //TO-DO: Should be templated view of Annotation obj
-				var add_this = document.createElement('div');
-				add_this.classList.add('annotation');
-				add_this.classList.add('c0' + ann.visibility + "-annotation");
-				var info = document.createElement('div');
-				info.classList.add('annotation-info');
-				var edit = document.createElement('button');
-				edit.innerHTML = 'Edit';
-				edit.classList.add("edit-button");
-				edit.addEventListener('click', function(e){e.stopPropagation();return false;}); //TO-DO: add edit functionality
-				info.innerHTML = 'Added by '+ann.author.name;
-				info.prepend(edit);
-				var text = document.createElement('div');
-				text.classList.add('annotation-text');
-				text.innerHTML = ann.text;
-				add_this.append(info);
-				add_this.append(text);
-				categories[ann.category].querySelectorAll('div')[0].append(add_this);
+
+				var view = new AnnotationView(ann);
+				categories[ann.category].querySelectorAll('div')[0].append(view.el);
 			}
 		}
 	}
