@@ -1,10 +1,12 @@
 function LitteraeApp(el) {
 		// tie in DOM elements
 		this.el = el;
-		this.btn_marker = document.getElementById('btn-marker');
-		this.text = document.getElementById('text');
-		this.category_dropdowns = document.getElementsByClassName('category');
-		this.filters = document.querySelectorAll('input[name="show"]');
+		this.el_btn_marker = document.getElementById('btn-marker');
+		this.el_text = document.getElementById('text');
+		this.els_filters = document.querySelectorAll('input[name="show"]');
+		this.el_welcome = document.getElementById('welcome');
+		this.el_inspect = document.getElementById('inspect');
+		this.el_inspectpos = document.getElementById('inspect-pos');
 
 		// load models
 		this.user = new User();
@@ -20,10 +22,12 @@ function LitteraeApp(el) {
 		this.words = [];
 		this.word_els = [];
 
-		this.highlighted = new Highlight();	
+		this.highlighted = new Highlight();  	
 
 		this.editor = null;
-
+		this.inspectList = new AnnotationListView();
+		this.el_inspect.appendChild(this.inspectList.el);
+		
 		//finalize initialization
 		this.prepareText();
 		this.bindEvents();
@@ -31,7 +35,7 @@ function LitteraeApp(el) {
 
 LitteraeApp.prototype.bindEvents = function() {
 	var self = this;
-	this.btn_marker.addEventListener('click', function(e) {
+	this.el_btn_marker.addEventListener('click', function(e) {
 		if (self.state=='highlight') {
 			self.setState('inspect');
 		} else {
@@ -39,7 +43,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		}
 	});
 
-    this.text.addEventListener('mouseup', function(e) {
+    this.el_text.addEventListener('mouseup', function(e) {
 		if (self.state != 'highlight') return;
 		var sel = document.getSelection();
 		if (sel.type != 'Range') return; // ignore Caret, None
@@ -51,25 +55,8 @@ LitteraeApp.prototype.bindEvents = function() {
 		self.highlight(ids[0], ids[1]);
     });
 
-	// might want to move this into a separate view for the annotation list
-	for (var i = 0; i < this.category_dropdowns.length; i ++) {
-		this.category_dropdowns[i].addEventListener('click', function(e) {
-			if (e.target.tagName != 'DIV') {
-				var annotations = this.querySelectorAll('div')[0];
-				if (annotations.style.display === 'none') {
-					this.style.backgroundColor
-					this.getElementsByClassName('dropdown-icon')[0].classList.add("rotated");
-					annotations.style.display = 'block';
-				} else {
-					this.getElementsByClassName('dropdown-icon')[0].classList.remove("rotated");
-					annotations.style.display = 'none';
-				}
-			}
-		});
-	}
-
-	for(var i = 0; i < this.filters.length; i++) {
-		this.filters[i].addEventListener('change', function(e) {
+	for(var i = 0; i < this.els_filters.length; i++) {
+		this.els_filters[i].addEventListener('change', function(e) {
 			self.setFilter(parseInt(e.target.id.substr(2)), e.target.checked);
 		});
 	}
@@ -82,9 +69,9 @@ LitteraeApp.prototype.bindEvents = function() {
 */
 LitteraeApp.prototype.prepareText = function() {
 	var self = this;
-    var src = this.text.innerText;
+    var src = this.el_text.innerText;
     self.words = src.split(' ');
-    Utils.clearChildNodes(this.text);
+    Utils.clearChildNodes(this.el_text);
     for (var i=0; i<self.words.length; i++) { (function(i) {
         var span = document.createElement('span');
         span.id = "w"+i;
@@ -98,7 +85,7 @@ LitteraeApp.prototype.prepareText = function() {
 			}
 		});
 		self.word_els[i] = span;
-        this.text.appendChild(span);
+        self.el_text.appendChild(span);
 	})(i)}
 }
 
@@ -108,50 +95,27 @@ LitteraeApp.prototype.prepareText = function() {
 LitteraeApp.prototype.inspect = function(wid) {
 	var self = this;
 
-	Utils.show(document.getElementById('all-annotations'));
-	Utils.hide(document.getElementById('welcome'));
-	
-	var no_annotations = true;
-	Utils.show(document.getElementById('all-annotations'));
+	Utils.show(this.el_inspect);
+	Utils.hide(this.el_welcome);
 
-	var categories = document.getElementsByClassName('category');
 	category_annotations = [];
-	for (var i = 0; i < categories.length; i++) {
-		categories[i].querySelectorAll('div')[0].innerHTML = '';
-		category_annotations[i] = this.annotation_list.filter(function(annotation) {
-			return annotation.category == i && annotation.highlight.contains(wid);
-		});
-		if (category_annotations[i].length > 0) {
-			categories[i].getElementsByClassName("annotation-count")[0].innerHTML = " - " + category_annotations[i].length;
-		} else {
-			categories[i].getElementsByClassName("annotation-count")[0].innerHTML = "";
-		}
-	}
-	for (var i = 0; i < this.annotation_list.length; i++) {
-		var ann = this.annotation_list[i];
-		if (ann.highlight.contains(wid)) {
-			no_annotations = false;
-			if (this.isFilterOn(ann.visibility)) {
-				var categories = document.getElementsByClassName('category'); //TO-DO: Should be templated view of Annotation obj
 
-				var view = new AnnotationView(ann);
-				categories[ann.category].querySelectorAll('div')[0].append(view.el);
-			}
-		}
-	}
-	Utils.hide(document.getElementById('welcome'));
+	this.inspectList.setList(
+		this.annotation_list.filter(function(annotation) {
+			return self.isFilterOn(annotation.visibility) //TO-DO: do we actually wants this?
+				   && annotation.highlight.contains(wid);
+		})
+	);;
 
-	var lineNumField = document.getElementsByClassName('selected-line-num');
-	var selectedField = document.getElementsByClassName('selected-text');
 	var lineNumber = this.getLineNumber(wid);
-	document.getElementById('all-annotations-pos').innerHTML = 'Line '+lineNumber+': '+this.words[wid];
+	Utils.setText(this.el_inspectpos, 'Line '+lineNumber+': '+this.words[wid]);
 }
 
 LitteraeApp.prototype.newAnnotation = function(highlight) {
 	var self = this;
 
-	Utils.hide(document.getElementById('welcome')); //TO-DO: move to setState ?
-	Utils.hide(document.getElementById('all-annotations'));
+	Utils.hide(this.el_welcome); //TO-DO: move to setState ?
+	Utils.hide(this.el_inspect);
 
 	var annotation = new Annotation(highlight);
 	annotation.author = this.user;
@@ -200,7 +164,7 @@ LitteraeApp.prototype.isFilterOn = function(visibility) {
 LitteraeApp.prototype.setState = function(state) {
 	if (['welcome','highlight','inspect'].indexOf(state)<0) return;
 	this.state = state;
-	this.btn_marker.classList.toggle('active', (state=='highlight'));
+	this.el_btn_marker.classList.toggle('active', (state=='highlight'));
 	if (this.editor) this.editor.cancel();
 	this.clearHighlights();
 }
@@ -214,7 +178,7 @@ LitteraeApp.prototype.highlight = function(w1, w2) {
 	h.classList.add('highlight');
 
 	// position highlight span
-	this.text.insertBefore(h, this.word_els[w1]);
+	this.el_text.insertBefore(h, this.word_els[w1]);
 
 	// move all words into highlight span
 	for (var w = w1; w<=w2; w++) h.appendChild(this.word_els[w]);
@@ -245,7 +209,7 @@ LitteraeApp.prototype.clearHighlights = function() {
 }
 
 LitteraeApp.prototype.getLineNumber = function(wid) {
-    var lineHeight = parseFloat(window.getComputedStyle(this.text, null).getPropertyValue('line-height'));
+    var lineHeight = parseFloat(window.getComputedStyle(this.el_text, null).getPropertyValue('line-height'));
 	var lineNumber = parseInt(this.word_els[wid].offsetTop/lineHeight) + 1;
 	return lineNumber;
 }

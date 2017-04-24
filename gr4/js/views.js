@@ -74,3 +74,50 @@ AnnotationEditView.prototype.save = function() {
 AnnotationEditView.prototype.cancel = function() {
     this.trigger('cancel');
 }
+
+function AnnotationListView(annotations) {
+    var self = this;
+
+    // state
+    this.annotations = annotations || [];
+    
+    // DOM elements
+    var template = document.getElementById('tpl-annotationlist');
+    this.el = template.firstElementChild.cloneNode(true);
+    this.els_header  = this.el.getElementsByClassName('header');
+    this.els_count   = this.el.getElementsByClassName('count');
+    this.els_content = this.el.getElementsByClassName('content');
+
+    // bind events
+    for (var i=0; i<this.els_content.length; i++) {((i) => {
+        this.els_header[i].addEventListener('click', function() {
+            self.toggleCategory(i);
+        });
+    })(i)}
+
+    this.update();
+}
+AnnotationListView.prototype.setList = function(annotations) {
+    this.annotations = annotations;
+    this.update();
+}
+AnnotationListView.prototype.toggleCategory = function(category) {
+    var open = this.els_content[category].classList.toggle('open');
+    this.els_header[category].classList.toggle('open', open);
+}
+AnnotationListView.prototype.update = function() {
+    var counts = [];
+    for (var c=0; c<this.els_content.length; c++) {
+        Utils.clearChildNodes(this.els_content[c]);
+        counts[c] = 0;
+    }
+    for (var i=0; i<this.annotations.length; i++) {
+        var view = new AnnotationView(this.annotations[i]);
+        this.els_content[this.annotations[i].category].appendChild(view.el);
+        counts[this.annotations[i].category] ++;
+    }
+    for (c = 0; c<this.els_content.length; c++) {
+        Utils.setText(this.els_count[c], (counts[c] == 0) ? '' : '('+counts[c]+')');
+        this.els_header[c].classList.toggle('empty', counts[c]==0);
+    }
+}

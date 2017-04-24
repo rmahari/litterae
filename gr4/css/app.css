@@ -87,39 +87,23 @@
     padding: 15px;
 }
 
-#categories {
-    list-style: none;
-    padding-left: 15px;
-}
-
 .annotation {
-    padding: 5px;
+    padding: 15px;
 }
-
-.annotation-info {
+.annotation .text {
+    margin-bottom: 5px;    
+}
+.annotation .infobar {
+    overflow: auto;
+}
+.annotation .infotxt {
+    float: left;
     color: grey;
     font-size: 8pt;
-    width: 30%;
-    float: left;
+    margin-top: 8px;
 }
-
-.annotation .text {
-    margin-left: 16%;
-}
-
-#categories>li {
-    font-weight: bold;
-    padding-left: 10px;
-}
-
-#categories>li>div {
-    font-weight: normal;
-    background-color: white;
-}
-
-#all-annotations {
-    display: none;
-    padding: 15px;
+.annotation button {
+    float: right;
 }
 
 .annotation-edit {
@@ -156,18 +140,6 @@
     color: purple;
 }
 
-#annotation-category {
-    margin-top: 10px;
-}
-
-#categories-left, #categories-right {
-    float: left;
-}
-
-#categories-right {
-    margin-left: 10px;
-}
-
 #filters {
     line-height: 20px;
     list-style-type: none;
@@ -189,44 +161,59 @@
     margin-right: 20px;
 }
 
-
-
 span.highlight {
     background-color: #FFFF33;
 }
 
-.dropdown-icon {
+#inspect {
+    display: none;
+}
+#inspect h3 {
+    padding: 15px;
+}
+.annotationlist {
+        border-bottom: solid 1px #AAAAAA;
+}
+.annotationlist h4 {
+    display: block;
+    padding: 15px;
+    margin: 0;
+    border-top: solid 1px #AAAAAA;
+    user-select: none;
+    cursor: pointer;
+}
+.annotationlist h4.empty {
+    color: #DDDDDD;
+}
+.annotationlist h4 .dropdown-icon {
+    margin-right: 15px;
     transition: transform .3s ease-out;
     transform: rotate(0deg);
 }
-
-.dropdown-icon.rotated {
+.annotationlist h4.open .dropdown-icon {
     transition: transform .3s ease-out;
     transform: rotate(90deg);
 }
-
-.edit-button {
-    margin-right: 10px;
-    margin-left: 10px;
+.annotationlist .content {
+    display: none;
+}
+.annotationlist .content.open {
+    display: block;
 }
 
 .c00-annotation {
-    padding-left: 3px;
     border-left: thick solid #82DAF9;
 }
 
 .c01-annotation {
-    padding-left: 3px;
     border-left: thick solid #70C1B3;
 }
 
 .c02-annotation {
-    padding-left: 3px;
     border-left: thick solid #d194ff;
 }
 
 .c03-annotation {
-    padding-left: 3px;
     border-left: thick solid #ff9595;
 }
 
@@ -248,7 +235,4 @@ label[for="c02"] {
 label[for="c03"] {
     padding-left: 5px;
     border-left: thick solid #ff9595;
-}
-
-.category {
 }

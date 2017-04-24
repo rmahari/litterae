@@ -69,49 +69,21 @@
                 </ul>
                 <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
             </div>
-            <div id='all-annotations'>
-                <h3 id=all-annotations-pos>seriously?</h3>
-                <ul id='categories'>
-                    <li class=category id=vocab>
-                        <i class="fa fa-angle-right dropdown-icon rotated"></i>
-                        <span>Vocabulary</span>
-                        <span class=annotation-count></span>
-                        <br>
-                        <div class="annotation-container"></div>
-                    </li>
-                    <li class=category id=grammar>
-                        <i class="fa fa-angle-right dropdown-icon rotated"></i>
-                        <span>Grammar</span>
-                        <span class=annotation-count></span>
-                        <br>
-                        <div></div>
-                    </li>
-                    <li class=category id=context>
-                        <i class="fa fa-angle-right dropdown-icon rotated"></i>
-                        <span>Context</span>
-                        <span class=annotation-count></span>
-                        <br>
-                        <div></div>
-                    </li>
-                    <li class=category id=misc>
-                        <i class="fa fa-angle-right dropdown-icon rotated"></i>
-                        <span>Miscellaneous</span>
-                        <span class=annotation-count></span>
-                        <br>
-                        <div></div>
-                    </li>
-
+            <div id="inspect">
+                <h3 id="inspect-pos">pos</h3>
             </div>
         </div>
     </div>
     <div id=templates>
         <div id=tpl-annotation>
             <div class="annotation c01-annotation">
-                <div class="annotation-info">
-                    <button class="edit">Edit</button>
-                    Added by <span class="author">Ben Bitdiddle</span>
-                </div>
                 <div class="text">sdfsdf</div>
+                <div class="infobar">
+                    <div class="infotxt">
+                        Added by <span class="author">Ben Bitdiddle</span>
+                    </div>
+                    <button class="edit">Edit</button>
+                </div>
             </div>
         </div>
         <div id=tpl-annotation-edit>
@@ -151,6 +123,18 @@
                 </div>
 
                 </form>
+            </div>
+        </div>
+        <div id="tpl-annotationlist">
+            <div class="annotationlist">
+                <h4 class="header header-vocab"><span class="fa fa-angle-right dropdown-icon"></span> Vocabulary <span class="count"></span> </h4>
+                <div class="content content-vocab"></div>
+                <h4 class="header header-grammar"><span class="fa fa-angle-right dropdown-icon"></span> Grammar <span class="count"></span> </h4>
+                <div class="content content-grammar"></div>
+                <h4 class="header header-context"><span class="fa fa-angle-right dropdown-icon"></span> Context <span class="count"></span> </h4>
+                <div class="content content-context"></div>
+                <h4 class="header header-misc"><span class="fa fa-angle-right dropdown-icon"></span> Miscellaneous <span class="count"></span> </h4>
+                <div class="content content-misc"></div>
             </div>
         </div>
     </div>
