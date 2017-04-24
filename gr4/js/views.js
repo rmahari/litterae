@@ -24,3 +24,53 @@ AnnotationView.prototype.edit_click = function(e) {
     e.stopPropagation();
     return false;
 }
+
+function AnnotationEditView(annotation) {
+    this.annotation = annotation;
+
+    var template = document.getElementById('tpl-annotation-edit');
+    this.el = template.firstElementChild.cloneNode(true);
+
+    this.el_pos = this.el.getElementsByClassName('pos')[0];
+    this.el_text = this.el.getElementsByClassName('text')[0];
+    this.el_save = this.el.getElementsByClassName('save')[0];
+    this.el_cancel = this.el.getElementsByClassName('cancel')[0];
+    this.el_form = this.el.getElementsByClassName('form')[0];
+
+    //events
+    this.el_save.addEventListener('click', this.save.bind(this));
+    this.el_cancel.addEventListener('click', this.cancel.bind(this));
+
+
+   	this.el_text.addEventListener('keyup', this.validate.bind(this));
+	this.el.addEventListener('click', this.validate.bind(this));
+
+    this.eventhost = new Utils.EventHost(this);
+
+    this.annotation.on('update', this.update.bind(this));
+    this.update();
+}
+
+AnnotationEditView.prototype.validate = function() {
+    var valid = this.el_form.elements['visibility'].value &&
+                this.el_form.elements['category'].value &&
+                this.el_text.value.length > 0;
+
+    this.el_save.disabled = !valid;
+    return valid;
+}
+AnnotationEditView.prototype.update = function() {
+    Utils.setText(this.el_pos, this.annotation.highlight.text());
+}
+
+AnnotationEditView.prototype.save = function() {
+    if (!this.validate()) return;
+    this.annotation.setText(this.el_text.value);
+    this.annotation.setVisibility(this.el_form.elements['visibility'].value );
+    this.annotation.setCategory(  this.el_form.elements['category'].value );
+
+    this.trigger('save');
+}
+AnnotationEditView.prototype.cancel = function() {
+    this.trigger('cancel');
+}

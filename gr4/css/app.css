@@ -122,15 +122,32 @@
     padding: 15px;
 }
 
-#new-annotation {
-    display: none;
+.annotation-edit {
     padding: 25px;
     padding-top: 0px;
     border: solid 1px #000;
 }
-
-#add-buttons {
+.annotation-edit .buttons {
     float: right;
+}
+
+.annotation-edit .text {
+    width: 100%;
+}
+.annotation-edit .radios {
+    margin: 10px 0;
+    border-top: solid 1px #AAAAAA;
+    border-bottom: solid 1px #AAAAAA;
+}
+.annotation-edit .radios label {
+    display: inline-block;
+    width: 24%;
+    margin: 0;
+    padding: 10px;
+    margin: 0 -10px;
+}
+.annotation-edit .radios label:checked {
+    background-color: #AAAAAA;
 }
 
 #RB01 {
@@ -149,11 +166,6 @@
 
 #categories-right {
     margin-left: 10px;
-}
-
-#new-annotation-text {
-    width: 95%;
-    padding: 2.5%;
 }
 
 #filters {

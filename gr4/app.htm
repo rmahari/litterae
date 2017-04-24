@@ -69,30 +69,6 @@
                 </ul>
                 <p>And some more instructions. Let's keep them concise, because we know from initial paper prototype user testing that noone reads them anyway.</p>
             </div>
-            <div id='new-annotation'>
-                <h3>Add new annotation</h3>
-                <p id=new-annotation-pos>seriously?</p>
-                <textarea id='new-annotation-text' rows="5"></textarea>
-                <br>
-                <label for=r00>Private</label>
-                <input type=radio name=visibility id=r00>
-                <label for=r01>Post to Class</label>
-                <input type=radio name=visibility id=r01>
-                <br>
-                <label for=r10>Vocabulary</label>
-                <input type=radio name=category id=r10>
-                <label for=r11>Grammar</label>
-                <input type=radio name=category id=r11>
-                <label for=r12>Media</label>
-                <input type=radio name=category id=r12>
-                <label for=r13>Other</label>
-                <input type=radio name=category id=r13>
-                <br>
-                <div id=add-buttons>
-                    <button id=cancel-add>Cancel</button>
-                    <button id=save-add disabled=true>Save</button>
-                </div>
-            </div>
             <div id='all-annotations'>
                 <h3 id=all-annotations-pos>seriously?</h3>
                 <ul id='categories'>
@@ -139,6 +115,43 @@
             </div>
         </div>
         <div id=tpl-annotation-edit>
+            <div class="annotation-edit">
+                <h3 class="title">Add new annotation</h3>
+                <p class="pos">seriously?</p>
+
+                <form class="form">
+
+                <textarea class="text" rows="5"></textarea>
+                
+                <div class="radios">
+                    <label>Private
+                    <input type=radio name=visibility value="0"></label>
+            
+                    <label>Post to Class
+                    <input type=radio name=visibility value="1"></label>
+                </div>
+
+                <div class="radios">
+                    <label>Vocabulary
+                    <input type=radio name=category value="0"></label>
+
+                    <label>Grammar
+                    <input type=radio name=category value="1"></label>
+
+                    <label>Media
+                    <input type=radio name=category value="2"></label>
+
+                    <label>Other
+                    <input type=radio name=category value="3"></label>
+                </div>
+                    
+                <div class="buttons">
+                    <button type="button" class="cancel" >Cancel</button>
+                    <button type="button" class="save" disabled=true>Save</button>
+                </div>
+
+                </form>
+            </div>
         </div>
     </div>
 </body>
