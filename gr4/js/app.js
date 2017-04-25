@@ -121,7 +121,6 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 	annotation.author = this.user;
 	this.editor = new AnnotationEditView(annotation);
 	this.editor.on('save', function() {
-		console.log('save annotation', annotation);
 		self.annotation_list.push(annotation);
 		self.setFilter(annotation.visibility, true);
 		self.clearHighlights();
@@ -130,6 +129,19 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 		self.inspect(annotation.highlight.anchor);
 	});
 	this.editor.on('cancel', function() {
+		self.editor.el.remove();
+		self.editor = null;
+		self.setState('inspect');
+	});
+
+	document.getElementById('col-right').prepend(this.editor.el);
+}
+
+LitteraeApp.prototype.edit = function(annotation) {
+	var self = this;
+	if (this.editor) this.editor.cancel();
+	this.editor = new AnnotationEditView(annotation);
+	this.editor.on('save cancel', function() {
 		self.editor.el.remove();
 		self.editor = null;
 		self.setState('inspect');

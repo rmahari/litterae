@@ -7,8 +7,9 @@ function AnnotationView(annotation) {
     this.el_author = this.el.getElementsByClassName('author')[0];
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
 
-    this.el_edit.addEventListener('click', this.edit_click.bind(this));
+    this.el_edit.addEventListener('click', this.edit.bind(this));
 
+    this.annotation.on('update', this.update.bind(this));
     this.update();
 }
 AnnotationView.prototype.update = function() {
@@ -18,11 +19,8 @@ AnnotationView.prototype.update = function() {
     this.el.classList.remove('c00-annotation', 'c01-annotation', 'c02-annotation', 'c03-annotation');
     this.el.classList.add('c0' + this.annotation.visibility + "-annotation");
 }
-AnnotationView.prototype.edit_click = function(e) {
-    //TO-DO: add edit functionality
-    console.log('edit!');
-    e.stopPropagation();
-    return false;
+AnnotationView.prototype.edit = function(e) {
+    app.edit(this.annotation);
 }
 
 function AnnotationEditView(annotation) {
@@ -36,6 +34,8 @@ function AnnotationEditView(annotation) {
     this.el_save = this.el.getElementsByClassName('save')[0];
     this.el_cancel = this.el.getElementsByClassName('cancel')[0];
     this.el_form = this.el.getElementsByClassName('form')[0];
+    this.els_category   = this.el.getElementsByClassName('category');
+    this.els_visibility = this.el.getElementsByClassName('visibility');
 
     //events
     this.el_save.addEventListener('click', this.save.bind(this));
@@ -61,6 +61,13 @@ AnnotationEditView.prototype.validate = function() {
 }
 AnnotationEditView.prototype.update = function() {
     Utils.setText(this.el_pos, this.annotation.highlight.text());
+    this.el_text.value = this.annotation.text;
+    if (this.annotation.category != null) {
+        this.els_category[this.annotation.category].checked = true;
+    }
+    if (this.annotation.visibility != null) {
+        this.els_visibility[this.annotation.visibility].checked = true;
+    }
 }
 
 AnnotationEditView.prototype.save = function() {
@@ -68,7 +75,7 @@ AnnotationEditView.prototype.save = function() {
     this.annotation.setText(this.el_text.value);
     this.annotation.setVisibility(this.el_form.elements['visibility'].value );
     this.annotation.setCategory(  this.el_form.elements['category'].value );
-
+    this.annotation.trigger('update');
     this.trigger('save');
 }
 AnnotationEditView.prototype.cancel = function() {

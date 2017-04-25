@@ -59,14 +59,13 @@ function Annotation(highlight) {
     this.highlight = new Highlight(highlight);
     this.author = null;
     this.text = '';
-    this.visibility = Annotation.VISIBILITY_PRIVATE;
-    this.category = 'other';
+    this.visibility = null;
+    this.category = null;
 
     this.eventHost = new Utils.EventHost(this);
 }
 Annotation.prototype.setHighlight = function(highlight) {
     this.highlight = new Highlight(highlight);
-    this.trigger('update');
 }
 Annotation.prototype.setText = function(text) {
     //TO-DO: input-validation;
