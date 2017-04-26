@@ -22,6 +22,7 @@
     left: 0;
     right: 50%;
     padding-right: 26px; /* makes room for middle column */
+    overflow: auto;
 }
 #col-right {
     position: absolute;
@@ -30,6 +31,7 @@
     left: 50%;
     right: 0;
     padding-left: 26px;
+    overflow: auto;
 }
 #col-mid {
     position: absolute;
@@ -41,6 +43,7 @@
     border-left: solid 1px #DDDDDD;
     border-right: solid 1px #DDDDDD;
     z-index: 10;
+    background-color: #FFFFFF;
 }
 
 #note-tb {

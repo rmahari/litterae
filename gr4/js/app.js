@@ -213,7 +213,7 @@ LitteraeApp.prototype.clearHighlights = function() {
 	var hs = document.getElementsByClassName('highlight');
 	for (var i=hs.length-1; i>=0; i--) {
 		var h = hs[i];  
-		//unwrap it
+		//unwrap itm,
 		while (h.firstChild) h.parentNode.insertBefore(h.firstChild, h);
 		//remove from the dom
 		h.remove();
