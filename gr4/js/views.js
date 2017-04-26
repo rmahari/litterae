@@ -75,7 +75,6 @@ AnnotationEditView.prototype.save = function() {
     this.annotation.setText(this.el_text.value);
     this.annotation.setVisibility(this.el_form.elements['visibility'].value );
     this.annotation.setCategory(  this.el_form.elements['category'].value );
-    this.annotation.trigger('update');
     this.trigger('save');
 }
 AnnotationEditView.prototype.cancel = function() {

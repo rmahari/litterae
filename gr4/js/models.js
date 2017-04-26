@@ -66,10 +66,12 @@ function Annotation(highlight) {
 }
 Annotation.prototype.setHighlight = function(highlight) {
     this.highlight = new Highlight(highlight);
+    this.trigger('update');
 }
 Annotation.prototype.setText = function(text) {
     //TO-DO: input-validation;
     this.text = text;
+    this.trigger('update');
 }
 Annotation.prototype.setVisibility = function(visibility) {
     /*
@@ -79,6 +81,7 @@ Annotation.prototype.setVisibility = function(visibility) {
         (visibility != Annotation.VISIBILITY_SHARED)) return false;
     */
     this.visibility = parseInt(visibility);
+    this.trigger('update');
 }
 Annotation.prototype.setCategory = function(category) {
     //TO-DO: input validation
