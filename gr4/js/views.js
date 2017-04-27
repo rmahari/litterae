@@ -108,8 +108,10 @@ AnnotationListView.prototype.setList = function(annotations) {
     this.update();
 }
 AnnotationListView.prototype.toggleCategory = function(category) {
-    var open = this.els_content[category].classList.toggle('open');
-    this.els_header[category].classList.toggle('open', open);
+    if (!this.els_header[category].classList.contains("empty")) {
+        var open = this.els_content[category].classList.toggle('open');
+        this.els_header[category].classList.toggle('open', open);
+    }
 }
 AnnotationListView.prototype.update = function() {
     var counts = [];
