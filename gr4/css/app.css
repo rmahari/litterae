@@ -46,6 +46,10 @@
     background-color: #FFFFFF;
 }
 
+.text {
+    font-family: 'Times New Roman', Times, serif;
+}
+
 #note-tb {
     width: 50px;
 }
