@@ -43,7 +43,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		}
 	});
 
-    this.el_text.addEventListener('mouseup', function(e) {
+  this.el_text.addEventListener('mouseup', function(e) {
 		if (self.state != 'highlight') return;
 		var sel = document.getSelection();
 		if (sel.type != 'Range') return; // ignore Caret, None
@@ -53,7 +53,7 @@ LitteraeApp.prototype.bindEvents = function() {
 		            parseInt(sel.focusNode.parentElement.id.substr(1)) ].sort(Utils.numericalSort);
 		
 		self.highlight(ids[0], ids[1]);
-    });
+  });
 
 	for(var i = 0; i < this.els_filters.length; i++) {
 		this.els_filters[i].addEventListener('change', function(e) {
@@ -142,9 +142,11 @@ LitteraeApp.prototype.edit = function(annotation) {
 	if (this.editor) this.editor.cancel();
 	this.editor = new AnnotationEditView(annotation);
 	this.editor.on('save cancel', function() {
+		self.setFilter(annotation.visibility, true);
+		self.clearHighlights();
 		self.editor.el.remove();
 		self.editor = null;
-		self.setState('inspect');
+		self.inspect(annotation.highlight.anchor);
 	});
 
 	document.getElementById('col-right').prepend(this.editor.el);

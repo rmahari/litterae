@@ -81,7 +81,7 @@ Annotation.prototype.setVisibility = function(visibility) {
         (visibility != Annotation.VISIBILITY_SHARED)) return false;
     */
     this.visibility = parseInt(visibility);
-    this.trigger('update');
+    //this.trigger('update');
 }
 Annotation.prototype.setCategory = function(category) {
     //TO-DO: input validation

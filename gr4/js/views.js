@@ -62,10 +62,18 @@ AnnotationEditView.prototype.validate = function() {
 AnnotationEditView.prototype.update = function() {
     Utils.setText(this.el_pos, this.annotation.highlight.text());
     this.el_text.value = this.annotation.text;
-    if (this.annotation.category != null) {
+    if (this.el_form.elements['category'].value != '') {
+        this.annotation.setCategory(this.el_form.elements['category'].value);
         this.els_category[this.annotation.category].checked = true;
     }
-    if (this.annotation.visibility != null) {
+    else if (this.annotation.category != null) {
+        this.els_category[this.annotation.category].checked = true;
+    }
+    if (this.el_form.elements['visibility'].value != '') {
+        this.annotation.setVisibility(this.el_form.elements['visibility'].value);
+        this.els_visibility[this.annotation.visibility].checked = true;
+    }
+    else if (this.annotation.visibility != null) {
         this.els_visibility[this.annotation.visibility].checked = true;
     }
 }
