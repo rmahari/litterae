@@ -14,7 +14,7 @@ function LitteraeApp(el) {
 		this.user.name = 'Ben Bitdiddle';
 		this.user.isInstructor = true;
 
-		this.annotation_list = [];
+		this.annotation_list = getCannedAnnotations(this.user);
 
 		// application state
 		this.state = 'welcome'; // welcome / highlight / inspect
@@ -33,6 +33,7 @@ function LitteraeApp(el) {
 		//finalize initialization
 		this.prepareText();
 		this.bindEvents();
+		this.showAnnotationsOnText();
 }
 
 LitteraeApp.prototype.bindEvents = function() {
