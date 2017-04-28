@@ -169,7 +169,9 @@ LitteraeApp.prototype.showAnnotationsOnText = function() {
 		var annotation = self.annotation_list[i];
 		annotation.highlight.forEachWord(function(wid) {
 			for (var f =0; f < self.filter.length; f++) {
-				self.word_els[wid].classList.toggle('annotated-'+f, annotation.category==f && self.isVisible(annotation));
+				self.word_els[wid].classList.toggle('annotated-'+f, self.isVisible(annotation) && annotation.category==f);
+				self.word_els[wid].classList.toggle('instructor', self.isVisible(annotation) && annotation.author.isInstructor);
+				self.word_els[wid].classList.toggle('mine', self.isVisible(annotation) && annotation.author == self.user);
 			}
 		});
 	}
