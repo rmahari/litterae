@@ -66,7 +66,7 @@ function Annotation(highlight) {
 }
 Annotation.prototype.setHighlight = function(highlight) {
     this.highlight = new Highlight(highlight);
-    this.trigger('update');
+    this.trigger('update update-highlight');
 }
 Annotation.prototype.setText = function(text) {
     //TO-DO: input-validation;
@@ -81,11 +81,12 @@ Annotation.prototype.setVisibility = function(visibility) {
         (visibility != Annotation.VISIBILITY_SHARED)) return false;
     */
     this.visibility = parseInt(visibility);
-    //this.trigger('update');
+    this.trigger('update');
 }
 Annotation.prototype.setCategory = function(category) {
     //TO-DO: input validation
     this.category = parseInt(category);
+    this.trigger('update');
 }
 
 Annotation.VISIBILITY_PRIVATE = 0;

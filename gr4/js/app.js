@@ -158,14 +158,13 @@ LitteraeApp.prototype.setFilter = function(visibility, on) {
 	self.filter[visibility] = on;
 	document.getElementById('c0'+visibility).checked = on;
 
-	// apply filter to text
 	for (var i = 0; i < self.annotation_list.length; i++) {
 		var annotation = self.annotation_list[i];
-		if (annotation.visibility == visibility) {
-			annotation.highlight.forEachWord(function(wid) {
-				self.word_els[wid].classList.toggle('annotated-'+visibility, on);
-			});
-		}
+		annotation.highlight.forEachWord(function(wid) {
+			for (var f =0; f < self.filter.length; f++) {
+				self.word_els[wid].classList.toggle('annotated-'+f, self.filter[f] && annotation.visibility == f);
+			}
+		});
 	}
 }
 LitteraeApp.prototype.isFilterOn = function(visibility) {

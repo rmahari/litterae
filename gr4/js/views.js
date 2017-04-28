@@ -47,7 +47,7 @@ function AnnotationEditView(annotation) {
 
     this.eventhost = new Utils.EventHost(this);
 
-    this.annotation.on('update', this.update.bind(this));
+    this.annotation.on('update-highlight', this.updateHighlight.bind(this));
     this.update();
 }
 
@@ -60,22 +60,18 @@ AnnotationEditView.prototype.validate = function() {
     return valid;
 }
 AnnotationEditView.prototype.update = function() {
-    Utils.setText(this.el_pos, this.annotation.highlight.text());
     this.el_text.value = this.annotation.text;
-    if (this.el_form.elements['category'].value != '') {
-        this.annotation.setCategory(this.el_form.elements['category'].value);
+    if (this.annotation.category != null) {
         this.els_category[this.annotation.category].checked = true;
     }
-    else if (this.annotation.category != null) {
-        this.els_category[this.annotation.category].checked = true;
-    }
-    if (this.el_form.elements['visibility'].value != '') {
-        this.annotation.setVisibility(this.el_form.elements['visibility'].value);
+    if (this.annotation.visibility != null) {
         this.els_visibility[this.annotation.visibility].checked = true;
     }
-    else if (this.annotation.visibility != null) {
-        this.els_visibility[this.annotation.visibility].checked = true;
-    }
+    this.updateHighlight();
+}
+
+AnnotationEditView.prototype.updateHighlight = function() {
+    Utils.setText(this.el_pos, this.annotation.highlight.text());
 }
 
 AnnotationEditView.prototype.save = function() {
