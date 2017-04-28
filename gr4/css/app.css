@@ -189,8 +189,11 @@ span.highlight {
     transform: rotate(0deg);
 }
 .annotationlist h4.open .dropdown-icon {
-    transition: transform .3s ease-out;
     transform: rotate(90deg);
+}
+
+.annotationlist h4.open.empty .dropdown-icon {
+    transform: rotate(0deg);
 }
 
 .category-icon {
