@@ -3,7 +3,8 @@ function LitteraeApp(el) {
 		this.el = el;
 		this.el_btn_marker = document.getElementById('btn-marker');
 		this.el_text = document.getElementById('text');
-		this.els_filters = document.querySelectorAll('input[name="show"]');
+		this.els_filters = document.querySelectorAll('#category-sel .category-icon');
+		this.el_scope = document.getElementById('scope-sel')
 		this.el_welcome = document.getElementById('welcome');
 		this.el_inspect = document.getElementById('inspect');
 		this.el_inspectpos = document.getElementById('inspect-pos');
@@ -18,6 +19,7 @@ function LitteraeApp(el) {
 		// application state
 		this.state = 'welcome'; // welcome / highlight / inspect
 		this.filter = [false, false, false, false];
+		this.scope = 'all'; // instructor / all / mine
 
 		this.words = [];
 		this.word_els = [];
@@ -43,23 +45,26 @@ LitteraeApp.prototype.bindEvents = function() {
 		}
 	});
 
-  this.el_text.addEventListener('mouseup', function(e) {
+	this.el_text.addEventListener('mouseup', function(e) {
 		if (self.state != 'highlight') return;
 		var sel = document.getSelection();
 		if (sel.type != 'Range') return; // ignore Caret, None
 		
 		// make a,b the word id's where the selection starts,ends respectively
 		var ids = [ parseInt(sel.anchorNode.parentElement.id.substr(1)), 
-		            parseInt(sel.focusNode.parentElement.id.substr(1)) ].sort(Utils.numericalSort);
+					parseInt(sel.focusNode.parentElement.id.substr(1)) ].sort(Utils.numericalSort);
 		
 		self.highlight(ids[0], ids[1]);
-  });
+	});
 
-	for(var i = 0; i < this.els_filters.length; i++) {
-		this.els_filters[i].addEventListener('change', function(e) {
-			self.setFilter(parseInt(e.target.id.substr(2)), e.target.checked);
+	for(var i = 0; i < this.els_filters.length; i++) { (function(i) {
+		self.els_filters[i].addEventListener('click', function(e) {
+			self.setFilter(i, !self.filter[i]);
 		});
-	}
+	})(i);}
+	this.el_scope.addEventListener('change', function() {
+		self.setScope(self.el_scope.value);
+	});
 }
 
 /*
@@ -102,7 +107,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 
 	this.inspectList.setList(
 		this.annotation_list.filter(function(annotation) {
-			return self.isFilterOn(annotation.visibility) //TO-DO: do we actually wants this?
+			return self.isVisible(annotation) //TO-DO: do we actually wants this?
 				   && annotation.highlight.contains(wid);
 		})
 	);;
@@ -122,7 +127,7 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 	this.editor = new AnnotationEditView(annotation);
 	this.editor.on('save', function() {
 		self.annotation_list.push(annotation);
-		self.setFilter(annotation.visibility, true);
+		self.setFilter(annotation.category, true);
 		self.clearHighlights();
 		self.editor.el.remove();
 		self.editor = null;
@@ -142,7 +147,7 @@ LitteraeApp.prototype.edit = function(annotation) {
 	if (this.editor) this.editor.cancel();
 	this.editor = new AnnotationEditView(annotation);
 	this.editor.on('save cancel', function() {
-		self.setFilter(annotation.visibility, true);
+		self.setFilter(annotation.category, true);
 		self.clearHighlights();
 		self.editor.el.remove();
 		self.editor = null;
@@ -154,21 +159,35 @@ LitteraeApp.prototype.edit = function(annotation) {
 
 LitteraeApp.prototype.setFilter = function(visibility, on) {
 	var self = this;
-
 	self.filter[visibility] = on;
-	document.getElementById('c0'+visibility).checked = on;
-
+    self.els_filters[visibility].classList.toggle('inactive', !on);
+	self.showAnnotationsOnText();
+}
+LitteraeApp.prototype.showAnnotationsOnText = function() {
+	var self = this;
 	for (var i = 0; i < self.annotation_list.length; i++) {
 		var annotation = self.annotation_list[i];
 		annotation.highlight.forEachWord(function(wid) {
 			for (var f =0; f < self.filter.length; f++) {
-				self.word_els[wid].classList.toggle('annotated-'+f, self.filter[f] && annotation.visibility == f);
+				self.word_els[wid].classList.toggle('annotated-'+f, annotation.category==f && self.isVisible(annotation));
 			}
 		});
 	}
 }
 LitteraeApp.prototype.isFilterOn = function(visibility) {
 	return this.filter[visibility];
+}
+LitteraeApp.prototype.setScope = function(scope) {
+	if (scope != 'instructor' && scope != 'all' && scope != 'mine') return;
+	this.scope = scope;
+	this.el_scope.value = scope;
+	this.showAnnotationsOnText();
+}
+LitteraeApp.prototype.isVisible = function(annotation) {
+	return this.filter[annotation.category] &&
+		   ((this.scope == 'all') || 
+		    (this.scope == 'instructor' && annotation.author.isInstructor) ||
+			(this.scope == 'mine' && annotation.author == this.user));
 }
 
 /*
