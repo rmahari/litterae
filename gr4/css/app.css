@@ -266,3 +266,11 @@ label[for="c03"] {
     padding-left: 5px;
     border-left: thick solid #ff9595;
 }
+
+::selection {
+    background: rgba(112, 186, 255, 0.62);
+}
+
+.selection-highlight-yellow span::selection {
+    background-color: yellow;
+}
