@@ -14,11 +14,44 @@ function Highlight(highlight) {
     }
 }
 Highlight.prototype.addRange = function(wid1, wid2) {
-    this.ranges.push([wid1,wid2]);
     if (!this.anchor) this.anchor = wid1; // TO-DO: What if someone adds a range before the first one?
+    this.ranges.push([wid1,wid2]);
+
+    //sort ranges by start index
+    this.ranges.sort((a, b) => (a[0]-b[0]));
+
+    //iterate over them and join where overlapping
+    for (var i=0; i<this.ranges.length-1; i++) {
+        if (this.ranges[i][1] >= this.ranges[i+1][0]) {
+            this.ranges[i][1] = Math.max(this.ranges[i][1], this.ranges[i+1][1]);
+            this.ranges.splice(i+1, 1); i--;
+        }
+    }
 }
-Highlight.prototype.contains = function(wid) {
-    return false
+Highlight.prototype.removeRange = function(l, r) {
+    var L, R;
+    // iterate over each range [L,R], and test if/in which way
+    // it overlaps with the range we're removing, [l, r]
+    for (var i=0; i<this.ranges.length; i++) {
+        L = this.ranges[i][0];
+        R = this.ranges[i][1];
+        if (l<=L && R<=r) {
+            //remove range entirely
+            this.ranges.splice(i); i--;
+        } else if (l<=L && L<=r) {
+            // trim left
+            this.ranges[i][0] = r+1;
+        } else if (l<=R && R<=r) {
+            // trim right
+            this.ranges[i][1] = l-1;
+        } else if (L<l && r<R) {
+            // split
+            this.ranges[i] = [L  , l-1];
+            this.ranges.push([r+1, R  ]);
+        }
+    }
+    //sort ranges by start index
+    this.ranges.sort((a, b) => (a[0]-b[0]));
 }
 Highlight.prototype.clear = function() {
     this.ranges = [];
