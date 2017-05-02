@@ -86,7 +86,7 @@
 }
 
 .annotated-0 { border-bottom: 2px dotted #82DAF9; }
-.annotated-1 { border-bottom: 2px dotted #70C1B3; }
+.annotated-1 { border-bottom: 2px dotted #9ef372; }
 .annotated-2 { border-bottom: 2px dotted #d194ff; }
 .annotated-3 { border-bottom: 2px dotted #ff9595; }
 span.instructor { border-bottom-style: solid; }
@@ -189,8 +189,11 @@ span.highlight {
     transform: rotate(0deg);
 }
 .annotationlist h4.open .dropdown-icon {
-    transition: transform .3s ease-out;
     transform: rotate(90deg);
+}
+
+.annotationlist h4.open.empty .dropdown-icon {
+    transform: rotate(0deg);
 }
 
 .category-icon {
@@ -209,7 +212,7 @@ span.highlight {
     background-color: #82DAF9;
 }
 .category-icon.grammar {
-    background-color: #70C1B3;
+    background-color: #81d257;
 }
 .category-icon.media {
     background-color: #d194ff;
@@ -233,7 +236,7 @@ span.highlight {
 }
 
 .c01-annotation {
-    border-left: thick solid #70C1B3;
+    border-left: thick solid #9ef372;
 }
 
 .c02-annotation {
@@ -251,7 +254,7 @@ label[for="c00"] {
 
 label[for="c01"] {
     padding-left: 5px;
-    border-left: thick solid #70C1B3;
+    border-left: thick solid #9ef372;
 }
 
 label[for="c02"] {
@@ -262,4 +265,12 @@ label[for="c02"] {
 label[for="c03"] {
     padding-left: 5px;
     border-left: thick solid #ff9595;
+}
+
+::selection {
+    background: rgba(112, 186, 255, 0.62);
+}
+
+.selection-highlight-yellow span::selection {
+    background-color: yellow;
 }

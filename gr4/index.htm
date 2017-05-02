@@ -9,9 +9,9 @@
 </head>
 <body>
 
-<div id=header>
-    <div id=logo>LITTERAE</div>
-    <ul id=user>
+<div id="header">
+    <div id="logo">LITTERAE</div>
+    <ul id="user">
         <li><a href="#">👤 Ben Bitdiddle</a>
         <li><a href="#">log out</a>
         <li><a href="#">settings</a>
@@ -19,12 +19,78 @@
 </div>
 
 <div id="content">
-<p>Over here, I think we need a group management interface and a list of fragments (from the teacher's perspective). Not sure how to go about that now, so I'm just linking to 
-the app page for one fragment now.</p>
 
-<p>
-    <a href="app.htm">Caesar - De Bello Gallico, Liber I, I</a>
-</p>
+<div id="groups-div">
+    
+    <h3 id="groups-label" style="margin-bottom: 10px">Your Groups</h3>
+
+    <div id="search-groups">
+        <label>Search groups:
+            <input id="group-search-input" type="text" placeholder="group name">
+        </label>
+        <button id="add-grp-btn">Add Group</button>
+    </div>    
+
+    <div id="groups-table-div">
+        <table class="groups-table">
+            <tr class="heading-row">
+                <th class="instr-apple"></th>
+                <th>Group</th>
+                <th>Instructor</th>
+                <th></th>
+            </tr>
+            <tr id="selected-group">
+                <td class="instr-apple">🍎</td>
+                <td>Harvard Latin 2</td>
+                <td>Professor Livingston</td>
+                <td><button class="leave-grp-btn">Leave Group</button></td>
+            </tr>
+            <tr>
+                <td class="instr-apple">🍎</td>
+                <td>Harvard Latin 3</td>
+                <td>Professor Livingston</td>
+                <td><button class="leave-grp-btn">Leave Group</button></td>
+            </tr>
+            <tr>
+                <td class="instr-apple"></td>
+                <td>MIT Latin???</td>
+                <td>Developers</td>
+                <td><button class="leave-grp-btn">Leave Group</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="texts-div">
+
+    <h3 id="groups-label" style="margin-bottom: 10px">Texts</h3>
+    
+    <div id="search-texts">
+        <label>Search texts:
+            <input id="text-search-input" type="text" placeholder="text name">
+        </label>
+        <button id="add-text-btn">Add Text</button>
+    </div>    
+
+    <div id="texts-table-div">
+        <table class="texts-table">
+            <tr>
+                <td><a href="app.htm">Caesar - De Bello Gallico, Liber I, I</a></td>
+            </tr>
+            <tr>
+                <td>Varro - Res Rusticae, 1.17</td>
+            </tr>
+            <tr>
+                <td>Sallust - De Coniuratione Catilinae, Liber I</td>
+            </tr>
+
+        </table>
+    </div> 
+</div>
+
+</div>
+
+
 </div>
 </body>
 </html>

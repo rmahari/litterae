@@ -199,6 +199,7 @@ LitteraeApp.prototype.setState = function(state) {
 	if (['welcome','highlight','inspect'].indexOf(state)<0) return;
 	this.state = state;
 	this.el_btn_marker.classList.toggle('active', (state=='highlight'));
+	this.el_text.classList.toggle('selection-highlight-yellow', (state=='highlight'));
 	if (this.editor) this.editor.cancel();
 	this.clearHighlights();
 }
