@@ -25,6 +25,7 @@ function LitteraeApp(el) {
 		this.word_els = [];
 
 		this.highlighted = new Highlight();  	
+		this.lastTextSelection = null;
 
 		this.editor = null;
 		this.inspectList = new AnnotationListView();
@@ -33,7 +34,6 @@ function LitteraeApp(el) {
 		//finalize initialization
 		this.prepareText();
 		this.bindEvents();
-		this.showAnnotationsOnText();
 		this.turnOnAllFilters();
 }
 
@@ -44,6 +44,9 @@ LitteraeApp.prototype.bindEvents = function() {
 			self.setState('inspect');
 		} else {
 			self.setState('highlight');
+			if (self.lastTextSelection) {
+				self.highlight(self.lastTextSelection[0], self.lastTextSelection[1]);
+			}
 		}
 	});
 
@@ -65,6 +68,19 @@ LitteraeApp.prototype.bindEvents = function() {
 	})(i);}
 	this.el_scope.addEventListener('change', function() {
 		self.setScope(self.el_scope.value);
+	});
+
+	document.addEventListener('selectionchange', function() {
+		var sel = document.getSelection();
+		if (sel.anchorNode && self.el_text.contains(sel.anchorNode)) {
+			self.lastTextSelection = [
+				parseInt(sel.anchorNode.parentElement.id.substr(1)),
+				parseInt(sel.focusNode.parentElement.id.substr(1))
+			];
+		} else if (!(sel.anchorNode && self.el_btn_marker.contains(sel.anchorNode))) {
+			self.lastTextSelection = null;
+			console.log('blur');
+		} 
 	});
 }
 
