@@ -51,11 +51,10 @@ LitteraeApp.prototype.bindEvents = function() {
 		var sel = document.getSelection();
 		if (sel.type != 'Range') return; // ignore Caret, None
 		
-		// make a,b the word id's where the selection starts,ends respectively
-		var ids = [ parseInt(sel.anchorNode.parentElement.id.substr(1)), 
-					parseInt(sel.focusNode.parentElement.id.substr(1)) ].sort(Utils.numericalSort);
-		
-		self.highlight(ids[0], ids[1]);
+		// user dragged from word a to word b to highlight
+		var a = parseInt(sel.anchorNode.parentElement.id.substr(1));
+		var b = parseInt(sel.focusNode.parentElement.id.substr(1));
+		self.highlight(a, b);
 	});
 
 	for(var i = 0; i < this.els_filters.length; i++) { (function(i) {
@@ -200,33 +199,39 @@ LitteraeApp.prototype.setState = function(state) {
 	if (['welcome','highlight','inspect'].indexOf(state)<0) return;
 	this.state = state;
 	this.el_btn_marker.classList.toggle('active', (state=='highlight'));
+	this.el_text.classList.toggle('selection-highlight-yellow', (state=='highlight'));
 	if (this.editor) this.editor.cancel();
 	this.clearHighlights();
 }
 
 /*
-* Highlight the range [w1, w2] in the text.
+* Handles a drag from the highlighter from word w1 to word w2
 */
 LitteraeApp.prototype.highlight = function(w1, w2) {
-	// create new highlight span
-	var h = document.createElement('span');
-	h.classList.add('highlight');
-
-	// position highlight span
-	this.el_text.insertBefore(h, this.word_els[w1]);
-
-	// move all words into highlight span
-	for (var w = w1; w<=w2; w++) h.appendChild(this.word_els[w]);
-
 	// clear browser selection
 	document.getSelection().removeAllRanges();
 
-	this.highlighted.addRange(w1,w2);
+	var ws = [w1, w2].sort(Utils.numericalSort);
+	var l = ws[0];
+	var r = ws[1];
+
+	if (this.highlighted.contains(w2)) {
+		this.highlighted.removeRange(l,r);
+	} else {
+		this.highlighted.addRange(l,r);
+	}
+	this.showHighlightOnText(this.highlighted);
 
 	if (this.editor) {
 		this.editor.annotation.setHighlight(this.highlighted);
 	} else {
 		this.newAnnotation(this.highlighted);
+	}
+}
+LitteraeApp.prototype.showHighlightOnText = function(highlight) {
+	var self = this;
+	for (var w=0; w<this.word_els.length; w++) {
+		this.word_els[w].classList.toggle('highlight', highlight.contains(w));
 	}
 }
 LitteraeApp.prototype.clearHighlights = function() {
