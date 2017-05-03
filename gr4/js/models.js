@@ -37,7 +37,7 @@ Highlight.prototype.removeRange = function(l, r) {
         R = this.ranges[i][1];
         if (l<=L && R<=r) {
             //remove range entirely
-            this.ranges.splice(i); i--;
+            this.ranges.splice(i, 1); i--;
         } else if (l<=L && L<=r) {
             // trim left
             this.ranges[i][0] = r+1;
