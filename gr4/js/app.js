@@ -34,6 +34,7 @@ function LitteraeApp(el) {
 		this.prepareText();
 		this.bindEvents();
 		this.showAnnotationsOnText();
+		this.turnOnAllFilters();
 }
 
 LitteraeApp.prototype.bindEvents = function() {
@@ -162,6 +163,12 @@ LitteraeApp.prototype.setFilter = function(visibility, on) {
 	self.filter[visibility] = on;
     self.els_filters[visibility].classList.toggle('inactive', !on);
 	self.showAnnotationsOnText();
+}
+LitteraeApp.prototype.turnOnAllFilters = function() {
+	var self = this;
+	for (var i = self.filter.length - 1; i >= 0; i--) {
+		self.setFilter(i, true);
+	}
 }
 LitteraeApp.prototype.showAnnotationsOnText = function() {
 	var self = this;
