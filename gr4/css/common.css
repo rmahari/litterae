@@ -117,7 +117,7 @@ h3 {
 th, td {
     padding: 1em;
     border-collapse: collapse;
-    font-size: 1.2em;
+    /*font-size: 1.2em;*/
 }
 
 .instr-apple {
@@ -129,7 +129,7 @@ th, td {
     background-color: rgba(246, 236, 213, 0.5);
 }
 
-.leave-grp-btn {
+.leave-grp-btn, .del-text-btn {
     background-color: rgba(170, 0, 0, 1);
     border: 0px;
     color: white;
@@ -200,12 +200,13 @@ th, td {
 
 .texts-table {
     width: 100%;
-    /*border-collapse: collapse;*/
+    border-collapse: collapse;
     border: 2px solid rgba(100, 100, 100, 1);
 }
 
 .texts-table tr {
-    border-collapse: collapse;
+    border: solid rgba(100, 100, 100, 0.3);
+    border-width: 1px 0;
 }
 
 .texts-table tr:td:first-child {
@@ -214,7 +215,7 @@ th, td {
 
 .texts-table td {
     height: 2em;
-    border-top: 2px solid rgba(100, 100, 100, 0.3);
+    /*border-top: 2px solid rgba(100, 100, 100, 0.3);*/
 }
 
 .texts-table tr:hover {

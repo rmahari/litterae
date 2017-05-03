@@ -5,7 +5,7 @@
     <title>LITTERAE</title>
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <script src="js/app.js"></script>
-    <script> </script>
+    
 </head>
 <body>
 
@@ -13,7 +13,6 @@
     <div id="logo">LITTERAE</div>
     <ul id="user">
         <li><a href="#">👤 Ben Bitdiddle</a>
-        <li><a href="#">log out</a>
         <li><a href="#">settings</a>
     </ul>
 </div>
@@ -61,10 +60,17 @@
     </div>
 </div>
 
+<script> 
+    document.getElementById("groups-table-div").addEventListener("click", function(event) {
+        alert(event.target);
+    });
+
+</script>
+
 <div id="texts-div">
 
     <h3 id="groups-label" style="margin-bottom: 10px">Texts</h3>
-    
+
     <div id="search-texts">
         <label>Search texts:
             <input id="text-search-input" type="text" placeholder="text name">
@@ -76,12 +82,15 @@
         <table class="texts-table">
             <tr>
                 <td><a href="app.htm">Caesar - De Bello Gallico, Liber I, I</a></td>
+                <td><button class="del-text-btn">Delete Text</button></td>
             </tr>
             <tr>
-                <td>Varro - Res Rusticae, 1.17</td>
+                <td>Varro - Res Rusticae, 1.17 </td>
+                <td><button class="del-text-btn">Delete Text</button></td>
             </tr>
             <tr>
                 <td>Sallust - De Coniuratione Catilinae, Liber I</td>
+                <td><button class="del-text-btn">Delete Text</button></td>
             </tr>
 
         </table>
