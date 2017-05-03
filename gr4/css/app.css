@@ -91,6 +91,8 @@
 .annotated-3 { border-bottom: 2px dotted #ff9595; }
 span.instructor { border-bottom-style: solid; }
 
+.inspected {text-shadow:1px 0px 0px black;}
+
 #welcome {
     padding: 15px;
 }

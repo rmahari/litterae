@@ -115,6 +115,9 @@ LitteraeApp.prototype.inspect = function(wid) {
 
 	var lineNumber = this.getLineNumber(wid);
 	Utils.setText(this.el_inspectpos, 'Line '+lineNumber+': '+this.words[wid]);
+
+	for (var i=0; i<this.word_els.length; i++) this.word_els[i].classList.remove('inspected');
+	this.word_els[wid].classList.add('inspected');
 }
 
 LitteraeApp.prototype.newAnnotation = function(highlight) {
