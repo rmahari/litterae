@@ -237,15 +237,8 @@ LitteraeApp.prototype.showHighlightOnText = function(highlight) {
 LitteraeApp.prototype.clearHighlights = function() {
 	this.highlighted.clear();
 
-	//get or create highlight span
 	var hs = document.getElementsByClassName('highlight');
-	for (var i=hs.length-1; i>=0; i--) {
-		var h = hs[i];  
-		//unwrap itm,
-		while (h.firstChild) h.parentNode.insertBefore(h.firstChild, h);
-		//remove from the dom
-		h.remove();
-	}
+	for (var i=hs.length-1; i>=0; i--) hs[i].classList.remove('highlight');
 }
 
 LitteraeApp.prototype.getLineNumber = function(wid) {
