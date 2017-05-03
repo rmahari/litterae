@@ -16,8 +16,9 @@ AnnotationView.prototype.update = function() {
     Utils.setText(this.el_text,   this.annotation.text);
     Utils.setText(this.el_author, this.annotation.author.name);
 
-    this.el.classList.remove('c00-annotation', 'c01-annotation', 'c02-annotation', 'c03-annotation');
-    this.el.classList.add('c0' + this.annotation.category + "-annotation");
+    this.el.classList.remove('category-0', 'category-1', 'category-2', 'category-3');
+    this.el.classList.add('category-' + this.annotation.category);
+    this.el.classList.toggle('instructor', this.annotation.author.isInstructor);
 }
 AnnotationView.prototype.edit = function(e) {
     app.edit(this.annotation);
