@@ -246,3 +246,7 @@ span.highlight {
 .selection-highlight-yellow span::selection {
     background-color: yellow;
 }
+
+.save.disabled {
+    opacity: .5;
+}

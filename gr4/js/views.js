@@ -55,7 +55,7 @@ AnnotationEditView.prototype.validate = function() {
     var valid = this.el_form.elements['category'].value &&
                 this.el_text.value.length > 0;
 
-    this.el_save.disabled = !valid;
+    this.el_save.classList.toggle("disabled", !valid);
     return valid;
 }
 AnnotationEditView.prototype.update = function() {

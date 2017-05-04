@@ -97,27 +97,24 @@
                 <p class="pos">seriously?</p>
 
                 <form class="form">
+                    <textarea class="text" rows="5" placeholder="Type to add annotation..." required></textarea>
+                    <div class="radios">
+                        <label><span class="category-icon vocab">V</span>Vocabulary
+                        <input type=radio name=category class="category"  value="0" required></label>
 
-                <textarea class="text" rows="5" placeholder="Type to add annotation..."></textarea>
-                
-                <div class="radios">
-                    <label><span class="category-icon vocab">V</span>Vocabulary
-                    <input type=radio name=category class="category"  value="0"></label>
+                        <label><span class="category-icon grammar">G</span>Grammar
+                        <input type=radio name=category class="category" value="1" required></label>
 
-                    <label><span class="category-icon grammar">G</span>Grammar
-                    <input type=radio name=category class="category" value="1"></label>
+                        <label><span class="category-icon media">M</span>Media
+                        <input type=radio name=category class="category" value="2" required></label>
 
-                    <label><span class="category-icon media">M</span>Media
-                    <input type=radio name=category class="category" value="2"></label>
-
-                    <label><span class="category-icon other">O</span>Other
-                    <input type=radio name=category class="category" value="3"></label>
-                </div>
-                    
-                <div class="buttons">
-                    <button type="button" class="cancel" >Cancel</button>
-                    <button type="button" class="save" disabled=true>Save</button>
-                </div>
+                        <label><span class="category-icon other">O</span>Other
+                        <input type=radio name=category class="category" value="3" required></label>
+                    </div> 
+                    <div class="buttons">
+                        <button type="button" class="cancel" >Cancel</button>
+                        <button type="submit" class="save disabled">Save</button>
+                    </div>
 
                 </form>
             </div>
