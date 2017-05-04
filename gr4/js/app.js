@@ -58,7 +58,12 @@ LitteraeApp.prototype.bindEvents = function() {
 		// user dragged from word a to word b to highlight
 		var a = parseInt(sel.anchorNode.parentElement.id.substr(1));
 		var b = parseInt(sel.focusNode.parentElement.id.substr(1));
-		self.highlight(a, b);
+
+		// The case where a == b is taken care of by an onclick listener set in this.prepareText.
+		// Having two calls to self.highlight causes one to undo the other.
+		if (a !== b) {
+			self.highlight(a, b);
+		}
 	});
 
 	for(var i = 0; i < this.els_filters.length; i++) { (function(i) {
