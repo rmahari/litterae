@@ -1,53 +1,63 @@
 /*
-right now, this is just experimental
+A PrintView represents the entire text from the LitteraeApp in a
+paged, printable format. Each page fits just enough text, so that
+the page gets filled with all the annotations that belong.
 */
 
-function createPrintWindow() {
-    printWindow = window.open('');
-    printWindow.document.addEventListener('readystatechange', function() {
-        console.log('printwindow load', printWindow.document.readyState);
-    });
+function PrintView() {
+    var self = this;
 
+    //view state
+    this.pages = [];
+
+    //create the new window that hosts the printview
+    printWindow = window.open('');
+    printWindow.document.title = 'Litterae Print-out';
+
+    //add the print stylesheet
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
     var url = window.location.href;
     link.href = url.substring(0, url.lastIndexOf('/')) + '/css/print.css';
     printWindow.document.head.appendChild(link);
-    printWindow.document.title = 'Litterae print-out';
+
     setTimeout(function() {
-        var pages = [];
         var lastPage = null;
         for (var w=0; w<app.words.length; w++) {
+            // add each word to the page one by one. If the page is full,
+            // remove it from the last page and create a new page.
             if (!lastPage || lastPage.full) {
                 lastPage = new PrintPageView(w);
                 printWindow.document.body.appendChild(lastPage.el);
-                pages.push(lastPage);
+                self.pages.push(lastPage);
             }
             lastPage.addWord();
-
             if (lastPage.overflows) {
                 lastPage.removeLastWord();
                 w --;
             }
         }
-    }, 200);
+    }, 200); 
+    // this is bad. Without a delay, the DOM in the new isn't ready,
+    // and I can't seem to bind to onload/DOMContentReady/readystatechange
 }
 
 function PrintPageView(wid_start) {
-    this.word_els = [];
+    // state
     this.wid_start = wid_start;
     this.wid_end   = wid_start;
     this.overflows = false;
     this.full = false;
 
+    // DOM
     var template = document.getElementById('tpl-print-page');
     this.el = template.firstElementChild.cloneNode(true);
     this.el_text =        this.el.getElementsByClassName('text')[0];
     this.el_annotations = this.el.getElementsByClassName('annotations')[0];
+    this.word_els = [];
 
-    this.annotations = []
-    this.annotationsView = new AnnotationListView(this.annotations);
+    this.annotationsView = new AnnotationListView();
 
     this.el_annotations.appendChild(this.annotationsView.el);
 
@@ -72,15 +82,13 @@ PrintPageView.prototype.removeLastWord = function() {
 }
 PrintPageView.prototype.update = function() {
     var self = this;
-    this.annotations = app.annotation_list.filter(function(ann) {
+    this.annotationsView.setList(app.annotation_list.filter(function(ann) {
         var inFragment = false;
         for (var w=self.wid_start; w<self.wid_end; w++) {
             inFragment |= ann.highlight.contains(w);
         }
         return inFragment && app.isVisible(ann); //TO-DO: do we actually wants this?
-    });
-    
-    this.annotationsView.setList(this.annotations);
+    }));
 
     var r = this.el.getBoundingClientRect();
     var h = parseInt(r.height);

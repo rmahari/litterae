@@ -2,6 +2,7 @@ function LitteraeApp(el) {
 		// tie in DOM elements
 		this.el = el;
 		this.el_btn_marker = document.getElementById('btn-marker');
+		this.el_btn_print = document.getElementById('btn-print');
 		this.el_text = document.getElementById('text');
 		this.els_filters = document.querySelectorAll('#category-sel .category-icon');
 		this.el_scope = document.getElementById('scope-sel')
@@ -48,6 +49,9 @@ LitteraeApp.prototype.bindEvents = function() {
 				self.highlight(self.lastTextSelection[0], self.lastTextSelection[1]);
 			}
 		}
+	});
+	this.el_btn_print.addEventListener('click', function() {
+		self.print();
 	});
 
 	this.el_text.addEventListener('mouseup', function(e) {
@@ -266,7 +270,9 @@ LitteraeApp.prototype.clearHighlights = function() {
 	var hs = document.getElementsByClassName('highlight');
 	for (var i=hs.length-1; i>=0; i--) hs[i].classList.remove('highlight');
 }
-
+LitteraeApp.prototype.print = function() {
+	new PrintView();
+}
 LitteraeApp.prototype.getLineNumber = function(wid) {
     var lineHeight = parseFloat(window.getComputedStyle(this.el_text, null).getPropertyValue('line-height'));
 	var lineNumber = parseInt(this.word_els[wid].offsetTop/lineHeight) + 1;
