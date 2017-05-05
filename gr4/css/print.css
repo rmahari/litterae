@@ -1,0 +1,102 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+}
+body {
+    width: 8.5in;
+}
+
+h1 { font-size: 20pt; margin-top: 5pt; margin-bottom: 10pt; }
+h2 { font-size: 15pt; margin-top: 20pt; margin-bottom: 10pt; }
+
+.page > .text {
+    line-height: 28pt;
+    font-size: 14pt;
+    text-align: justify;
+}
+
+@media screen {
+    html {
+        background-color: #EFEFEF;
+    }
+    body {
+        margin: 0 auto;
+    }
+    .pagebreak {
+        width: 8.5in;
+        height: 0.25in; 
+        background-color: #EFEFEF;
+        margin: 1in 0 1in -1in;
+    }
+    .page {
+        padding: 1in;
+        background-color: #FFFFFF;
+        margin-bottom: 20px;
+    }
+}
+
+@media print {
+    @page {
+        margin: 1in;
+    }
+    body {
+        width: 6.5in;
+    }
+    .pagebreak {
+        page-break-after: always;
+    }
+}
+
+.clear {
+    clear: both;
+    overflow: hidden;
+}
+
+.annotationlist h4 {
+    border-bottom: solid 1px #AAAAAA;
+}
+.annotationlist h4.empty {
+    display: none;
+}
+.annotationlist h4 .dropdown-icon {
+    display: none;
+}
+.category-icon {
+    background-color: #DDDDDD;
+    color: #FFFFFF;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 5px;
+    user-select: none;
+}
+.category-icon.vocab {background-color: #82DAF9;}
+.category-icon.grammar {background-color: #81d257;}
+.category-icon.media {background-color: #d194ff;}
+.category-icon.other {background-color: #ff9595;}
+.annotation.category-0 {border-left: 2pt dotted #82DAF9;}
+.annotation.category-1 {border-left: 2pt dotted #9ef372;}
+.annotation.category-2 {border-left: 2pt dotted #d194ff;}
+.annotation.category-3 {border-left: 2pt dotted #ff9595;}
+.annotation.instructor {border-left-style: solid;}
+.annotation button.edit {display: none;}
+.annotation {
+    padding: 0 5px;
+}
+.annotation .text {
+    margin-bottom: 5px;    
+}
+.annotation .infobar {
+    overflow: auto;
+}
+.annotation .infotxt {
+    float: left;
+    color: grey;
+    font-size: 8pt;
+    margin-top: 8px;
+}

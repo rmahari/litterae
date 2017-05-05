@@ -13,6 +13,7 @@
     <script src="js/views.js"></script>
     <script src="js/canned.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/print.js"></script>
     <script>
     var app;
     window.onload = function() {
@@ -46,6 +47,9 @@
                 <li><a href="#">log out</a></li>
                 <li><a href="#">settings</a></li>
             </ul>
+            <div id='main-tb'>
+                <div id='btn-print'></div>
+            </div>
         </div>
 
         <div id='col-left'>
@@ -129,6 +133,14 @@
                 <div class="content content-context"></div>
                 <h4 class="header header-misc"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon other">O</span> Other <span class="count"></span> </h4>
                 <div class="content content-misc"></div>
+            </div>
+        </div>
+        <div id="tpl-print">
+        </div>
+        <div id="tpl-print-page">
+            <div class="page">
+                <div class="text"></div>
+                <div class="annotations"></div>
             </div>
         </div>
     </div>
