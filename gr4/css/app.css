@@ -80,11 +80,19 @@
 #main-tb {
     height: 50px;
     float: right;
-    border-left: solid 1px #DDDDDD;
-    border-right: solid 1px #DDDDDD;
 }
-#btn-print {
-    background-image: url("../img/print.png");
+#main-tb > div {
+    border-left: solid 1px #DDDDDD;
+    float: left;
+}
+#btn-print    {background-image: url("../img/print.png");}
+#btn-settings {background-image: url("../img/settings.png");}
+#btn-user     {
+    background-image: url("../img/user.png");
+    width: auto !important;
+    padding: 0 15px 0 50px;
+    line-height: 50px;
+    background-position: 15px center !important;
 }
 
 

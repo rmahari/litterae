@@ -63,15 +63,13 @@ function PrintPageView(wid_start) {
 
 }
 PrintPageView.prototype.addWord = function() {
-    var wid = this.wid_end; 
-    this.wid_end ++;
-
     var span = document.createElement('span');
-    span.appendChild(document.createTextNode(app.words[wid]));
+    span.appendChild(document.createTextNode(app.words[this.wid_end]));
     span.appendChild(document.createTextNode(' '));
     this.word_els.push(span);
     this.el_text.appendChild(span);
-
+    
+    this.wid_end ++;
     this.update();
 }
 PrintPageView.prototype.removeLastWord = function() {
