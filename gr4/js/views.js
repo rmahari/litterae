@@ -4,6 +4,7 @@ function AnnotationView(annotation) {
 
     var template = document.getElementById('tpl-annotation');
     this.el = template.firstElementChild.cloneNode(true);
+    this.el_pos    = this.el.getElementsByClassName('pos')[0];
     this.el_text   = this.el.getElementsByClassName('text')[0];
     this.el_author = this.el.getElementsByClassName('author')[0];
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
@@ -15,6 +16,7 @@ function AnnotationView(annotation) {
     this.update();
 }
 AnnotationView.prototype.update = function() {
+    Utils.setText(this.el_pos,    this.annotation.highlight.text());
     Utils.setText(this.el_text,   this.annotation.text);
     Utils.setText(this.el_author, this.annotation.author.name);
 

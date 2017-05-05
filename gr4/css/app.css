@@ -109,6 +109,13 @@
 .annotated-3 { border-bottom: 2px dotted #ff9595; }
 span.instructor { border-bottom-style: solid; }
 
+.annotated-0.annotated-1, .annotated-0.annotated-2,
+.annotated-0.annotated-3, .annotated-1.annotated-2,
+.annotated-1.annotated-3, .annotated-2.annotated-3 {
+    border-bottom-style: double;
+    border-bottom-width: 5px;
+}
+
 .inspected {text-shadow:1px 0px 0px black;}
 
 #welcome {
@@ -117,6 +124,9 @@ span.instructor { border-bottom-style: solid; }
 
 .annotation {
     padding: 15px;
+}
+.annotation .pos, .pos {
+    font-style: italic;
 }
 .annotation .text {
     margin-bottom: 5px;    
