@@ -174,6 +174,10 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 LitteraeApp.prototype.edit = function(annotation) {
 	var self = this;
 	if (this.editor) this.editor.cancel();
+	this.setState('highlight');
+	this.highlighted = new Highlight(annotation.highlight);
+	this.showHighlightOnText(this.highlighted);
+
 	this.editor = new AnnotationEditView(annotation);
 	this.editor.on('save cancel', function() {
 		self.setFilter(annotation.category, true);
