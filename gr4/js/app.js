@@ -200,13 +200,18 @@ LitteraeApp.prototype.turnOnAllFilters = function() {
 }
 LitteraeApp.prototype.showAnnotationsOnText = function() {
 	var self = this;
+	for (var w=0; w<self.word_els.length; w++) {
+		self.word_els[w].classList.remove('annotated-0', 'annotated-1', 'annotated-2', 'annotated-3', 'mine', 'instructor');
+	}
 	for (var i = 0; i < self.annotation_list.length; i++) {
 		var annotation = self.annotation_list[i];
 		annotation.highlight.forEachWord(function(wid) {
-			for (var f =0; f < self.filter.length; f++) {
-				self.word_els[wid].classList.toggle('annotated-'+f, self.isVisible(annotation) && annotation.category==f);
-				self.word_els[wid].classList.toggle('instructor', self.isVisible(annotation) && annotation.author.isInstructor);
-				self.word_els[wid].classList.toggle('mine', self.isVisible(annotation) && annotation.author == self.user);
+			if (self.isVisible(annotation)) {
+				if (annotation.author.isInstructor) {self.word_els[wid].classList.add('instructor')};
+				if (annotation.author == self.user) {self.word_els[wid].classList.add('mine')};
+				for (var f = 0; f < self.filter.length; f++) {
+					if (annotation.category==f) {self.word_els[wid].classList.toggle('annotated-'+f, self.isVisible(annotation) && annotation.category==f)};
+				}
 			}
 		});
 	}
