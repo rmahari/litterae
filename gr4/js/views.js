@@ -1,4 +1,5 @@
 function AnnotationView(annotation) {
+    var self = this;
     this.annotation = annotation;
 
     var template = document.getElementById('tpl-annotation');
@@ -8,7 +9,8 @@ function AnnotationView(annotation) {
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
 
     this.el_edit.addEventListener('click', this.edit.bind(this));
-
+    this.el.addEventListener('mouseover', function(){self.hover(true)});
+    this.el.addEventListener('mouseout', function(){self.hover(false)});
     this.annotation.on('update', this.update.bind(this));
     this.update();
 }
@@ -22,6 +24,13 @@ AnnotationView.prototype.update = function() {
 }
 AnnotationView.prototype.edit = function(e) {
     app.edit(this.annotation);
+}
+AnnotationView.prototype.hover = function(on) {
+    var category = this.annotation.category;
+    this.annotation.highlight.forEachWord(function(wid) {
+        app.word_els[wid].classList.toggle('hovered', on);
+        app.word_els[wid].classList.toggle('category-'+category, on);
+    });
 }
 
 function AnnotationEditView(annotation) {
