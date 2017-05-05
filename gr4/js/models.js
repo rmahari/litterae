@@ -20,9 +20,9 @@ Highlight.prototype.addRange = function(wid1, wid2) {
     //sort ranges by start index
     this.ranges.sort((a, b) => (a[0]-b[0]));
 
-    //iterate over them and join where overlapping
+    //iterate over them and join where overlapping or adjacent
     for (var i=0; i<this.ranges.length-1; i++) {
-        if (this.ranges[i][1] >= this.ranges[i+1][0]) {
+        if (this.ranges[i][1] >= this.ranges[i+1][0] - 1) {
             this.ranges[i][1] = Math.max(this.ranges[i][1], this.ranges[i+1][1]);
             this.ranges.splice(i+1, 1); i--;
         }
