@@ -138,8 +138,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 		})
 	);;
 
-	var lineNumber = this.getLineNumber(wid);
-	Utils.setText(this.el_inspectpos, 'Line '+lineNumber+': '+this.words[wid]);
+	Utils.setText(this.el_inspectpos, this.words[wid]);
 
 	for (var i=0; i<this.word_els.length; i++) this.word_els[i].classList.remove('inspected');
 	this.word_els[wid].classList.add('inspected');
@@ -286,9 +285,4 @@ LitteraeApp.prototype.clearHighlights = function() {
 }
 LitteraeApp.prototype.print = function() {
 	new PrintView();
-}
-LitteraeApp.prototype.getLineNumber = function(wid) {
-    var lineHeight = parseFloat(window.getComputedStyle(this.el_text, null).getPropertyValue('line-height'));
-	var lineNumber = parseInt(this.word_els[wid].offsetTop/lineHeight) + 1;
-	return lineNumber;
 }

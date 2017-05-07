@@ -75,8 +75,7 @@ Highlight.prototype.text = function() {
         if (r[0]==r[1]) {
             chunks.push(app.words[r[0]]); //cringe... shouldn't be using the app global
         } else {
-            chunks.push( 'l.'+app.getLineNumber(r[0]) + ": " + 
-                      app.words[r[0]] + ((r[1]-r[0]==1) ? ' ' :  ' ... ') + 
+            chunks.push(app.words[r[0]] + ((r[1]-r[0]==1) ? ' ' :  ' ... ') + 
                       app.words[r[1]] );
         }
     });
