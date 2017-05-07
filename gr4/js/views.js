@@ -8,8 +8,10 @@ function AnnotationView(annotation) {
     this.el_text   = this.el.getElementsByClassName('text')[0];
     this.el_author = this.el.getElementsByClassName('author')[0];
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
+    this.el_delete = this.el.getElementsByClassName('delete')[0];
 
     this.el_edit.addEventListener('click', this.edit.bind(this));
+    this.el_delete.addEventListener('click', this.delete.bind(this));
     this.el.addEventListener('mouseover', function(){self.hover(true)});
     this.el.addEventListener('mouseout', function(){self.hover(false)});
     this.annotation.on('update', this.update.bind(this));
@@ -26,6 +28,10 @@ AnnotationView.prototype.update = function() {
 }
 AnnotationView.prototype.edit = function(e) {
     app.edit(this.annotation);
+}
+AnnotationView.prototype.delete = function() {
+    this.hover(false);
+    app.delete(this.annotation);
 }
 AnnotationView.prototype.hover = function(on) {
     var category = this.annotation.category;

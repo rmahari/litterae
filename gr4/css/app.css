@@ -112,6 +112,7 @@ span.instructor { border-bottom-style: solid; }
 .annotated-0.annotated-1, .annotated-0.annotated-2,
 .annotated-0.annotated-3, .annotated-1.annotated-2,
 .annotated-1.annotated-3, .annotated-2.annotated-3 {
+    border-bottom: #AAAAAA;
     border-bottom-style: double;
     border-bottom-width: 5px;
 }

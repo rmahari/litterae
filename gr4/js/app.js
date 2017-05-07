@@ -16,6 +16,7 @@ function LitteraeApp(el) {
 		this.user.isInstructor = true;
 
 		this.annotation_list = getCannedAnnotations(this.user);
+		this.last_annotation = null;
 
 		// application state
 		this.state = 'welcome'; // welcome / highlight / inspect
@@ -88,7 +89,6 @@ LitteraeApp.prototype.bindEvents = function() {
 			];
 		} else if (!(sel.anchorNode && self.el_btn_marker.contains(sel.anchorNode))) {
 			self.lastTextSelection = null;
-			console.log('blur');
 		} 
 	});
 }
@@ -149,6 +149,7 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 
 	Utils.hide(this.el_welcome); //TO-DO: move to setState ?
 	Utils.hide(this.el_inspect);
+	for (var i=0; i<this.word_els.length; i++) this.word_els[i].classList.remove('inspected');
 
 	var annotation = new Annotation(highlight);
 	annotation.author = this.user;
@@ -164,7 +165,9 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 	this.editor.on('cancel', function() {
 		self.editor.el.remove();
 		self.editor = null;
-		self.setState('inspect');
+		self.clearHighlights();
+		self.inspect(annotation.highlight.anchor);
+		//self.setState('inspect');
 	});
 
 	document.getElementById('col-right').prepend(this.editor.el);
@@ -185,8 +188,16 @@ LitteraeApp.prototype.edit = function(annotation) {
 		self.editor = null;
 		self.inspect(annotation.highlight.anchor);
 	});
-
 	document.getElementById('col-right').prepend(this.editor.el);
+}
+
+LitteraeApp.prototype.delete = function(annotation) {
+	var self = this;
+	var idx = self.annotation_list.indexOf(annotation);
+	self.annotation_list.splice(idx, 1);
+	self.clearHighlights();
+	self.showAnnotationsOnText();
+	self.inspect(annotation.highlight.anchor);
 }
 
 LitteraeApp.prototype.setFilter = function(visibility, on) {
@@ -260,6 +271,9 @@ LitteraeApp.prototype.highlight = function(w1, w2) {
 
 	if (this.highlighted.contains(w2)) {
 		this.highlighted.removeRange(l,r);
+		if (this.highlighted.ranges.length === 0) {
+			this.editor.cancel();
+		}
 	} else {
 		this.highlighted.addRange(l,r);
 	}
@@ -267,7 +281,7 @@ LitteraeApp.prototype.highlight = function(w1, w2) {
 
 	if (this.editor) {
 		this.editor.annotation.setHighlight(this.highlighted);
-	} else {
+	} else if (this.highlighted.ranges.length != 0) {
 		this.newAnnotation(this.highlighted);
 	}
 }
