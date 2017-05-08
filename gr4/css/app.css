@@ -19,7 +19,14 @@
     bottom: 0;
     left: 0;
     right: 50%;
-    padding-right: 26px; /* makes room for middle column */
+    border-right: 2px solid #DDDDDD;
+}
+#col-left #textpane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     overflow: auto;
 }
 #col-right {
@@ -28,20 +35,7 @@
     bottom: 0;
     left: 50%;
     right: 0;
-    padding-left: 26px;
     overflow: auto;
-}
-#col-mid {
-    position: absolute;
-    top: 51px;
-    bottom: 0;
-    left: 50%;
-    width: 50px;
-    margin-left: -26px;
-    border-left: solid 1px #DDDDDD;
-    border-right: solid 1px #DDDDDD;
-    z-index: 10;
-    background-color: #FFFFFF;
 }
 
 .text {
@@ -49,7 +43,10 @@
 }
 
 #note-tb {
-    width: 50px;
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    width: 70px;
 }
 
 #note-tb div, #main-tb div {
@@ -61,15 +58,28 @@
     cursor: pointer;
     border-bottom: solid 1px #DDDDDD;
 }
+
+#note-tb div {
+    width: 70px;
+    height: 70px;
+    background-size: 30px;
+    border-bottom: none;
+}
+
 #note-tb div:hover, #main-tb div:hover {
     background-color: #DDDDDD;
 }
 #btn-marker {
     background-image: url("../img/marker.png");
+    border-radius: 50%;
+    border: 1px solid #DDDDDD;
+    box-shadow: 3px 5px 5px #AAAAAA;
+    background-color: #FFFFFF;
 }
 
 #btn-marker.active {
     background-color: #FFFF33;
+    box-shadow: 0px 0px 10px #AAAAAA;
 }
 #btn-marker.active:hover {
     background-color: #F0F030;
@@ -102,6 +112,7 @@
 
 #text {
     padding: 15px;
+    padding-bottom: 90px;
     line-height: 28pt;
     font-size: 14pt;
     text-align: justify;
