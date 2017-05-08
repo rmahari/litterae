@@ -13,6 +13,8 @@ function LitteraeIndex(el) {
     this.el_btn_addgroup = document.getElementById('add-grp-btn');
     this.el_btn_creategroup = document.getElementById('btn-create-group');
 
+    this.el_btn_addtext = document.getElementById('add-text-btn');
+    this.el_btn_createtext = document.getElementById('create-text-btn');
     // state
     this.groups = getCannedGroups();
     this.texts = [];
@@ -29,6 +31,10 @@ function LitteraeIndex(el) {
 
     this.el_btn_addgroup.addEventListener('click', this.openCreateGroupDialog.bind(this));
     this.el_btn_creategroup.addEventListener('click', this.createGroup.bind(this));
+    
+    this.el_btn_addtext.addEventListener('click', this.openCreateTextDialog.bind(this));
+    this.el_btn_createtext.addEventListener('click', this.createText.bind(this));
+
     this.el_overlay.addEventListener('click', this.closeModals.bind(this));
 }
 LitteraeIndex.prototype.openGroup = function(group) {
@@ -50,6 +56,28 @@ LitteraeIndex.prototype.createGroup = function() {
 
     this.groups.push(g);
     this.groupsView.update();
+}
+LitteraeIndex.prototype.openCreateTextDialog = function() {
+    Utils.show(this.el_overlay);
+    Utils.show(this.el_add_text);
+    document.getElementById('new-text-name').value = '';
+    document.getElementById('new-text-content').value = '';
+    var group_name = document.getElementsByClassName('group-name')[0];
+    Utils.setText(group_name, this.groupsView.selectedGroup.name);
+}
+LitteraeIndex.prototype.createText = function() {
+    Utils.hide(this.el_add_text);
+    Utils.hide(this.el_overlay);
+
+    var g = this.groupsView.selectedGroup;
+
+    var t = new Text();
+    t.title = document.getElementById('new-text-name').value;
+    t.content = document.getElementById('new-text-content').value;
+
+    g.texts.push(t);
+    this.openGroup(g);
+    this.textsView.update();
 }
 LitteraeIndex.prototype.closeModals = function() {
     Utils.hide(this.el_new_group);
@@ -108,6 +136,8 @@ function TextListView(texts) {
     this.update();
 }
 TextListView.prototype.update = function() {
+    Utils.clearChildNodes(this.el_list);
+
     for (var i=0; i<this.texts.length; i++) {
         var view = new TextItemView(this.texts[i]);
         this.el_list.appendChild(view.el);

@@ -1,17 +1,15 @@
 function LitteraeApp(el) {
 		// tie in DOM elements
 		this.el = el;
-		this.el_black_overlay = document.getElementById('black-overlay');
 		this.el_btn_marker = document.getElementById('btn-marker');
 		this.el_btn_print = document.getElementById('btn-print');
-		this.el_btn_addtext = document.getElementById('btn-addtext');
+		this.el_btn_settings = document.getElementById('btn-settings');
 		this.el_text = document.getElementById('text');
 		this.els_filters = document.querySelectorAll('#category-sel .category-icon');
 		this.el_scope = document.getElementById('scope-sel')
 		this.el_welcome = document.getElementById('welcome');
 		this.el_inspect = document.getElementById('inspect');
 		this.el_inspectpos = document.getElementById('inspect-pos');
-		this.el_add_text_div = document.getElementById('add-text-div');
 
 		// load models
 		this.user = getCannedCurrentUser();
@@ -91,18 +89,9 @@ LitteraeApp.prototype.bindEvents = function() {
 		} 
 	});
 
-	// Bring up add new text popup and black overlay
-	self.el_btn_addtext.addEventListener('click', function() {
-        Utils.show(self.el_black_overlay);
-        Utils.show(self.el_add_text_div);
-        document.getElementById('add-text-heading').innerHTML = 'Add new text to MIT Latin II';
-	});
-
-	// Remove add new text popup and black overlay when clicking outside popup
-	self.el_black_overlay.addEventListener('click', function() {
-            Utils.hide(self.el_add_text_div);
-            Utils.hide(self.el_black_overlay);
-    });
+	this.el_btn_settings.addEventListener('click', function() {
+        window.open('index.htm', '_self');
+    })
 
 }
 
