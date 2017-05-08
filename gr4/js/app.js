@@ -14,10 +14,7 @@ function LitteraeApp(el) {
 		this.el_add_text_div = document.getElementById('add-text-div');
 
 		// load models
-		this.user = new User();
-		this.user.name = 'Ben Bitdiddle';
-		this.user.isInstructor = true;
-
+		this.user = getCannedCurrentUser();
 		this.annotation_list = getCannedAnnotations(this.user);
 
 		// application state
