@@ -88,6 +88,23 @@ PrintPageView.prototype.update = function() {
         return inFragment && app.isVisible(ann); //TO-DO: do we actually wants this?
     }));
 
+    // clear all annotation nrs
+    var nrs = this.el.getElementsByClassName('annotation-nr');
+    Utils.removeAll(nrs);
+
+    for (var a=0; a<this.annotationsView.annotations.length; a++) {
+        var ann = this.annotationsView.annotations[a];
+
+        var sup = document.createElement('sup');
+        sup.classList.add('annotation-nr');
+        sup.appendChild(document.createTextNode(a+1));
+        
+        var word_el = this.word_els[ann.highlight.anchor - this.wid_start];
+        word_el.insertBefore(sup, word_el.lastChild);
+        //TO-DO: this is gross. It's inserting before that hacky space
+        //character we added to make the underlines continuous...
+    }
+
     var r = this.el.getBoundingClientRect();
     var h = parseInt(r.height);
     var w = parseInt(r.width);

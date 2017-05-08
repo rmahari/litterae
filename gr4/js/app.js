@@ -197,7 +197,7 @@ LitteraeApp.prototype.delete = function(annotation) {
 	self.annotation_list.splice(idx, 1);
 	self.clearHighlights();
 	self.showAnnotationsOnText();
-	self.inspect(annotation.highlight.anchor);
+	self.inspect(annotation.highlight.anchor);ooh
 }
 
 LitteraeApp.prototype.setFilter = function(visibility, on) {
