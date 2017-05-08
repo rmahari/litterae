@@ -220,6 +220,11 @@ span.instructor { border-bottom-style: solid; }
     color: purple;
 }
 
+#from-filter {
+    float: right;
+    margin-left: 15px;
+}
+
 #filters {
     line-height: 20px;
     padding: 15px;
@@ -266,6 +271,9 @@ span.highlight {
 
 .annotationlist h4.open.empty .dropdown-icon {
     transform: rotate(0deg);
+}
+
+#category-sel {
 }
 
 .category-icon {
