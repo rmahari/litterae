@@ -113,6 +113,7 @@ h2 { font-size: 15pt; margin-top: 20pt; margin-bottom: 10pt; }
     font-size: 8pt;
     margin-top: 8px;
 }
-.annotation .deleted-annotation {
+.annotation .deleted-annotation,
+.annotation .instr-approved {
     display: none;
 }

@@ -93,6 +93,7 @@ function Annotation(highlight) {
     this.text = '';
     this.visibility = null;
     this.category = null;
+    this.approved = false;
 
     this.eventHost = new Utils.EventHost(this);
 }
