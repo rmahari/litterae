@@ -18,7 +18,11 @@ Utils.show = function(el) {
 Utils.hide = function(el) {
     el.style.display = 'none';
 }
-
+Utils.removeAll = function(els) {
+    for (var i=els.length-1; i>=0; i--) {
+        els[i].remove();
+    }
+}
 Utils.numericalSort = function(a,b) {
     return a - b;
 }

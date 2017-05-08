@@ -4,6 +4,7 @@ function AnnotationView(annotation) {
 
     var template = document.getElementById('tpl-annotation');
     this.el = template.firstElementChild.cloneNode(true);
+    this.el_nr     = this.el.getElementsByClassName('nr')[0];
     this.el_pos    = this.el.getElementsByClassName('pos')[0];
     this.el_text   = this.el.getElementsByClassName('text')[0];
     this.el_author = this.el.getElementsByClassName('author')[0];
@@ -145,9 +146,14 @@ AnnotationListView.prototype.update = function() {
         Utils.clearChildNodes(this.els_content[c]);
         counts[c] = 0;
     }
+    
+    var key = function(annotation) {return annotation.category*1e6 + annotation.highlight.anchor;}
+    this.annotations.sort(function(ann1, ann2) {return key(ann1) - key(ann2);});
+
     for (var i=0; i<this.annotations.length; i++) {
         var view = new AnnotationView(this.annotations[i]);
         this.els_content[this.annotations[i].category].appendChild(view.el);
+        Utils.setText(view.el_nr, i+1);
         counts[this.annotations[i].category] ++;
     }
     for (c = 0; c<this.els_content.length; c++) {

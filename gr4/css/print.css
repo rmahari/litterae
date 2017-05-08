@@ -79,20 +79,33 @@ h2 { font-size: 15pt; margin-top: 20pt; margin-bottom: 10pt; }
 .category-icon.grammar {background-color: #81d257;}
 .category-icon.media {background-color: #d194ff;}
 .category-icon.other {background-color: #ff9595;}
+/*
 .annotation.category-0 {border-left: 2pt dotted #82DAF9;}
 .annotation.category-1 {border-left: 2pt dotted #9ef372;}
 .annotation.category-2 {border-left: 2pt dotted #d194ff;}
 .annotation.category-3 {border-left: 2pt dotted #ff9595;}
 .annotation.instructor {border-left-style: solid;}
+*/
 .annotation button {display: none;}
 .annotation {
-    padding: 0 5px;
+    overflow: auto;
+}
+.annotation .nr {
+    float: left;
+    width: .25in;
+}
+.annotation .pos {
+    font-style: italic;
+    float: left;
+    width: 1.5in;
 }
 .annotation .text {
-    margin-bottom: 5px;    
+    margin-bottom: 5px;
+    float: left;
+    width: 4.75in;
 }
 .annotation .infobar {
-    overflow: auto;
+    display: none;
 }
 .annotation .infotxt {
     float: left;

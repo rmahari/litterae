@@ -127,6 +127,9 @@ span.instructor { border-bottom-style: solid; }
     padding: 15px;
     position: relative;
 }
+.annotation .nr {
+    display: none;
+}
 .annotation .pos, .pos {
     font-style: italic;
 }
