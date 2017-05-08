@@ -16,7 +16,6 @@ function LitteraeApp(el) {
 		this.user.isInstructor = true;
 
 		this.annotation_list = getCannedAnnotations(this.user);
-		this.last_annotation = null;
 
 		// application state
 		this.state = 'welcome'; // welcome / highlight / inspect
@@ -136,7 +135,7 @@ LitteraeApp.prototype.inspect = function(wid) {
 			return self.isVisible(annotation) //TO-DO: do we actually wants this?
 				   && annotation.highlight.contains(wid);
 		})
-	);;
+	);
 
 	Utils.setText(this.el_inspectpos, this.words[wid]);
 
@@ -197,7 +196,6 @@ LitteraeApp.prototype.delete = function(annotation) {
 	self.annotation_list.splice(idx, 1);
 	self.clearHighlights();
 	self.showAnnotationsOnText();
-	self.inspect(annotation.highlight.anchor);
 }
 
 LitteraeApp.prototype.setFilter = function(visibility, on) {

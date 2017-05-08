@@ -125,6 +125,7 @@ span.instructor { border-bottom-style: solid; }
 
 .annotation {
     padding: 15px;
+    position: relative;
 }
 .annotation .pos, .pos {
     font-style: italic;
@@ -142,6 +143,28 @@ span.instructor { border-bottom-style: solid; }
     margin-top: 8px;
 }
 .annotation button {
+    float: right;
+}
+
+.deleted-annotation.default {
+    display: none;
+}
+
+
+.deleted-annotation {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background-color: white;
+    padding: 15px;
+}
+
+
+.deleted-annotation  button{
     float: right;
 }
 

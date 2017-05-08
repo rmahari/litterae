@@ -9,9 +9,12 @@ function AnnotationView(annotation) {
     this.el_author = this.el.getElementsByClassName('author')[0];
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
     this.el_delete = this.el.getElementsByClassName('delete')[0];
+    this.el_mask   = this.el.getElementsByClassName('deleted-annotation')[0];
+    this.el_undo   = this.el.getElementsByClassName('undo')[0];
 
     this.el_edit.addEventListener('click', this.edit.bind(this));
     this.el_delete.addEventListener('click', this.delete.bind(this));
+    this.el_undo.addEventListener('click', this.undo.bind(this));
     this.el.addEventListener('mouseover', function(){self.hover(true)});
     this.el.addEventListener('mouseout', function(){self.hover(false)});
     this.annotation.on('update', this.update.bind(this));
@@ -31,7 +34,13 @@ AnnotationView.prototype.edit = function(e) {
 }
 AnnotationView.prototype.delete = function() {
     this.hover(false);
+    this.el_mask.classList.remove('default');
     app.delete(this.annotation);
+}
+AnnotationView.prototype.undo = function() {
+    app.annotation_list.push(this.annotation);
+    this.el_mask.classList.add('default');
+    app.showAnnotationsOnText();
 }
 AnnotationView.prototype.hover = function(on) {
     var category = this.annotation.category;
@@ -123,6 +132,7 @@ AnnotationListView.prototype.setList = function(annotations) {
     this.annotations = annotations;
     this.update();
 }
+
 AnnotationListView.prototype.toggleCategory = function(category) {
     if (!this.els_header[category].classList.contains("empty")) {
         var open = this.els_content[category].classList.toggle('open');
