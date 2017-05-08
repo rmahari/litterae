@@ -46,15 +46,10 @@
     border-collapse: collapse;
 }
 
-.groups-table tr:hover {
+.groups-table tbody tr:hover {
 /*    background-color: rgba(246, 236, 213, 0.2);*/
     background-color: #DDDDDD;
     cursor: pointer;
-}
-
-.groups-table tr:first-child:hover {
-    background-color: white;
-    cursor: auto;
 }
 
 th, td {
@@ -154,7 +149,7 @@ tr.selected {
     z-index: 0;
 }
 
-.texts-table tr:hover {
+.texts-table tbody tr:hover {
     background-color: #DDDDDD;
     cursor: pointer;
 }
