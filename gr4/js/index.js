@@ -174,6 +174,6 @@ TextItemView.prototype.update = function() {
     var self = this;
     Utils.setText(this.el_title, this.text.title);
     this.el.addEventListener('click', function() {
-        window.open('app.htm#text='+self.text.id);
+        window.open('app.htm#text='+self.text.id, '_self');
     })
 }
