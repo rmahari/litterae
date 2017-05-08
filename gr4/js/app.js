@@ -4,13 +4,13 @@ function LitteraeApp(el) {
 		this.el_black_overlay = document.getElementById('black-overlay');
 		this.el_btn_marker = document.getElementById('btn-marker');
 		this.el_btn_print = document.getElementById('btn-print');
+		this.el_btn_addtext = document.getElementById('btn-addtext');
 		this.el_text = document.getElementById('text');
 		this.els_filters = document.querySelectorAll('#category-sel .category-icon');
 		this.el_scope = document.getElementById('scope-sel')
 		this.el_welcome = document.getElementById('welcome');
 		this.el_inspect = document.getElementById('inspect');
 		this.el_inspectpos = document.getElementById('inspect-pos');
-		this.el_add_text_btn = document.getElementById('add-text-btn-tlbr');
 		this.el_add_text_div = document.getElementById('add-text-div');
 
 		// load models
@@ -95,7 +95,7 @@ LitteraeApp.prototype.bindEvents = function() {
 	});
 
 	// Bring up add new text popup and black overlay
-	self.el_add_text_btn.addEventListener('click', function() {
+	self.el_btn_addtext.addEventListener('click', function() {
         Utils.show(self.el_black_overlay);
         Utils.show(self.el_add_text_div);
         document.getElementById('add-text-heading').innerHTML = 'Add new text to MIT Latin II';

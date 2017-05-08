@@ -86,6 +86,7 @@
     float: left;
 }
 #btn-print    {background-image: url("../img/print.png");}
+#btn-addtext  {background-image: url("../img/addtext.png");}
 #btn-settings {background-image: url("../img/settings.png");}
 #btn-user     {
     background-image: url("../img/user.png");
