@@ -1,26 +1,54 @@
 function AnnotationView(annotation) {
+    var self = this;
     this.annotation = annotation;
 
     var template = document.getElementById('tpl-annotation');
     this.el = template.firstElementChild.cloneNode(true);
+    this.el_nr     = this.el.getElementsByClassName('nr')[0];
+    this.el_pos    = this.el.getElementsByClassName('pos')[0];
     this.el_text   = this.el.getElementsByClassName('text')[0];
     this.el_author = this.el.getElementsByClassName('author')[0];
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
+    this.el_delete = this.el.getElementsByClassName('delete')[0];
+    this.el_mask   = this.el.getElementsByClassName('deleted-annotation')[0];
+    this.el_undo   = this.el.getElementsByClassName('undo')[0];
 
     this.el_edit.addEventListener('click', this.edit.bind(this));
-
+    this.el_delete.addEventListener('click', this.delete.bind(this));
+    this.el_undo.addEventListener('click', this.undo.bind(this));
+    this.el.addEventListener('mouseover', function(){self.hover(true)});
+    this.el.addEventListener('mouseout', function(){self.hover(false)});
     this.annotation.on('update', this.update.bind(this));
     this.update();
 }
 AnnotationView.prototype.update = function() {
+    Utils.setText(this.el_pos,    this.annotation.highlight.text());
     Utils.setText(this.el_text,   this.annotation.text);
     Utils.setText(this.el_author, this.annotation.author.name);
 
-    this.el.classList.remove('c00-annotation', 'c01-annotation', 'c02-annotation', 'c03-annotation');
-    this.el.classList.add('c0' + this.annotation.category + "-annotation");
+    this.el.classList.remove('category-0', 'category-1', 'category-2', 'category-3');
+    this.el.classList.add('category-' + this.annotation.category);
+    this.el.classList.toggle('instructor', this.annotation.author.isInstructor);
 }
 AnnotationView.prototype.edit = function(e) {
     app.edit(this.annotation);
+}
+AnnotationView.prototype.delete = function() {
+    this.hover(false);
+    this.el_mask.classList.remove('default');
+    app.delete(this.annotation);
+}
+AnnotationView.prototype.undo = function() {
+    app.annotation_list.push(this.annotation);
+    this.el_mask.classList.add('default');
+    app.showAnnotationsOnText();
+}
+AnnotationView.prototype.hover = function(on) {
+    var category = this.annotation.category;
+    this.annotation.highlight.forEachWord(function(wid) {
+        app.word_els[wid].classList.toggle('hovered', on);
+        app.word_els[wid].classList.toggle('category-'+category, on);
+    });
 }
 
 function AnnotationEditView(annotation) {
@@ -54,7 +82,7 @@ AnnotationEditView.prototype.validate = function() {
     var valid = this.el_form.elements['category'].value &&
                 this.el_text.value.length > 0;
 
-    this.el_save.disabled = !valid;
+    this.el_save.classList.toggle("disabled", !valid);
     return valid;
 }
 AnnotationEditView.prototype.update = function() {
@@ -105,6 +133,7 @@ AnnotationListView.prototype.setList = function(annotations) {
     this.annotations = annotations;
     this.update();
 }
+
 AnnotationListView.prototype.toggleCategory = function(category) {
     if (!this.els_header[category].classList.contains("empty")) {
         var open = this.els_content[category].classList.toggle('open');
@@ -117,9 +146,14 @@ AnnotationListView.prototype.update = function() {
         Utils.clearChildNodes(this.els_content[c]);
         counts[c] = 0;
     }
+    
+    var key = function(annotation) {return annotation.category*1e6 + annotation.highlight.anchor;}
+    this.annotations.sort(function(ann1, ann2) {return key(ann1) - key(ann2);});
+
     for (var i=0; i<this.annotations.length; i++) {
         var view = new AnnotationView(this.annotations[i]);
         this.els_content[this.annotations[i].category].appendChild(view.el);
+        Utils.setText(view.el_nr, i+1);
         counts[this.annotations[i].category] ++;
     }
     for (c = 0; c<this.els_content.length; c++) {

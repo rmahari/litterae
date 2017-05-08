@@ -2,6 +2,7 @@ function LitteraeApp(el) {
 		// tie in DOM elements
 		this.el = el;
 		this.el_btn_marker = document.getElementById('btn-marker');
+		this.el_btn_print = document.getElementById('btn-print');
 		this.el_text = document.getElementById('text');
 		this.els_filters = document.querySelectorAll('#category-sel .category-icon');
 		this.el_scope = document.getElementById('scope-sel')
@@ -25,6 +26,7 @@ function LitteraeApp(el) {
 		this.word_els = [];
 
 		this.highlighted = new Highlight();  	
+		this.lastTextSelection = null;
 
 		this.editor = null;
 		this.inspectList = new AnnotationListView();
@@ -33,7 +35,7 @@ function LitteraeApp(el) {
 		//finalize initialization
 		this.prepareText();
 		this.bindEvents();
-		this.showAnnotationsOnText();
+		this.turnOnAllFilters();
 }
 
 LitteraeApp.prototype.bindEvents = function() {
@@ -43,7 +45,13 @@ LitteraeApp.prototype.bindEvents = function() {
 			self.setState('inspect');
 		} else {
 			self.setState('highlight');
+			if (self.lastTextSelection) {
+				self.highlight(self.lastTextSelection[0], self.lastTextSelection[1]);
+			}
 		}
+	});
+	this.el_btn_print.addEventListener('click', function() {
+		self.print();
 	});
 
 	this.el_text.addEventListener('mouseup', function(e) {
@@ -54,7 +62,12 @@ LitteraeApp.prototype.bindEvents = function() {
 		// user dragged from word a to word b to highlight
 		var a = parseInt(sel.anchorNode.parentElement.id.substr(1));
 		var b = parseInt(sel.focusNode.parentElement.id.substr(1));
-		self.highlight(a, b);
+
+		// The case where a == b is taken care of by an onclick listener set in this.prepareText.
+		// Having two calls to self.highlight causes one to undo the other.
+		if (a !== b) {
+			self.highlight(a, b);
+		}
 	});
 
 	for(var i = 0; i < this.els_filters.length; i++) { (function(i) {
@@ -64,6 +77,18 @@ LitteraeApp.prototype.bindEvents = function() {
 	})(i);}
 	this.el_scope.addEventListener('change', function() {
 		self.setScope(self.el_scope.value);
+	});
+
+	document.addEventListener('selectionchange', function() {
+		var sel = document.getSelection();
+		if (sel.anchorNode && self.el_text.contains(sel.anchorNode)) {
+			self.lastTextSelection = [
+				parseInt(sel.anchorNode.parentElement.id.substr(1)),
+				parseInt(sel.focusNode.parentElement.id.substr(1))
+			];
+		} else if (!(sel.anchorNode && self.el_btn_marker.contains(sel.anchorNode))) {
+			self.lastTextSelection = null;
+		} 
 	});
 }
 
@@ -110,10 +135,12 @@ LitteraeApp.prototype.inspect = function(wid) {
 			return self.isVisible(annotation) //TO-DO: do we actually wants this?
 				   && annotation.highlight.contains(wid);
 		})
-	);;
+	);
 
-	var lineNumber = this.getLineNumber(wid);
-	Utils.setText(this.el_inspectpos, 'Line '+lineNumber+': '+this.words[wid]);
+	Utils.setText(this.el_inspectpos, this.words[wid]);
+
+	for (var i=0; i<this.word_els.length; i++) this.word_els[i].classList.remove('inspected');
+	this.word_els[wid].classList.add('inspected');
 }
 
 LitteraeApp.prototype.newAnnotation = function(highlight) {
@@ -121,6 +148,7 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 
 	Utils.hide(this.el_welcome); //TO-DO: move to setState ?
 	Utils.hide(this.el_inspect);
+	for (var i=0; i<this.word_els.length; i++) this.word_els[i].classList.remove('inspected');
 
 	var annotation = new Annotation(highlight);
 	annotation.author = this.user;
@@ -136,7 +164,9 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 	this.editor.on('cancel', function() {
 		self.editor.el.remove();
 		self.editor = null;
-		self.setState('inspect');
+		self.clearHighlights();
+		self.inspect(annotation.highlight.anchor);
+		//self.setState('inspect');
 	});
 
 	document.getElementById('col-right').prepend(this.editor.el);
@@ -145,6 +175,10 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 LitteraeApp.prototype.edit = function(annotation) {
 	var self = this;
 	if (this.editor) this.editor.cancel();
+	this.setState('highlight');
+	this.highlighted = new Highlight(annotation.highlight);
+	this.showHighlightOnText(this.highlighted);
+
 	this.editor = new AnnotationEditView(annotation);
 	this.editor.on('save cancel', function() {
 		self.setFilter(annotation.category, true);
@@ -153,8 +187,15 @@ LitteraeApp.prototype.edit = function(annotation) {
 		self.editor = null;
 		self.inspect(annotation.highlight.anchor);
 	});
-
 	document.getElementById('col-right').prepend(this.editor.el);
+}
+
+LitteraeApp.prototype.delete = function(annotation) {
+	var self = this;
+	var idx = self.annotation_list.indexOf(annotation);
+	self.annotation_list.splice(idx, 1);
+	self.clearHighlights();
+	self.showAnnotationsOnText();
 }
 
 LitteraeApp.prototype.setFilter = function(visibility, on) {
@@ -163,15 +204,26 @@ LitteraeApp.prototype.setFilter = function(visibility, on) {
     self.els_filters[visibility].classList.toggle('inactive', !on);
 	self.showAnnotationsOnText();
 }
+LitteraeApp.prototype.turnOnAllFilters = function() {
+	var self = this;
+	for (var i = self.filter.length - 1; i >= 0; i--) {
+		self.setFilter(i, true);
+	}
+}
 LitteraeApp.prototype.showAnnotationsOnText = function() {
 	var self = this;
+	for (var w=0; w<self.word_els.length; w++) {
+		self.word_els[w].classList.remove('annotated-0', 'annotated-1', 'annotated-2', 'annotated-3', 'mine', 'instructor');
+	}
 	for (var i = 0; i < self.annotation_list.length; i++) {
 		var annotation = self.annotation_list[i];
 		annotation.highlight.forEachWord(function(wid) {
-			for (var f =0; f < self.filter.length; f++) {
-				self.word_els[wid].classList.toggle('annotated-'+f, self.isVisible(annotation) && annotation.category==f);
-				self.word_els[wid].classList.toggle('instructor', self.isVisible(annotation) && annotation.author.isInstructor);
-				self.word_els[wid].classList.toggle('mine', self.isVisible(annotation) && annotation.author == self.user);
+			if (self.isVisible(annotation)) {
+				if (annotation.author.isInstructor) {self.word_els[wid].classList.add('instructor')};
+				if (annotation.author == self.user) {self.word_els[wid].classList.add('mine')};
+				for (var f = 0; f < self.filter.length; f++) {
+					if (annotation.category==f) {self.word_els[wid].classList.toggle('annotated-'+f, self.isVisible(annotation) && annotation.category==f)};
+				}
 			}
 		});
 	}
@@ -217,6 +269,9 @@ LitteraeApp.prototype.highlight = function(w1, w2) {
 
 	if (this.highlighted.contains(w2)) {
 		this.highlighted.removeRange(l,r);
+		if (this.highlighted.ranges.length === 0) {
+			this.editor.cancel();
+		}
 	} else {
 		this.highlighted.addRange(l,r);
 	}
@@ -224,7 +279,7 @@ LitteraeApp.prototype.highlight = function(w1, w2) {
 
 	if (this.editor) {
 		this.editor.annotation.setHighlight(this.highlighted);
-	} else {
+	} else if (this.highlighted.ranges.length != 0) {
 		this.newAnnotation(this.highlighted);
 	}
 }
@@ -237,19 +292,9 @@ LitteraeApp.prototype.showHighlightOnText = function(highlight) {
 LitteraeApp.prototype.clearHighlights = function() {
 	this.highlighted.clear();
 
-	//get or create highlight span
 	var hs = document.getElementsByClassName('highlight');
-	for (var i=hs.length-1; i>=0; i--) {
-		var h = hs[i];  
-		//unwrap itm,
-		while (h.firstChild) h.parentNode.insertBefore(h.firstChild, h);
-		//remove from the dom
-		h.remove();
-	}
+	for (var i=hs.length-1; i>=0; i--) hs[i].classList.remove('highlight');
 }
-
-LitteraeApp.prototype.getLineNumber = function(wid) {
-    var lineHeight = parseFloat(window.getComputedStyle(this.el_text, null).getPropertyValue('line-height'));
-	var lineNumber = parseInt(this.word_els[wid].offsetTop/lineHeight) + 1;
-	return lineNumber;
+LitteraeApp.prototype.print = function() {
+	new PrintView();
 }

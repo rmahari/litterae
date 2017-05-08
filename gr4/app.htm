@@ -13,6 +13,7 @@
     <script src="js/views.js"></script>
     <script src="js/canned.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/print.js"></script>
     <script>
     var app;
     window.onload = function() {
@@ -41,11 +42,11 @@
                     <option value=mine>My Notes</option>
                 </select>
             </div>
-            <ul id=user>
-                <li><a href="#">👤 Ben Bitdiddle</a></li>
-                <li><a href="#">log out</a></li>
-                <li><a href="#">settings</a></li>
-            </ul>
+            <div id='main-tb'>
+                <div id='btn-print'></div>
+                <div id='btn-settings'></div>
+                <div id='btn-user'>Ben Bitdiddle</div>
+            </div>
         </div>
 
         <div id='col-left'>
@@ -82,12 +83,21 @@
     <div id=templates>
         <div id=tpl-annotation>
             <div class="annotation c01-annotation">
+                <div class="nr"></div>
+                <div class="pos"></div>
                 <div class="text">sdfsdf</div>
                 <div class="infobar">
                     <div class="infotxt">
                         Added by <span class="author">Ben Bitdiddle</span>
                     </div>
+                    <button class="delete" >Delete</button>
                     <button class="edit">Edit</button>
+                </div>
+                <div class="deleted-annotation default">
+                    <div class="text">Annotation deleted</div>
+                    <div class="infobar">
+                        <button class="undo" >Undo</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,27 +107,24 @@
                 <p class="pos">seriously?</p>
 
                 <form class="form">
+                    <textarea class="text" rows="5" placeholder="Type to add annotation..." required></textarea>
+                    <div class="radios">
+                        <label><span class="category-icon vocab">V</span>Vocabulary
+                        <input type=radio name=category class="category"  value="0" required></label>
 
-                <textarea class="text" rows="5" placeholder="Type to add annotation..."></textarea>
-                
-                <div class="radios">
-                    <label><span class="category-icon vocab">V</span>Vocabulary
-                    <input type=radio name=category class="category"  value="0"></label>
+                        <label><span class="category-icon grammar">G</span>Grammar
+                        <input type=radio name=category class="category" value="1" required></label>
 
-                    <label><span class="category-icon grammar">G</span>Grammar
-                    <input type=radio name=category class="category" value="1"></label>
+                        <label><span class="category-icon media">M</span>Media
+                        <input type=radio name=category class="category" value="2" required></label>
 
-                    <label><span class="category-icon media">M</span>Media
-                    <input type=radio name=category class="category" value="2"></label>
-
-                    <label><span class="category-icon other">O</span>Other
-                    <input type=radio name=category class="category" value="3"></label>
-                </div>
-                    
-                <div class="buttons">
-                    <button type="button" class="cancel" >Cancel</button>
-                    <button type="button" class="save" disabled=true>Save</button>
-                </div>
+                        <label><span class="category-icon other">O</span>Other
+                        <input type=radio name=category class="category" value="3" required></label>
+                    </div> 
+                    <div class="buttons">
+                        <button type="button" class="cancel" >Cancel</button>
+                        <button type="submit" class="save disabled">Save</button>
+                    </div>
 
                 </form>
             </div>
@@ -132,6 +139,14 @@
                 <div class="content content-context"></div>
                 <h4 class="header header-misc"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon other">O</span> Other <span class="count"></span> </h4>
                 <div class="content content-misc"></div>
+            </div>
+        </div>
+        <div id="tpl-print">
+        </div>
+        <div id="tpl-print-page">
+            <div class="page">
+                <div class="text"></div>
+                <div class="annotations"></div>
             </div>
         </div>
     </div>

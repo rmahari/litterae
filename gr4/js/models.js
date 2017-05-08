@@ -20,9 +20,9 @@ Highlight.prototype.addRange = function(wid1, wid2) {
     //sort ranges by start index
     this.ranges.sort((a, b) => (a[0]-b[0]));
 
-    //iterate over them and join where overlapping
+    //iterate over them and join where overlapping or adjacent
     for (var i=0; i<this.ranges.length-1; i++) {
-        if (this.ranges[i][1] >= this.ranges[i+1][0]) {
+        if (this.ranges[i][1] >= this.ranges[i+1][0] - 1) {
             this.ranges[i][1] = Math.max(this.ranges[i][1], this.ranges[i+1][1]);
             this.ranges.splice(i+1, 1); i--;
         }
@@ -37,7 +37,7 @@ Highlight.prototype.removeRange = function(l, r) {
         R = this.ranges[i][1];
         if (l<=L && R<=r) {
             //remove range entirely
-            this.ranges.splice(i); i--;
+            this.ranges.splice(i, 1); i--;
         } else if (l<=L && L<=r) {
             // trim left
             this.ranges[i][0] = r+1;
@@ -75,8 +75,7 @@ Highlight.prototype.text = function() {
         if (r[0]==r[1]) {
             chunks.push(app.words[r[0]]); //cringe... shouldn't be using the app global
         } else {
-            chunks.push( 'l.'+app.getLineNumber(r[0]) + ": " + 
-                      app.words[r[0]] + ((r[1]-r[0]==1) ? ' ' :  ' ... ') + 
+            chunks.push(app.words[r[0]] + ((r[1]-r[0]==1) ? ' ' :  ' ... ') + 
                       app.words[r[1]] );
         }
     });
