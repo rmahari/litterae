@@ -130,6 +130,9 @@ span.instructor { border-bottom-style: solid; }
 .annotation .nr {
     display: none;
 }
+.annotation .nr {
+    display: none;
+}
 .annotation .pos, .pos {
     font-style: italic;
 }
