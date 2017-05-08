@@ -11,9 +11,7 @@
     left: 0;
     right: 0;
 }
-#templates {
-    display: none;
-}
+
 /* main layout */
 #col-left {
     position: absolute;
@@ -94,12 +92,6 @@
     padding: 0 15px 0 50px;
     line-height: 50px;
     background-position: 15px center !important;
-}
-
-
-#logo:hover {
-    cursor: pointer;
-    background-color: #DDDDDD;
 }
 
 #logo:visited, #logo:active, #logo:hover, #logo:link, #logo-link:link, #logo-link:hover, #logo-link:active, #logo-link:visited {
