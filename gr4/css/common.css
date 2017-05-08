@@ -43,9 +43,12 @@ a:visited, a:link {
     font-size: 20px;
     padding: 15px;
     float: left;
-    cursor: default;
     user-select: none;
     letter-spacing: 5pt;
+}
+
+#templates {
+    display: none;
 }
 
 #main-tb div {
@@ -75,153 +78,6 @@ a:visited, a:link {
     padding: 0 15px 0 50px;
     line-height: 50px;
     background-position: 15px center !important;
-}
-
-/* user navigation bar */
-#user {
-    line-height: 20px;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    float: right;
-}
-
-#user li {
-    display: inline-block;
-    height: 50px;
-    line-height: 20px;
-    border-left: 1px solid #DDDDDD;
-}
-
-#user li:first-child {
-    border-left: none;
-}
-
-#user li span, #user li a, #user li a:active {
-    display: block;
-    padding: 15px;
-    color: #000000;
-    outline: none;
-    text-decoration: none;
-}
-
-#user li a:hover {
-    background-color: #DDDDDD;
-}
-
-#content {
-    padding: 15px;
-}
-
-/* Groups Management */
-
-#search-groups {
-    height: 40px;
-    padding: 0px;
-    margin-bottom: 5px;
-}
-
-#group-search-input {
-    margin-left: 5px;
-    font-size: 1em;
-    font-family: "Times New Roman";
-}
-
-#groups-div {
-    position: absolute;
-    left: 4%;
-    width: 44%;
-    bottom: 0;
-    top: 80px;
-}
-
-#groups-label, #texts-label {
-    text-align: center;
-}
-
-#groups-table-div {
-    width: 100%;
-    text-align: center;
-    height: 100%;
-}
-
-.groups-table {
-    width: 100%;
-    margin: auto;
-    border-collapse: collapse;
-}
-
-.groups-table tr {
-    border: 2px solid rgba(100, 100, 100, 1);
-    border-collapse: collapse;
-}
-
-.groups-table tr:hover {
-/*    background-color: rgba(246, 236, 213, 0.2);*/
-    background-color: #DDDDDD;
-    cursor: pointer;
-}
-
-.groups-table tr:first-child:hover {
-    background-color: white;
-    cursor: auto;
-}
-
-th, td {
-    padding: 1em;
-    border-collapse: collapse;
-    /*font-size: 1.2em;*/
-}
-
-.instr-apple {
-    font-size: 2em; 
-}
-
-
-#selected-group {
-    background-color: rgba(246, 236, 213, 0.5);
-}
-
-.leave-grp-btn, .del-text-btn{
-    background-color: rgba(170, 0, 0, 1);
-    border: 0px;
-    color: white;
-    padding: 1em;
-    cursor: pointer;
-    border-radius: 5px;
-    font-family: "Times New Roman";
-    font-size: 0.75em;
-    z-index: 2;
-}
-
-#add-grp-btn {
-    /*background-color: rgba(0, 150, 0, 1);*/
-    background-color: rgb(55, 109, 109);
-    border: 0px;
-    color: white;
-    padding: 1em;
-    cursor: pointer;
-    border-radius: 5px;
-    position: absolute;
-    right: 5px;
-    top: 55px;
-    font-family: "Times New Roman";
-    font-size: 0.75em;
-}
-
-#add-text-btn {
-    /*background-color: rgba(0, 150, 0, 1);*/
-    background-color: rgb(63, 135, 66);
-    border: 0px;
-    color: white;
-    padding: 1em;
-    cursor: pointer;
-    border-radius: 5px;
-    position: absolute;
-    right: 5px;
-    top: 55px;
-    font-family: "Times New Roman";
-    font-size: 0.75em;
 }
 
 #new-group-div, #add-text-div {
@@ -268,63 +124,4 @@ th, td {
     border-radius: 5px;
     font-family: "Times New Roman";
     font-size: 0.75em;
-}
-
-
-/* Texts/Fragments Management */
-
-#search-texts {
-    height: 40px;
-    padding: 0px;
-    margin-bottom: 5px;
-}
-
-#text-search-input {
-    margin-left: 5px;
-    font-size: 1em;
-    font-family: "Times New Roman";
-}
-
-#texts-div {
-    position: absolute;
-    top: 80px;
-    width: 44%;
-    left: 52%;
-    /*border: 1px solid gold;*/
-    /*text-align: center;*/
-}
-
-#texts-table-div {
-    text-align: center;
-}
-
-.texts-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 2px solid rgba(100, 100, 100, 1);
-}
-
-.texts-table tr {
-    border: solid rgba(100, 100, 100, 0.3);
-    border-width: 1px 0;
-    z-index: 0;
-}
-
-.texts-table tr:hover {
-    background-color: #DDDDDD;
-    cursor: pointer;
-}
-
-.texts-table tr:td:first-child {
-    background-color: blue;
-}
-
-.texts-table td {
-    height: 2em;
-    /*border-top: 2px solid rgba(100, 100, 100, 0.3);*/
-}
-
-.texts-table tr:hover {
-}
-
 }

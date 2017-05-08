@@ -141,19 +141,24 @@ User.prototype.canSee = function(annotation) {
     } 
 }
 
-User.prototype.canApprove = function(annotation) {
-    if ((this.isInstructor) && (annotation.user != this)) {
-        return true;
-    } else {
-        return false;
-    }
+/*
+* Group
+*/
+function Group() {
+    this.id = 0;
+    this.name = '';
+    this.instructor = null;
+    this.members = [];
+    this.texts = [];
 }
 
 /**
- * UNUSED
+ * Text
  */
 function Text() {
-    this.words = [];
+    this.id = 0;
+    this.title = '';
+    this.content = '';
 }
 Text.prototype.fromPlain = function(text) {
 

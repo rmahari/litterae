@@ -4,87 +4,66 @@
     <meta charset="utf-8" /> 
     <title>LITTERAE</title>
     <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
     <script src="js/utils.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/models.js"></script>
+    <script src="js/canned.js"></script>
     <script src="js/index.js"></script>
 
-    <script> 
-    // document.getElementById("groups-table-div").addEventListener("click", function(event) {
-    //     alert(event.target);
-    // });
-
+    <script>
+    var app;
     window.onload = function() {
-        var text_rows = document.getElementsByClassName('text-row');
-        for (var i = 0; i < text_rows.length; i++) {
-            var sel_text_row = text_rows[i];
-            sel_text_row.addEventListener('click', function() {
-                var href = this.dataset.href;
-                if (href) {
-                    window.location.assign(href);
-                }
+        app = new LitteraeIndex(this.document.getElementById('content'));
+
+        function letsNotDoThisForNow() {
+            
+            var black_overlay = document.getElementById('black-overlay');
+            var new_group_div = document.getElementById('new-group-div');
+            var add_text_div = document.getElementById('add-text-div');
+
+            document.getElementById('add-grp-btn').addEventListener('click', function () {
+
+            });
+
+            document.getElementById('btn-create-group').addEventListener('click', function() {
+        
+            });
+
+            document.getElementById('add-text-btn').addEventListener('click', function() {
+                Utils.show(black_overlay);
+                Utils.show(add_text_div);
+                document.getElementById('add-text-heading').innerHTML = 'Add new text to ' + document.getElementById('selected-group').getElementsByTagName('td')[1].innerHTML;
+            });
+
+            document.getElementById('create-text-btn').addEventListener('click', function() {
+                Utils.hide(add_text_div);
+                Utils.hide(black_overlay);
+                var new_text_name = document.getElementById('new-text-name').value;
+                var table = document.getElementById('texts-table');
+                var row = table.insertRow(0);
+                var cell0 = row.insertCell(0);
+                var cell1 = row.insertCell(1);
+                cell0.innerHTML = new_text_name;
+                cell1.innerHTML = '<button class="del-text-btn">Delete Text</button>'
+            });
+
+
+            black_overlay.addEventListener('click', function() {
+                Utils.hide(new_group_div);
+                Utils.hide(add_text_div);
+                Utils.hide(black_overlay);
+            });
+
+            document.getElementById('texts-label').innerHTML = 'Texts in <u>' + document.getElementById('selected-group').getElementsByTagName('td')[1].innerHTML + '</u>';
+
+            document.getElementById('groups-table-div').addEventListener('click', function (e) {
+                var tr = document.getElementById('selected-group');
+                var td = tr.getElementsByTagName("td");
+
+                document.getElementById('texts-label').innerHTML = 'Texts in <u>' + td[1].innerHTML + '</u>';
             });
         }
-
-        var black_overlay = document.getElementById('black-overlay');
-        var new_group_div = document.getElementById('new-group-div');
-        var add_text_div = document.getElementById('add-text-div');
-
-        document.getElementById('add-grp-btn').addEventListener('click', function () {
-            Utils.show(black_overlay);
-            Utils.show(new_group_div);
-        });
-
-        document.getElementById('btn-create-group').addEventListener('click', function() {
-            Utils.hide(new_group_div);
-            Utils.hide(black_overlay);
-            var new_group_name = document.getElementById('new-group-name').value;
-            var instructor = 'Ben Bitdiddle'
-            var table = document.getElementById('groups-table');
-            var row = table.insertRow(1);
-            var cell0 = row.insertCell(0);
-            var cell1 = row.insertCell(1);
-            var cell2 = row.insertCell(2);
-            var cell3 = row.insertCell(3);
-            cell0.innerHTML = '🍎';
-            cell0.classList.add('instr-apple');
-            cell1.innerHTML = new_group_name;
-            cell2.innerHTML = instructor;
-            cell3.innerHTML = '<button class="leave-grp-btn">Leave Group</button>';
-        });
-
-        document.getElementById('add-text-btn').addEventListener('click', function() {
-            Utils.show(black_overlay);
-            Utils.show(add_text_div);
-            document.getElementById('add-text-heading').innerHTML = 'Add new text to ' + document.getElementById('selected-group').getElementsByTagName('td')[1].innerHTML;
-        });
-
-        document.getElementById('create-text-btn').addEventListener('click', function() {
-            Utils.hide(add_text_div);
-            Utils.hide(black_overlay);
-            var new_text_name = document.getElementById('new-text-name').value;
-            var table = document.getElementById('texts-table');
-            var row = table.insertRow(0);
-            var cell0 = row.insertCell(0);
-            var cell1 = row.insertCell(1);
-            cell0.innerHTML = new_text_name;
-            cell1.innerHTML = '<button class="del-text-btn">Delete Text</button>'
-        });
-
-
-        black_overlay.addEventListener('click', function() {
-            Utils.hide(new_group_div);
-            Utils.hide(add_text_div);
-            Utils.hide(black_overlay);
-        });
-
-        document.getElementById('texts-label').innerHTML = 'Texts in <u>' + document.getElementById('selected-group').getElementsByTagName('td')[1].innerHTML + '</u>';
-
-        document.getElementById('groups-table-div').addEventListener('click', function (e) {
-            var tr = document.getElementById('selected-group');
-            var td = tr.getElementsByTagName("td");
-
-            document.getElementById('texts-label').innerHTML = 'Texts in <u>' + td[1].innerHTML + '</u>';
-        });
     }
 
 
@@ -157,7 +136,6 @@
 
 
 <div id="groups-div">
-    
     <h3 id="groups-label" style="margin-bottom: 10px">Your Groups</h3>
 
     <div id="search-groups">
@@ -167,38 +145,10 @@
         <button id="add-grp-btn">Add Group</button>
     </div>    
 
-    <div id="groups-table-div">
-        <table class="groups-table" id="groups-table">
-            <tr class="heading-row">
-                <th class="instr-apple"></th>
-                <th>Group</th>
-                <th>Instructor</th>
-                <th></th>
-            </tr>
-            <tr id="selected-group">
-                <td class="instr-apple">🍎</td>
-                <td>Harvard Latin 2</td>
-                <td>Professor Livingston</td>
-                <td><button class="leave-grp-btn">Leave Group</button></td>
-            </tr>
-            <tr>
-                <td class="instr-apple">🍎</td>
-                <td>Harvard Latin 3</td>
-                <td>Professor Livingston</td>
-                <td><button class="leave-grp-btn">Leave Group</button></td>
-            </tr>
-            <tr>
-                <td class="instr-apple"></td>
-                <td>MIT Latin</td>
-                <td>Professor Frampton</td>
-                <td><button class="leave-grp-btn">Leave Group</button></td>
-            </tr>
-        </table>
-    </div>
+    <div id="groups-table-div"></div>
 </div>
 
 <div id="texts-div">
-
     <h3 id="texts-label" style="margin-bottom: 10px">Texts</h3>
 
     <div id="search-texts">
@@ -208,28 +158,55 @@
         <button id="add-text-btn">Add Text</button>
     </div>    
 
-    <div id="texts-table-div">
-        <table class="texts-table" id='texts-table'>
-            <tr class="text-row" data-href="app.htm">
-                <td>Caesar - De Bello Gallico, Liber I, I</td>
-                <td><button class="del-text-btn">Delete Text</button></td>
-            </tr>
-            <tr class="text-row">
-                <td>Varro - Res Rusticae, 1.17 </td>
-                <td><button class="del-text-btn">Delete Text</button></td>
-            </tr>
-            <tr class="text-row">
-                <td>Sallust - De Coniuratione Catilinae, Liber I</td>
-                <td><button class="del-text-btn">Delete Text</button></td>
-            </tr>
+    <div id="texts-table-div"></div> 
+</div>
 
+</div>
+
+
+</div>
+<div id="templates">
+    <div id="tpl-grouplist">
+        <table class="groups-table">
+            <thead>
+                <tr class="heading-row">
+                    <th class="instr-apple"></th>
+                    <th>Group</th>
+                    <th>Instructor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </table>
-    </div> 
-</div>
+    </div>
 
-</div>
+    <div id="tpl-textlist">
+        <table class="texts-table">
+            <thead>
+                <tr class="heading-row">
+                    <th>title</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
+    <table><tbody  id="tpl-groupitem">
+        <tr>
+            <td class="instr-apple">🍎</td>
+            <td><span class="name">Harvard Latin 2</span></td>
+            <td><span class="instructor">Professor Livingston</span></td>
+            <td><button class="leave-grp-btn">Leave Group</button></td>
+        </tr>
+    </tbody></table>
 
+    <table><tbody id="tpl-textitem">
+        <tr class="text-row" data-href="app.htm">
+            <td><span class="title">Caesar - De Bello Gallico, Liber I, I</span></td>
+            <td><button class="del-text-btn">Delete Text</button></td>
+        </tr>
+    </tbody></table>
 </div>
 </body>
 </html>
