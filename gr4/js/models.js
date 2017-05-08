@@ -93,6 +93,7 @@ function Annotation(highlight) {
     this.text = '';
     this.visibility = null;
     this.category = null;
+    this.approved = false;
 
     this.eventHost = new Utils.EventHost(this);
 }
@@ -140,6 +141,13 @@ User.prototype.canSee = function(annotation) {
     } 
 }
 
+User.prototype.canApprove = function(annotation) {
+    if ((this.isInstructor) && (annotation.user != this)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /**
  * UNUSED
