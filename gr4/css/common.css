@@ -108,15 +108,17 @@ a:visited, a:link {
 #new-group-name, #new-group-members, #new-text-name {
     font-size: 1.5em;
     width: 75%;
+    font-family: "Times New Roman";
 }
 
 #new-text-content {
     font-size: 1em;
     width: 75%;
+    font-family: "Times New Roman";
 }
 
 #btn-create-group, #create-text-btn {
-    background-color: rgba(80, 80, 80, 1);
+    background-color: rgb(55, 109, 109);
     border: 0px;
     color: white;
     padding: 1em;
