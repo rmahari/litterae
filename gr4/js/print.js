@@ -32,6 +32,9 @@ function PrintView() {
                 printWindow.document.body.appendChild(lastPage.el);
                 self.pages.push(lastPage);
             }
+            if (w==0) {
+                lastPage.el.classList.add('first');
+            }
             lastPage.addWord();
             if (lastPage.overflows) {
                 lastPage.removeLastWord();
@@ -53,6 +56,7 @@ function PrintPageView(wid_start) {
     // DOM
     var template = document.getElementById('tpl-print-page');
     this.el = template.firstElementChild.cloneNode(true);
+    this.el_title =        this.el.getElementsByClassName('title')[0];
     this.el_text =        this.el.getElementsByClassName('text')[0];
     this.el_annotations = this.el.getElementsByClassName('annotations')[0];
     this.word_els = [];
@@ -80,6 +84,9 @@ PrintPageView.prototype.removeLastWord = function() {
 }
 PrintPageView.prototype.update = function() {
     var self = this;
+
+    Utils.setText(this.el_title, app.text.title);
+
     this.annotationsView.setList(app.annotation_list.filter(function(ann) {
         var inFragment = false;
         for (var w=self.wid_start; w<self.wid_end; w++) {

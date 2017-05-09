@@ -8,8 +8,8 @@ body {
     width: 8.5in;
 }
 
-h1 { font-size: 20pt; margin-top: 5pt; margin-bottom: 10pt; }
-h2 { font-size: 15pt; margin-top: 20pt; margin-bottom: 10pt; }
+h1 { font-size: 16pt; margin-top: 5pt; margin-bottom: 10pt; }
+h2 { font-size: 14pt; margin-top: 20pt; margin-bottom: 10pt; }
 
 .page > .text {
     line-height: 28pt;
@@ -53,6 +53,9 @@ h2 { font-size: 15pt; margin-top: 20pt; margin-bottom: 10pt; }
     clear: both;
     overflow: hidden;
 }
+
+.title { display: none;}
+.page.first .title {display: block; }
 
 .annotationlist h4 {
     border-bottom: solid 1px #AAAAAA;
