@@ -117,3 +117,9 @@ h2 { font-size: 15pt; margin-top: 20pt; margin-bottom: 10pt; }
 .annotation .instr-approved {
     display: none;
 }
+
+.annotation-img {
+    margin-left: 1.75in;
+    max-width: 4.75in;
+    max-height: 2.5in;
+}

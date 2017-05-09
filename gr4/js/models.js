@@ -93,6 +93,7 @@ function Annotation(highlight) {
     this.text = '';
     this.visibility = null;
     this.category = null;
+    this.image_src = null;
     this.approved = false;
 
     this.eventHost = new Utils.EventHost(this);
@@ -104,6 +105,11 @@ Annotation.prototype.setHighlight = function(highlight) {
 Annotation.prototype.setText = function(text) {
     //TO-DO: input-validation;
     this.text = text;
+    this.trigger('update');
+}
+Annotation.prototype.setImage = function(img_src) {
+    //TO-DO: input-validation;
+    this.image_src = img_src;
     this.trigger('update');
 }
 Annotation.prototype.setVisibility = function(visibility) {
