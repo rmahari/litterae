@@ -27,6 +27,17 @@ Utils.numericalSort = function(a,b) {
     return a - b;
 }
 
+Utils.getUrlHashVars = function() {
+    var hash = top.location.hash.replace('#', '');
+    var params = hash.split('&');
+    var result = {};
+    for(var i = 0; i < params.length; i++){
+       var propval = params[i].split('=');
+       result[propval[0]] = propval[1];
+    }
+    return result;
+}
+
 /*
 * For if we want to switch to listener model based updates...
 */
