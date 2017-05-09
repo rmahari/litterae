@@ -348,3 +348,21 @@ span.highlight {
 .category-3.hovered {
     background-color: rgba(255, 149, 149, .3);
 }
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: inline;
+}
+
+.annotation-img {
+    max-width: 70%;
+    max-height: 50%;
+}
+
+.uploaded-img {
+    max-width: 70%;
+    max-height: 50%;
+}
