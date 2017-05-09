@@ -58,6 +58,10 @@ th, td {
     /*font-size: 1.2em;*/
 }
 
+th.action-col {
+    width: 30%;
+}
+
 .instr-apple {
     font-size: 2em; 
 }
@@ -96,7 +100,7 @@ tr.selected {
 
 #add-text-btn {
     /*background-color: rgba(0, 150, 0, 1);*/
-    background-color: rgb(63, 135, 66);
+    background-color: rgb(55, 109, 109);
     border: 0px;
     color: white;
     padding: 1em;
@@ -137,16 +141,16 @@ tr.selected {
     text-align: center;
 }
 
+
 .texts-table {
     width: 100%;
+    margin: auto;
     border-collapse: collapse;
-    border: 2px solid rgba(100, 100, 100, 1);
 }
 
 .texts-table tr {
-    border: solid rgba(100, 100, 100, 0.3);
-    border-width: 1px 0;
-    z-index: 0;
+    border: 2px solid rgba(100, 100, 100, 1);
+    border-collapse: collapse;
 }
 
 .texts-table tbody tr:hover {
@@ -159,11 +163,6 @@ tr.selected {
 }
 
 .texts-table td {
-    height: 2em;
-    /*border-top: 2px solid rgba(100, 100, 100, 0.3);*/
-}
-
-.texts-table tr:hover {
-}
-
+    padding-bottom: 2em;
+    padding-top: 2em;
 }

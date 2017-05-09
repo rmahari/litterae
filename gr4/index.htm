@@ -15,58 +15,7 @@
     var app;
     window.onload = function() {
         app = new LitteraeIndex(this.document.getElementById('content'));
-
-        function letsNotDoThisForNow() {
-            
-            var black_overlay = document.getElementById('black-overlay');
-            var new_group_div = document.getElementById('new-group-div');
-            var add_text_div = document.getElementById('add-text-div');
-
-            document.getElementById('add-grp-btn').addEventListener('click', function () {
-
-            });
-
-            document.getElementById('btn-create-group').addEventListener('click', function() {
-        
-            });
-
-            document.getElementById('add-text-btn').addEventListener('click', function() {
-                Utils.show(black_overlay);
-                Utils.show(add_text_div);
-                document.getElementById('add-text-heading').innerHTML = 'Add new text to ' + document.getElementById('selected-group').getElementsByTagName('td')[1].innerHTML;
-            });
-
-            document.getElementById('create-text-btn').addEventListener('click', function() {
-                Utils.hide(add_text_div);
-                Utils.hide(black_overlay);
-                var new_text_name = document.getElementById('new-text-name').value;
-                var table = document.getElementById('texts-table');
-                var row = table.insertRow(0);
-                var cell0 = row.insertCell(0);
-                var cell1 = row.insertCell(1);
-                cell0.innerHTML = new_text_name;
-                cell1.innerHTML = '<button class="del-text-btn">Delete Text</button>'
-            });
-
-
-            black_overlay.addEventListener('click', function() {
-                Utils.hide(new_group_div);
-                Utils.hide(add_text_div);
-                Utils.hide(black_overlay);
-            });
-
-            document.getElementById('texts-label').innerHTML = 'Texts in <u>' + document.getElementById('selected-group').getElementsByTagName('td')[1].innerHTML + '</u>';
-
-            document.getElementById('groups-table-div').addEventListener('click', function (e) {
-                var tr = document.getElementById('selected-group');
-                var td = tr.getElementsByTagName("td");
-
-                document.getElementById('texts-label').innerHTML = 'Texts in <u>' + td[1].innerHTML + '</u>';
-            });
-        }
     }
-
-
     </script>
     
 </head>
@@ -89,16 +38,12 @@
     <table id="new-group-table">
         <tr>
             <td>
-             Group Name 
-             <br/>
-             <input id="new-group-name" type="text" placeholder="Harvard Latin 3">
+             <input id="new-group-name" type="text" placeholder="Group name">
             </td>
         </tr>
         <tr>
             <td>
-            Invite to group 
-            <br/>
-            <input id="new-group-members" type="text" placeholder="member emails">
+            <input id="new-group-members" type="text" placeholder="Member emails">
             </td>
         </tr>
         <tr>
@@ -114,7 +59,7 @@
     <table id="new-text-table">
         <tr>
             <td>
-             <input id="new-text-name" type="text" placeholder="Text Name">
+             <input id="new-text-name" type="text" placeholder="Text name">
             </td>
         </tr>
         <tr>
@@ -166,10 +111,10 @@
         <table class="groups-table">
             <thead>
                 <tr class="heading-row">
-                    <th class="instr-apple"></th>
+                    <th></th>
                     <th>Group</th>
                     <th>Instructor</th>
-                    <th></th>
+                    <th class=action-col></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -181,7 +126,7 @@
             <thead>
                 <tr class="heading-row">
                     <th>Title</th>
-                    <th></th>
+                    <th class=action-col></th>
                 </tr>
             </thead>
             <tbody></tbody>

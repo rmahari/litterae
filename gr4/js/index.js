@@ -41,6 +41,9 @@ LitteraeIndex.prototype.openGroup = function(group) {
     if (this.textsView) this.textsView.el.remove();
     this.textsView = new TextListView(group.texts);
     this.el_texts.appendChild(this.textsView.el);
+
+    var text_label = document.getElementById('texts-label');
+    Utils.setText(text_label, 'Texts in ' + this.groupsView.selectedGroup.name);
 }
 LitteraeIndex.prototype.openCreateGroupDialog = function() {
     Utils.show(this.el_overlay);
@@ -62,6 +65,7 @@ LitteraeIndex.prototype.openCreateTextDialog = function() {
     Utils.show(this.el_add_text);
     document.getElementById('new-text-name').value = '';
     document.getElementById('new-text-content').value = '';
+    
     var group_name = document.getElementsByClassName('group-name')[0];
     Utils.setText(group_name, this.groupsView.selectedGroup.name);
 }
