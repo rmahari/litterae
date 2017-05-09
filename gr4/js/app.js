@@ -23,7 +23,8 @@ function LitteraeApp(el) {
 		this.words = [];
 		this.word_els = [];
 
-		this.highlighted = new Highlight();  	
+		this.highlighted = new Highlight();
+		this.inspected = null;  	
 		this.lastTextSelection = null;
 
 		this.editor = null;
@@ -127,6 +128,9 @@ LitteraeApp.prototype.prepareText = function() {
  */
 LitteraeApp.prototype.inspect = function(wid) {
 	var self = this;
+	wid = wid || self.inspected;
+	if (wid == null) return false;
+	self.inspected = wid;
 
 	Utils.show(this.el_inspect);
 	Utils.hide(this.el_welcome);
@@ -206,6 +210,7 @@ LitteraeApp.prototype.setFilter = function(visibility, on) {
 	self.filter[visibility] = on;
     self.els_filters[visibility].classList.toggle('inactive', !on);
 	self.showAnnotationsOnText();
+	self.inspect()
 }
 LitteraeApp.prototype.turnOnAllFilters = function() {
 	var self = this;
