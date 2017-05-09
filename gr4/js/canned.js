@@ -141,7 +141,7 @@ function getCannedGroups() {
     g3.name = "MIT Latin - Group 1";
     g3.instructor = i1;
     g3.members.push(u1, u2, u3, u4);
-    g3.texts.push(t[2], t[0], t[3]);
+    g3.texts.push(t[2], t[0], t[1]);
 
     return [g1,g2,g3];
 }
