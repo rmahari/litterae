@@ -94,6 +94,7 @@ function Annotation(highlight) {
     this.visibility = null;
     this.category = null;
     this.image_src = null;
+    this.approved = false;
 
     this.eventHost = new Utils.EventHost(this);
 }
@@ -146,12 +147,24 @@ User.prototype.canSee = function(annotation) {
     } 
 }
 
+/*
+* Group
+*/
+function Group() {
+    this.id = 0;
+    this.name = '';
+    this.instructor = null;
+    this.members = [];
+    this.texts = [];
+}
 
 /**
- * UNUSED
+ * Text
  */
 function Text() {
-    this.words = [];
+    this.id = 0;
+    this.title = '';
+    this.content = '';
 }
 Text.prototype.fromPlain = function(text) {
 

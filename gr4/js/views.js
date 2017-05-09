@@ -10,12 +10,17 @@ function AnnotationView(annotation) {
     this.el_author = this.el.getElementsByClassName('author')[0];
     this.el_edit   = this.el.getElementsByClassName('edit')[0];
     this.el_delete = this.el.getElementsByClassName('delete')[0];
+    this.el_approve = this.el.getElementsByClassName('approve')[0];
+    this.el_approved_logo = this.el.getElementsByClassName('instr-approved')[0];
     this.el_mask   = this.el.getElementsByClassName('deleted-annotation')[0];
     this.el_undo   = this.el.getElementsByClassName('undo')[0];
     this.el_image  = this.el.getElementsByClassName('annotation-img')[0];
 
     this.el_edit.addEventListener('click', this.edit.bind(this));
     this.el_delete.addEventListener('click', this.delete.bind(this));
+
+    this.el_approve.addEventListener('click', this.approve.bind(this));
+
     this.el_undo.addEventListener('click', this.undo.bind(this));
     this.el.addEventListener('mouseover', function(){self.hover(true)});
     this.el.addEventListener('mouseout', function(){self.hover(false)});
@@ -34,14 +39,32 @@ AnnotationView.prototype.update = function() {
     this.el.classList.remove('category-0', 'category-1', 'category-2', 'category-3');
     this.el.classList.add('category-' + this.annotation.category);
     this.el.classList.toggle('instructor', this.annotation.author.isInstructor);
+
+    // Show approve button if conditions satisfied
+    if (!(this.annotation.author.isInstructor) && (!(this.annotation.approved))) {
+        Utils.show(this.el_approve);
+    }
+    // Show if annotation is approved
+    if (this.annotation.approved) {
+        Utils.show(this.el_approved_logo);
+    }
+    
 }
 AnnotationView.prototype.edit = function(e) {
     app.edit(this.annotation);
+    this.annotation.approved = false;
 }
 AnnotationView.prototype.delete = function() {
     this.hover(false);
     this.el_mask.classList.remove('default');
     app.delete(this.annotation);
+}
+
+// Instructor approve this annotation
+AnnotationView.prototype.approve = function(e) {
+    this.annotation.approved = true;
+    Utils.hide(this.el_approve);
+    Utils.show(this.el_approved_logo);
 }
 AnnotationView.prototype.undo = function() {
     app.annotation_list.push(this.annotation);

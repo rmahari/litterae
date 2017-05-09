@@ -11,9 +11,7 @@
     left: 0;
     right: 0;
 }
-#templates {
-    display: none;
-}
+
 /* main layout */
 #col-left {
     position: absolute;
@@ -106,17 +104,10 @@
     background-position: 15px center !important;
 }
 
-
-#logo:hover {
-    cursor: pointer;
-    background-color: #DDDDDD;
-}
-
 #logo:visited, #logo:active, #logo:hover, #logo:link, #logo-link:link, #logo-link:hover, #logo-link:active, #logo-link:visited {
     color: inherit;
 /*    text-decoration: none;*/
 }
-
 
 #text {
     padding: 15px;
@@ -173,6 +164,25 @@ span.instructor { border-bottom-style: solid; }
 }
 .annotation button {
     float: right;
+    margin: 5px;
+}
+
+.annotation .approve {
+    display: none;
+}
+
+.instr-approved {
+    float: none;
+    color: green;
+    font-size: 1em;
+    /*text-align: center;*/
+    margin: auto;
+    display: none;
+}
+
+.green-check {
+    height: 1em;
+    margin-right: 5px;
 }
 
 .deleted-annotation.default {
@@ -231,6 +241,11 @@ span.instructor { border-bottom-style: solid; }
     color: purple;
 }
 
+#from-filter {
+    float: right;
+    margin-left: 15px;
+}
+
 #filters {
     line-height: 20px;
     padding: 15px;
@@ -277,6 +292,9 @@ span.highlight {
 
 .annotationlist h4.open.empty .dropdown-icon {
     transform: rotate(0deg);
+}
+
+#category-sel {
 }
 
 .category-icon {
