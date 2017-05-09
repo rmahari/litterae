@@ -20,6 +20,7 @@ function LitteraeApp(el) {
 		this.filter = [false, false, false, false];
 		this.scope = 'all'; // instructor / all / mine
 
+		this.text = getCannedTexts()[parseInt(Utils.getUrlHashVars()['text'] || 0)];
 		this.words = [];
 		this.word_els = [];
 
@@ -103,7 +104,7 @@ LitteraeApp.prototype.bindEvents = function() {
 */
 LitteraeApp.prototype.prepareText = function() {
 	var self = this;
-    var src = this.el_text.innerText;
+    var src = this.text.content; // this.el_text.innerText;
     self.words = src.split(' ');
     Utils.clearChildNodes(this.el_text);
     for (var i=0; i<self.words.length; i++) { (function(i) {
