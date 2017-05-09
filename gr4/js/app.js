@@ -129,7 +129,7 @@ LitteraeApp.prototype.prepareText = function() {
  */
 LitteraeApp.prototype.inspect = function(wid) {
 	var self = this;
-	wid = wid || self.inspected;
+	wid = (wid == null) ? self.inspected : wid;
 	if (wid == null) return false;
 	self.inspected = wid;
 
