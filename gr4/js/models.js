@@ -81,12 +81,18 @@ Highlight.prototype.text = function() {
     });
     return chunks.join(', ');
 }
-
+Highlight.prototype.pack = function() {
+    return this.ranges;
+}
+Highlight.unpack = function(o) {
+    return new Highlight({'ranges': o});
+}
 
 /**
  * Annotation
  */
 function Annotation(highlight) {
+    this.id = Utils.getRandomHash(16);
     this.type = 'note'; // note/subscript/supscript/pointer ?
     this.highlight = new Highlight(highlight);
     this.author = null;
@@ -127,6 +133,42 @@ Annotation.prototype.setCategory = function(category) {
     this.category = parseInt(category);
     this.trigger('update');
 }
+Annotation.prototype.applyEdits = function(o) {
+    this.highlight  = new Highlight(o.highlight);
+    this.type       = o.type;
+    this.text       = o["text"];
+    this.visibility = o["visibility"];
+    this.category   = o["category"];
+    this.image_src  = o["image_src"];
+    this.approved   = o["approved"];
+    this.trigger('update update-highlight');
+}
+
+Annotation.prototype.pack = function() {
+    return {
+        "id":         this.id,
+        "type":       this.type,
+        "highlight":  this.highlight.pack(),
+        "author":     this.author.pack(),
+        "text":       this.text,
+        "visibility": this.visibility,
+        "category":   this.category,
+        "image_src":  this.image_src,
+        "approved":   this.approved
+    }
+}
+Annotation.unpack = function(o) {
+    var a = new Annotation(Highlight.unpack(o.highlight));
+    a.id         = o.id;
+    a.type       = o.type;
+    a.author     = User.unpack(o.author);
+    a.text       = o["text"];
+    a.visibility = o["visibility"];
+    a.category   = o["category"];
+    a.image_src  = o["image_src"];
+    a.approved   = o["approved"];
+    return a;
+}
 
 Annotation.VISIBILITY_PRIVATE = 0;
 Annotation.VISIBILITY_SHARED = 1;
@@ -145,6 +187,20 @@ User.prototype.canSee = function(annotation) {
     } else {
         return annotation.user === this;
     } 
+}
+User.prototype.pack = function() {
+    return {
+        "id": this.id,
+        "name": this.name,
+        "isInstructor": this.isInstructor
+    }
+}
+User.unpack = function(o) {
+    var u = new User();
+    u.id = o.id;
+    u.name = o.name;
+    u.isInstructor = o.isInstructor;
+    return u;
 }
 
 /*

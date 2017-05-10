@@ -69,6 +69,7 @@ AnnotationView.prototype.approve = function(e) {
 AnnotationView.prototype.undo = function() {
     app.annotation_list.push(this.annotation);
     this.el_mask.classList.add('default');
+    app.trigger('newannotation', this.annotation);
     app.showAnnotationsOnText();
 }
 AnnotationView.prototype.hover = function(on) {

@@ -13,7 +13,7 @@ function LitteraeApp(el) {
 
 		// load models
 		this.user = getCannedCurrentUser();
-		this.annotation_list = getCannedAnnotations(this.user);
+		this.annotation_list = []; //getCannedAnnotations(this.user);
 
 		// application state
 		this.state = 'welcome'; // welcome / highlight / inspect
@@ -32,6 +32,8 @@ function LitteraeApp(el) {
 		this.inspectList = new AnnotationListView();
 		this.el_inspect.appendChild(this.inspectList.el);
 		
+		new Utils.EventHost(this);
+
 		//finalize initialization
 		this.prepareText();
 		this.bindEvents();
@@ -168,6 +170,7 @@ LitteraeApp.prototype.newAnnotation = function(highlight) {
 		self.editor.el.remove();
 		self.editor = null;
 		self.inspect(annotation.highlight.anchor);
+		self.trigger('newannotation', annotation);
 	});
 	this.editor.on('cancel', function() {
 		self.editor.el.remove();
@@ -188,12 +191,13 @@ LitteraeApp.prototype.edit = function(annotation) {
 	this.showHighlightOnText(this.highlighted);
 
 	this.editor = new AnnotationEditView(annotation);
-	this.editor.on('save cancel', function() {
+	this.editor.on('save cancel', function() { //TO-DO: shouldn't be both events...
 		self.setFilter(annotation.category, true);
 		self.clearHighlights();
 		self.editor.el.remove();
 		self.editor = null;
 		self.inspect(annotation.highlight.anchor);
+		self.trigger('editannotation', annotation);
 	});
 	document.getElementById('col-right').prepend(this.editor.el);
 }
@@ -204,6 +208,7 @@ LitteraeApp.prototype.delete = function(annotation) {
 	self.annotation_list.splice(idx, 1);
 	self.clearHighlights();
 	self.showAnnotationsOnText();
+	self.trigger('deleteannotation', annotation);
 }
 
 LitteraeApp.prototype.setFilter = function(visibility, on) {

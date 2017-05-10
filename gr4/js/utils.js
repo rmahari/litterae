@@ -38,6 +38,14 @@ Utils.getUrlHashVars = function() {
     return result;
 }
 
+Utils.getRandomHash = function(n) {
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var out = '';
+    for (var i=0; i < n; i++ )
+        out += possible.charAt(Math.floor(Math.random() * possible.length));
+    return out;
+}
+
 /*
 * For if we want to switch to listener model based updates...
 */
@@ -77,7 +85,11 @@ Utils.EventHost.prototype.trigger = function(e) {
     for (var i=0; i<e.length; i++) {
         if (this.events[e[i]]) {
             for (var j=0; j<this.events[e[i]].length; j++) {
-                this.events[e[i]][j]();
+                // pass all but the first argument (the event name)
+                // to the listener function
+                this.events[e[i]][j].apply(this,
+                    Array.prototype.slice.call(arguments,1)
+                );
             }
         }
     }
