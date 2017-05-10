@@ -1,7 +1,7 @@
 @echo off
 
 echo Installing runtime dependencies...
-cd ..\service
+cd service
 call npm install
 
 cd ..
