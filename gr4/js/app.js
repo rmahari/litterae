@@ -255,7 +255,7 @@ LitteraeApp.prototype.isVisible = function(annotation) {
 	return this.filter[annotation.category] &&
 		   ((this.scope == 'all') || 
 		    (this.scope == 'instructor' && annotation.author.isInstructor) ||
-			(this.scope == 'mine' && annotation.author == this.user));
+			(this.scope == 'mine' && annotation.author.id == this.user.id));
 }
 
 /*
