@@ -1,4 +1,5 @@
-var socket = io();
+var gameid = window.location.href.match(/\/game\/([a-z0-9]+)\/play/)[1];
+var socket = io({'query':{'gameid':gameid}});
 
 function LitteraeRealtime(app) {
     socket.on('loadannotations', function(annotations) {
@@ -43,5 +44,5 @@ function LitteraeRealtime(app) {
         app.showAnnotationsOnText();
     });
 
-    socket.emit('requestload');
+    socket.emit('join', gameid);
 }
