@@ -241,7 +241,7 @@ span.instructor { border-bottom-style: solid; }
     color: purple;
 }
 
-#from-filter {
+#from-filter, #search-case {
     float: right;
     margin-left: 15px;
 }
@@ -309,13 +309,13 @@ span.highlight {
     margin-right: 5px;
     user-select: none;
 }
-.category-icon.vocab {
+.category-icon.facts {
     background-color: #82DAF9;
 }
-.category-icon.grammar {
+.category-icon.reasoning {
     background-color: #81d257;
 }
-.category-icon.media {
+.category-icon.holding {
     background-color: #d194ff;
 }
 .category-icon.other {
@@ -330,6 +330,17 @@ span.highlight {
 }
 .annotationlist .content.open {
     display: block;
+}
+
+.caseheader {
+    text-align: center;
+    line-height: 3em;
+    font-size: 14pt;
+}
+
+.caseheader .title {
+    font-weight: bold;
+    font-size: 18pt;
 }
 
 .annotation.category-0 {border-left: thick dotted #82DAF9;}

@@ -2,28 +2,32 @@
 <html>
 <head>
     <meta charset="utf-8" /> 
-    <title>LITTERAE</title>
+    <title>LITTERAE FOR LAW</title>
+    <!-- This code is based on Joren Lauwers and Sarah Shader's LITTERAE app, which has been adapted to be used in order to annotate cases
+    from the Case Law Access Project. The goal is to build a repository of annotated law which can be a valuable data set. This code has been 
+    prepared for Prof. Ron Donlin's Law 2.0 Course.   -->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/app.css">
 
-    <script src="/socket.io/socket.io.js"></script>
+   <!--  <script src="/socket.io/socket.io.js"></script> -->
 
     <script src="js/utils.js"></script>
     <script src="js/models.js"></script>
     <script src="js/views.js"></script>
     <script src="js/canned.js"></script>
+    <script src="js/capapi.js"></script>
     <script src="js/app.js"></script>
     <script src="js/print.js"></script>
-    <script src="js/realtime.js"></script>
+<!--     <script src="js/realtime.js"></script> -->
   
     <script>
     var app, rlt;
     window.onload = function() {
         var root = document.getElementById('app');
         app = new LitteraeApp(root);
-        rlt = new LitteraeRealtime(app);
+        // rlt = new LitteraeRealtime(app);
     }
     </script>
 
@@ -32,13 +36,13 @@
     <div id=app>
 
         <div id=header>
-            <a id="logo-link" href="index.htm"><div id=logo>LITTERAE</div></a>
+            <a id="logo-link" href="index.htm"><div id=logo>LITTERAE FOR LAW</div></a>
             <div id=filters>
                 Show:
-                <span id=category-sel>
-                    <div class="category-icon vocab inactive">V</div> <!-- TO-DO: Should init inactive state from LitteraeApp -->
-                    <div class="category-icon grammar inactive">G</div>
-                    <div class="category-icon media inactive">M</div>
+                <span id=category-sel> <!-- Changed original categories to Facts, Reasoning, Holding, Other -->
+                    <div class="category-icon facts inactive">F</div> <!-- TO-DO: Should init inactive state from LitteraeApp -->
+                    <div class="category-icon reasoning inactive">R</div>
+                    <div class="category-icon holding inactive">H</div>
                     <div class="category-icon other inactive">O</div>
                 </span>
                 <div id="from-filter">
@@ -48,6 +52,11 @@
                     <option value=all selected>All Notes</option>
                     <option value=mine>My Notes</option>
                 </select>
+                </div>
+                <div id="search-case">
+                    Search:
+                    <input id="search-case-input" type="text" name="citation" placeholder="1 Ill. 34"/>
+                    <button id="search-case-btn">Search</button>
                 </div>
             </div>
             <div id='main-tb'>
@@ -59,6 +68,7 @@
 
         <div id=col-left>
             <div id=textpane>
+                <div id=caseheader></div>
                 <div id=text></div>
             </div>
             <div id='note-tb'>
@@ -80,6 +90,15 @@
         </div>
     </div>
     <div id=templates>
+        <div id=tpl-caseheader>
+            <div class="caseheader">
+                <span class="title"></span><br>
+                <span class="court"></span><br>
+                <span class="date"></span><br>
+                <span class="reporter"></span><br>
+            </div>
+        </div>
+
         <div id=tpl-annotation>
             <div class="annotation c01-annotation">
                 <div class="nr"></div>
@@ -114,14 +133,15 @@
                     <input name=file type="file" class="file-upload hidden"/>
                     <img class="uploaded-img"/>
                     <div class="radios">
-                        <label><span class="category-icon vocab">V</span>Vocabulary
+                        <label><span class="category-icon facts">F</span>Facts
                         <input type=radio name=category class="category"  value="0" required></label>
 
-                        <label><span class="category-icon grammar">G</span>Grammar
+                        <label><span class="category-icon reasoning">R</span>Reasoning
                         <input type=radio name=category class="category" value="1" required></label>
 
-                        <label><span class="category-icon media">M</span>Media
-                        <input type=radio name=category class="category media-radio" value="2" required></label>
+                        <label><span class="category-icon holding">H</span>Holding
+                        <input type=radio name=category class="category" value="1" required></label>
+                        <!-- <input type=radio name=category class="category Holding-radio" value="2" required></label> -->
 
                         <label><span class="category-icon other">O</span>Other
                         <input type=radio name=category class="category" value="3" required></label>
@@ -136,11 +156,11 @@
         </div>
         <div id="tpl-annotationlist">
             <div class="annotationlist">
-                <h4 class="header header-vocab"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon vocab">V</span> Vocabulary <span class="count"></span> </h4>
-                <div class="content content-vocab"></div>
-                <h4 class="header header-grammar"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon grammar">G</span> Grammar <span class="count"></span> </h4>
-                <div class="content content-grammar"></div>
-                <h4 class="header header-context"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon media">M</span> Media <span class="count"></span> </h4>
+                <h4 class="header header-facts"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon facts">F</span> Facts <span class="count"></span> </h4>
+                <div class="content content-facts"></div>
+                <h4 class="header header-reasoning"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon reasoning">R</span> Reasoning <span class="count"></span> </h4>
+                <div class="content content-reasoning"></div>
+                <h4 class="header header-context"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon Holding">H</span> Holding <span class="count"></span> </h4>
                 <div class="content content-context"></div>
                 <h4 class="header header-misc"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon other">O</span> Other <span class="count"></span> </h4>
                 <div class="content content-misc"></div>

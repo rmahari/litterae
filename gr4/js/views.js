@@ -251,3 +251,30 @@ AnnotationListView.prototype.update = function() {
         this.els_header[c].classList.toggle('empty', counts[c]==0);
     }
 }
+
+
+function CaseHeaderView(caseHeader) {
+    var self = this;
+    this.caseHeader = caseHeader;
+
+    var template = document.getElementById('tpl-caseheader');
+    this.el = template.firstElementChild.cloneNode(true);
+    
+    this.el_title    = this.el.getElementsByClassName('title')[0];
+    this.el_court    = this.el.getElementsByClassName('court')[0];
+    this.el_date     = this.el.getElementsByClassName('date')[0];
+    this.el_reporter = this.el.getElementsByClassName('reporter')[0];
+
+    this.update();
+}
+
+CaseHeaderView.prototype.update = function(){
+    Utils.setText(this.el_title, this.caseHeader.title);
+    Utils.setText(this.el_court, this.caseHeader.court);
+    Utils.setText(this.el_date, this.caseHeader.date);
+    Utils.setText(this.el_reporter, this.caseHeader.reporter);
+}
+
+
+
+

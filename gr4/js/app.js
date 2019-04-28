@@ -4,9 +4,12 @@ function LitteraeApp(el) {
 		this.el_btn_marker = document.getElementById('btn-marker');
 		this.el_btn_print = document.getElementById('btn-print');
 		this.el_btn_settings = document.getElementById('btn-settings');
+		this.el_caseheader = document.getElementById('caseheader');
 		this.el_text = document.getElementById('text');
 		this.els_filters = document.querySelectorAll('#category-sel .category-icon');
-		this.el_scope = document.getElementById('scope-sel')
+		this.el_scope = document.getElementById('scope-sel');
+		this.el_searchcase_input = document.getElementById('search-case-input');
+		this.el_btn_searchcase = document.getElementById('search-case-btn');
 		this.el_welcome = document.getElementById('welcome');
 		this.el_inspect = document.getElementById('inspect');
 		this.el_inspectpos = document.getElementById('inspect-pos');
@@ -20,7 +23,8 @@ function LitteraeApp(el) {
 		this.filter = [false, false, false, false];
 		this.scope = 'all'; // instructor / all / mine
 
-		this.text = getCannedTexts()[parseInt(Utils.getUrlHashVars()['text'] || 0)];
+		// this.text = getCannedTexts()[parseInt(Utils.getUrlHashVars()['text'] || 0)];
+		this.text = null;
 		this.words = [];
 		this.word_els = [];
 
@@ -35,7 +39,7 @@ function LitteraeApp(el) {
 		new Utils.EventHost(this);
 
 		//finalize initialization
-		this.prepareText();
+		// this.prepareText();
 		this.bindEvents();
 		this.turnOnAllFilters();
 }
@@ -81,6 +85,11 @@ LitteraeApp.prototype.bindEvents = function() {
 		self.setScope(self.el_scope.value);
 	});
 
+	this.el_btn_searchcase.addEventListener('click',function(e) { 
+		console.log(self.el_searchcase_input.value);
+		self.loadCase(self.el_searchcase_input.value);
+	});
+
 	document.addEventListener('selectionchange', function() {
 		var sel = document.getSelection();
 		if (sel.anchorNode && self.el_text.contains(sel.anchorNode)) {
@@ -99,20 +108,44 @@ LitteraeApp.prototype.bindEvents = function() {
 
 }
 
+LitteraeApp.prototype.loadCase = function(citation) {
+	var self = this;
+	CaseLaw.getCase(citation).then(function(c){
+		var content = c.getMajorityOpinion();
+		if(content){
+			Utils.clearChildNodes(self.el_caseheader);
+			var header = c.getCaseHeader();
+			if(header){
+				var view = new CaseHeaderView(header);
+				self.el_caseheader.appendChild(view.el);
+			};
+			self.prepareText({
+				id: 0,
+				title: header.title || "Title",
+				content: content
+			});
+		}
+	});
+}
+
+
 /*
 * Takes the contents of the text fragment, and wrappes it all in span elements that
 * are assigned word ID's. You'd obviously do this differently if the text were pulled
 * from a backend.
 */
-LitteraeApp.prototype.prepareText = function() {
+LitteraeApp.prototype.prepareText = function(text) {
 	var self = this;
+	this.text = text;
     var src = this.text.content; // this.el_text.innerText;
+    src = src.replace(/\s*\n\s*/gi,"\n ");
     self.words = src.split(' ');
     Utils.clearChildNodes(this.el_text);
     for (var i=0; i<self.words.length; i++) { (function(i) {
-        var span = document.createElement('span');
+        var word = self.words[i];
+       	var span = document.createElement('span');
         span.id = "w"+i;
-        span.appendChild(document.createTextNode(self.words[i]));
+        span.appendChild(document.createTextNode(word.trim()));
 		span.appendChild(document.createTextNode(' '));
 		span.addEventListener('click', function() {
 			if (self.state=='highlight') {
@@ -123,6 +156,11 @@ LitteraeApp.prototype.prepareText = function() {
 		});
 		self.word_els[i] = span;
         self.el_text.appendChild(span);
+
+        if(word.charAt(word.length-1)=="\n"){
+        	var br = document.createElement('br');
+    		self.el_text.appendChild(br);
+        } 
 	})(i)}
 }
 
