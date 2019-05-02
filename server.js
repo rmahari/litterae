@@ -7,9 +7,9 @@ var http = require('http').Server(app);
 var application_root = process.env.application_root || process.cwd();
 var port = process.env.PORT || process.env.WEBSITE_PORT || 3000;
 
+app.use(express.static(path.join(application_root, 'gr4')))
 
-app.use(express.static(path.resolve('./gr4')));
-app.get('/', function(req, res){res.sendFile(path.resolve('./gr4/app.htm'));});
+app.get('/', function(req, res){res.sendFile(path.resolve(application_root, 'gr4/app.htm'));});
 
 
 http.listen(port, function(){
