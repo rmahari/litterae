@@ -1,3 +1,3 @@
-# Litterae
+# Litterae for Law
 
-6.813 Design Project
+Case annotation through the case.law project

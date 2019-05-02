@@ -4,14 +4,16 @@
   "description": "Litterae 6.813 final project!",
   "main": "service/app.js",
   "scripts": {
-    "start": "node service/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "install.cmd"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.mit.edu/jorenl/litterae.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
