@@ -5,7 +5,7 @@ var http = require('http').Server(app);
 // var io = require('socket.io')(http);
 
 var application_root = process.env.application_root || process.cwd();
-var port = process.env.port || 3000;
+var port = process.env.PORT || process.env.WEBSITE_PORT || 3000;
 
 
 app.use(express.static(path.resolve('./gr4')));
