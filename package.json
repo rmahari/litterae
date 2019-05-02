@@ -2,7 +2,7 @@
   "name": "litterae",
   "version": "1.0.0",
   "description": "Litterae 6.813 final project!",
-  "main": "service/app.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
