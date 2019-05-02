@@ -8,8 +8,8 @@ var application_root = process.env.application_root || process.cwd();
 var port = process.env.port || 3000;
 
 
-app.use(express.static(path.resolve('../gr4')));
-app.get('/', function(req, res){res.sendFile(path.resolve('../gr4/app.htm'));});
+app.use(express.static(path.resolve('./gr4')));
+app.get('/', function(req, res){res.sendFile(path.resolve('./gr4/app.htm'));});
 
 
 http.listen(port, function(){
