@@ -9,9 +9,9 @@ var port = process.env.PORT || process.env.WEBSITE_PORT || 3000;
 
 
 app.use(express.static(path.resolve('./gr4')));
-app.get('/app', function(req, res){res.sendFile(path.resolve('./gr4/app.htm'));});
+app.get('/', function(req, res){res.sendFile(path.resolve('./gr4/app.htm'));});
 
 
 http.listen(port, function(){
-  console.log('listening on *:3000');
+  console.log('listening on *:port');
 });
