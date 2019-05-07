@@ -39,10 +39,12 @@
             <a id="logo-link" href="index.htm"><div id=logo>LITTERAE FOR LAW</div></a>
             <div id=filters>
                 Show:
-                <span id=category-sel> <!-- Changed original categories to Facts, Reasoning, Holding, Other -->
+                <span id=category-sel> <!-- Changed original categories to Facts, Argument, Holding, Rule, Correction, Other -->
                     <div class="category-icon facts inactive">F</div> <!-- TO-DO: Should init inactive state from LitteraeApp -->
-                    <div class="category-icon reasoning inactive">R</div>
+                    <div class="category-icon argument inactive">A</div>
                     <div class="category-icon holding inactive">H</div>
+                    <div class="category-icon rule inactive">R</div>
+                    <div class="category-icon correction inactive">C</div>
                     <div class="category-icon other inactive">O</div>
                 </span>
                 <div id="from-filter">
@@ -136,15 +138,23 @@
                         <label><span class="category-icon facts">F</span>Facts
                         <input type=radio name=category class="category"  value="0" required></label>
 
-                        <label><span class="category-icon reasoning">R</span>Reasoning
+                        <label><span class="category-icon argument">A</span>Argument
                         <input type=radio name=category class="category" value="1" required></label>
 
                         <label><span class="category-icon holding">H</span>Holding
-                        <input type=radio name=category class="category" value="1" required></label>
+                        <input type=radio name=category class="category" value="2" required></label>
+                        
+                        <label><span class="category-icon rule">R</span>Rule
+                        <input type=radio name=category class="category" value="3" required></label>
+						
+						<label><span class="category-icon correction">C</span>Correction
+                        <input type=radio name=category class="category" value="4" required></label>
+                        
+                        <label><span class="category-icon other">O</span>Other
+                        <input type=radio name=category class="category" value="5" required></label>
+
                         <!-- <input type=radio name=category class="category Holding-radio" value="2" required></label> -->
 
-                        <label><span class="category-icon other">O</span>Other
-                        <input type=radio name=category class="category" value="3" required></label>
                     </div> 
                     <div class="buttons">
                         <button type="button" class="cancel" >Cancel</button>
@@ -158,12 +168,21 @@
             <div class="annotationlist">
                 <h4 class="header header-facts"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon facts">F</span> Facts <span class="count"></span> </h4>
                 <div class="content content-facts"></div>
-                <h4 class="header header-reasoning"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon reasoning">R</span> Reasoning <span class="count"></span> </h4>
-                <div class="content content-reasoning"></div>
-                <h4 class="header header-context"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon Holding">H</span> Holding <span class="count"></span> </h4>
-                <div class="content content-context"></div>
-                <h4 class="header header-misc"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon other">O</span> Other <span class="count"></span> </h4>
-                <div class="content content-misc"></div>
+
+                <h4 class="header header-argument"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon argument">A</span> Argument <span class="count"></span> </h4>
+                <div class="content content-argument"></div>
+                
+                <h4 class="header header-holding"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon holding">H</span> Holding <span class="count"></span> </h4>
+                <div class="content content-holding"></div>
+
+                <h4 class="header header-rule"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon rule">R</span> Rule <span class="count"></span> </h4>
+                <div class="content content-rule"></div>
+
+                <h4 class="header header-correction"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon correction">C</span> Correction <span class="count"></span> </h4>
+                <div class="content content-correction"></div>
+
+                <h4 class="header header-other"><span class="fa fa-angle-right dropdown-icon"></span><span class="category-icon other">H</span> Other <span class="count"></span> </h4>
+                <div class="content content-other"></div>
             </div>
         </div>
         <div id="tpl-print">

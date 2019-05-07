@@ -312,11 +312,18 @@ span.highlight {
 .category-icon.facts {
     background-color: #82DAF9;
 }
-.category-icon.reasoning {
+.category-icon.argument {
     background-color: #81d257;
 }
 .category-icon.holding {
     background-color: #d194ff;
+}
+.category-icon.rule {
+    background-color: #5f53bd;
+}
+
+.category-icon.correction {
+    background-color: #649640;
 }
 .category-icon.other {
     background-color: #ff9595;
