@@ -62,8 +62,8 @@ Below, the changes made are broken down, in general terms, into individual files
 *	As with the original LITTERAE application, instructors can have a log-in that allows them to assign cases, read student’s annotations, add their own annotations etc. Annotations could include multimedia files like videos of classroom discussions, papers etc. Litterae for Law can be linked to H2O, a platform developed by the Harvard Berman Klein Center to develop, remix, and share online textbooks and casebooks under a Creative Commons license.
 *	Users with an API key could enter it to gain access to all cases in the Caselaw Access Project (currently, only Illinois and Arkansas are available publicly) and agree to share all cases they annotate (up to 500 per day) under the CAP agreement.
 *	Information beyond CAP could be added to Litterae for Law such as:
-Non-US jurisdictions’ common law
-  * US and international statues
+  *	Non-US jurisdictions’ common law
+  *	US and international statues
   *	PACER data
 
 
