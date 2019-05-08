@@ -68,4 +68,8 @@ Below, the changes made are broken down, in general terms, into individual files
 
 
 	
-
+* Bullet 1
+* Bullet 2
+  * Bullet 2a
+  * Bullet 2b
+* Bullet 3
