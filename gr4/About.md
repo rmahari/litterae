@@ -1,9 +1,9 @@
-#**Litterae for Law**
+# **Litterae for Law**
 
 ##**URL: http://litteraelaw.azurewebsites.net
 ##GitHub: https://github.com/rmahari/litterae 
 
-##**Acknowledgements:**
+## **Acknowledgements:**
 
 Litterae for Law was designed as the final project for Prof. Ron Dolin’s Law 2.0 Course. It was made possible through the work done by Mr. Joren Lauwers and Ms. Sarah Shader on the LITTERAE app, which formed the basis for this project, and Harvard Law School’s Case Law Access Project (CAP) which is used to access court opinions. Mr. Lauwers generously took the time to answer questions I had about the existing code. 
 
