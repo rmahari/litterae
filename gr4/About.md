@@ -1,6 +1,6 @@
 # **Litterae for Law**
 
-## **URL: http://litteraelaw.azurewebsites.net
+## URL: http://litteraelaw.azurewebsites.net
 ## GitHub: https://github.com/rmahari/litterae 
 
 ## **Acknowledgements:**
